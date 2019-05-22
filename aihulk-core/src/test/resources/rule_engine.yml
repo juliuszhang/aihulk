@@ -1,0 +1,3 @@
+engineType: com.aihulk.tech.engine.DefaultEngine
+resourceLoader: com.aihulk.tech.resource.loader.LocalTestResourceLoader
+scriptEngine: com.aihulk.tech.component.JsScriptEngine
