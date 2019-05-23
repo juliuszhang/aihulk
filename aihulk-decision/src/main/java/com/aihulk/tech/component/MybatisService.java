@@ -73,8 +73,6 @@ public class MybatisService {
 
     public SqlSession getSqlSession() {
         SqlSession session = SQL_SESSIONS.get();
-
-        //由autoCommit决定是否自动提交
         if (session == null) {
             session = sqlSessionFactory.openSession();
             SQL_SESSIONS.set(session);
