@@ -2,6 +2,7 @@ package com.aihulk.tech.engine;
 
 import com.aihulk.tech.action.JumpToRule;
 import com.aihulk.tech.action.JumpToRuleSet;
+import com.aihulk.tech.action.OutPut;
 import com.aihulk.tech.component.ScriptEngine;
 import com.aihulk.tech.config.RuleEngineConfig;
 import com.aihulk.tech.context.DecisionContext;
@@ -59,6 +60,7 @@ public class DefaultEngine implements Engine {
         DecisionResponse response = new DecisionResponse();
         List<Rule> fireRules = response.getFireRules();
         List<Rule> execRules = response.getExecRules();
+        Map<String, Object> variables = response.getVariables();
         //0.param check
         Preconditions.checkArgument(request.getUnitId() != null && request.getUnitId() > 0, "unitId 参数不合法");
         //1.check engine status
@@ -89,6 +91,19 @@ public class DefaultEngine implements Engine {
                         if (index >= 0) {
                             j = index - 1;
                             break;
+                        }
+                    } else if (rule.getAction() instanceof OutPut) {
+                        //输出一个变量
+                        OutPut outPut = (OutPut) rule.getAction();
+                        String key = outPut.getKey();
+                        Object obj = outPut.getObj();
+                        if (variables.containsKey(key)) {
+                            //变量合并逻辑
+                            OutPut.MergeStrategy mergeStrategy = outPut.getMergeStrategy();
+                            Object mergeResult = mergeStrategy.merge(variables.get(key), obj);
+                            variables.put(key, mergeResult);
+                        } else {
+                            variables.put(key, obj);
                         }
                     }
                 }

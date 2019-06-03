@@ -12,14 +12,15 @@ import javax.persistence.Table;
  * @description: TODO
  * @date 2019-06-0314:11
  */
+@Table(name = "decision_unit")
 @Data
-@Table(name = "business")
-public class Business extends BaseEntity {
+public class DecisionUnit extends BaseEntity {
 
     @Column(name = "name")
     private String name;
 
     @Column(name = "name_en")
     private String nameEn;
+
 
 }

@@ -2,7 +2,6 @@ package com.aihulk.tech.component;
 
 import com.aihulk.tech.config.DecisionConfig;
 import com.aihulk.tech.config.DecisionConfigEntity;
-import com.aihulk.tech.entity.Business;
 import com.aihulk.tech.mapper.BusinessMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.datasource.pooled.PooledDataSource;
@@ -41,6 +40,8 @@ public class MybatisService {
 
     private static final String DEFAULT_ENV_ID = "default";
 
+    private static final String BASE_SCAN_PACKAGE = "com.aihulk.tech.mapper";
+
     public MybatisService() {
         TransactionFactory transactionFactory = new JdbcTransactionFactory();
         PooledDataSource dataSource = new PooledDataSource(driver, url, username, password);
@@ -68,7 +69,7 @@ public class MybatisService {
 
         //set mapper helper
         configuration.setMapperHelper(mapperHelper);
-        configuration.addMapper(BusinessMapper.class);
+        configuration.addMappers(BASE_SCAN_PACKAGE);
     }
 
     public SqlSession getSqlSession() {
@@ -79,4 +80,6 @@ public class MybatisService {
         }
         return session;
     }
+
+
 }

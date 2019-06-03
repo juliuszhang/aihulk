@@ -7,19 +7,25 @@ import javax.persistence.Table;
 
 /**
  * @author zhangyibo
- * @title: RuleSetMapper
+ * @title: Feature
  * @projectName aihulk
- * @description: TODO
- * @date 2019-06-0314:11
+ * @description: 特征
+ * @date 2019-06-0314:18
  */
 @Data
-@Table(name = "business")
-public class Business extends BaseEntity {
+@Table
+public class Feature extends BaseEntity {
 
     @Column(name = "name")
     private String name;
 
     @Column(name = "name_en")
     private String nameEn;
+
+    @Column(name = "code")
+    private String code;
+
+    @Column(name = "type")
+    private String type;
 
 }

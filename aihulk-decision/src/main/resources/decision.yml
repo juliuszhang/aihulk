@@ -1,5 +1,5 @@
 mysql:
   driver: com.mysql.cj.jdbc.Driver
-  url: jdbc:mysql://10.143.248.92:3306/rulengine_test?autoReconnect=true&characterEncoding=UTF8
+  url: jdbc:mysql://10.143.248.92:3306/rule_test?autoReconnect=true&characterEncoding=UTF8
   username: root
   password: rulengine
