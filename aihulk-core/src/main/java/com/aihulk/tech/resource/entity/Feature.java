@@ -14,6 +14,4 @@ public class Feature extends BaseResource {
 
     private String code;
 
-    private Object val;
-
 }

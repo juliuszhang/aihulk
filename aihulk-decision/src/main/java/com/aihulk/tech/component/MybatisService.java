@@ -2,7 +2,6 @@ package com.aihulk.tech.component;
 
 import com.aihulk.tech.config.DecisionConfig;
 import com.aihulk.tech.config.DecisionConfigEntity;
-import com.aihulk.tech.mapper.BusinessMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.datasource.pooled.PooledDataSource;
 import org.apache.ibatis.mapping.Environment;
@@ -16,7 +15,6 @@ import tk.mybatis.mapper.mapperhelper.MapperHelper;
 import tk.mybatis.mapper.session.Configuration;
 
 public class MybatisService {
-
 
     private ThreadLocal<SqlSession> SQL_SESSIONS = new ThreadLocal<>();
 
@@ -42,7 +40,21 @@ public class MybatisService {
 
     private static final String BASE_SCAN_PACKAGE = "com.aihulk.tech.mapper";
 
-    public MybatisService() {
+    private static volatile MybatisService INSTANCE;
+
+
+    public static MybatisService getInstance() {
+        if (INSTANCE == null) {
+            synchronized (MybatisService.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new MybatisService();
+                }
+            }
+        }
+        return INSTANCE;
+    }
+
+    private MybatisService() {
         TransactionFactory transactionFactory = new JdbcTransactionFactory();
         PooledDataSource dataSource = new PooledDataSource(driver, url, username, password);
         dataSource.setPoolMaximumIdleConnections(MAX_IDEL_CONNECTIONS);

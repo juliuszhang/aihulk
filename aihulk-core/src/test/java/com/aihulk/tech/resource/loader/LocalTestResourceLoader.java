@@ -73,7 +73,7 @@ public class LocalTestResourceLoader implements ResourceLoader {
         rule.setAction(new JumpToRuleSet(ruleSet2.getId()));
 
         ruleSet.setRules(Arrays.asList(rule));
-        unit.setRuleSets(Arrays.asList(ruleSet,ruleSet2));
+//        unit.setRuleSets(Arrays.asList(ruleSet,ruleSet2));
         resource.setDecisionUnits(Arrays.asList(unit));
         return resource;
     }

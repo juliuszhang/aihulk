@@ -2,6 +2,8 @@ package com.aihulk.tech.context;
 
 
 import com.aihulk.tech.resource.entity.Feature;
+import com.aihulk.tech.resource.entity.Rule;
+import com.google.common.base.Strings;
 
 import java.util.Collections;
 import java.util.Map;
@@ -13,16 +15,27 @@ import java.util.Map;
  */
 public class DecisionContext {
 
-    private static final ThreadLocal<Map<Integer, Feature>> FEATURE_MAP
+    private static final ThreadLocal<Map<Integer, Object>> FEATURE_MAP
             = ThreadLocal.withInitial(() -> Collections.EMPTY_MAP);
 
-    public static void setFeatureMap(Map<Integer, Feature> featureMap) {
+    private static final ThreadLocal<String> DATA = new ThreadLocal<>();
+
+
+    public static void setFeatureMap(Map<Integer, Object> featureMap) {
         if (featureMap == null) return;
         FEATURE_MAP.set(featureMap);
     }
 
-    public static Feature getFeatureMap(Integer featureId) {
+    public static Object getFeature(Integer featureId) {
         return FEATURE_MAP.get().get(featureId);
+    }
+
+    public static String getData() {
+        return DATA.get();
+    }
+
+    public static void setData(String data) {
+        DATA.set(data);
     }
 
 }

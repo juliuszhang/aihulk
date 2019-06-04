@@ -14,6 +14,8 @@ public abstract class BaseResource extends BaseEntity {
 
     private String name;
 
+    private String nameEn;
+
     private String desc;
 
 }

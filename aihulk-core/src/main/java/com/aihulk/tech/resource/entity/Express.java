@@ -2,7 +2,12 @@ package com.aihulk.tech.resource.entity;
 
 import com.aihulk.tech.context.DecisionContext;
 import com.aihulk.tech.logic.EvalAble;
+import com.aihulk.tech.util.JsonUtil;
+import com.fasterxml.jackson.databind.BeanProperty;
+import com.fasterxml.jackson.databind.util.BeanUtil;
 import lombok.Data;
+
+import java.util.LinkedHashMap;
 
 /**
  * @Author: zhangyibo
@@ -13,6 +18,10 @@ import lombok.Data;
 public class Express extends BaseEntity implements EvalAble {
 
     private static final String FEATURE_KEYWORD = "$feature_";
+
+    private static final String EXPRESS_KEYWORD_SRC = "src";
+    private static final String EXPRESS_KEYWORD_OP = "op";
+    private static final String EXPRESS_KEYWORD_TARGET = "target";
 
     private Object src;
 
@@ -41,11 +50,23 @@ public class Express extends BaseEntity implements EvalAble {
 
     private Object getFeatureVal(Object src) {
         Integer featureId = Integer.parseInt(src.toString().replace(FEATURE_KEYWORD, ""));
-        Feature feature = DecisionContext.getFeatureMap(featureId);
-        if (feature != null) {
-            return feature.getVal();
-        } else {
-            return null;
-        }
+        return DecisionContext.getFeature(featureId);
     }
+
+    public static Express parse(String expressStr) {
+        Express express = JsonUtil.parseObject(expressStr, Express.class);
+        if (express.getSrc() instanceof LinkedHashMap
+                && ((LinkedHashMap) express.getSrc()).containsKey(EXPRESS_KEYWORD_SRC)) {
+            //recursive to parse express
+            express.setSrc(parse(JsonUtil.toJsonString(express.getSrc())));
+        }
+        if (express.getTarget() instanceof LinkedHashMap
+                && ((LinkedHashMap) express.getTarget()).containsKey(EXPRESS_KEYWORD_TARGET)) {
+            //recursive to parse express
+            express.setTarget(parse(JsonUtil.toJsonString(express.getTarget())));
+        }
+        return express;
+    }
+
+
 }
