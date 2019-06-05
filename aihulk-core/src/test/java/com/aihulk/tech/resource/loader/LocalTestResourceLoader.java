@@ -1,6 +1,6 @@
 package com.aihulk.tech.resource.loader;
 
-import com.aihulk.tech.action.JumpToRuleSet;
+import com.aihulk.tech.logic.Operation;
 import com.aihulk.tech.resource.entity.*;
 import com.aihulk.tech.util.DateUtil;
 
@@ -17,7 +17,7 @@ public class LocalTestResourceLoader implements ResourceLoader {
     public Resource loadResource(String version) {
         Resource resource = new Resource();
         //decision unit
-        DecisionUnit unit = new DecisionUnit();
+        DecisionChain unit = new DecisionChain();
         unit.setId(1);
         unit.setName("测试决策单元");
         unit.setDesc("测试决策单元desc");
@@ -25,38 +25,38 @@ public class LocalTestResourceLoader implements ResourceLoader {
         unit.setCreateTime(DateUtil.getCurDateTime());
         unit.setUpdateTime(DateUtil.getCurDateTime());
         //ruleSets
-        RuleSet ruleSet = new RuleSet();
-        ruleSet.setId(1);
-        ruleSet.setName("测试规则集");
-        ruleSet.setDesc("测试规则集desc");
-        ruleSet.setOperator("yibozhang4");
-        ruleSet.setCreateTime(DateUtil.getCurDateTime());
-        ruleSet.setUpdateTime(DateUtil.getCurDateTime());
+        ExecuteUnitGroup executeUnitGroup = new ExecuteUnitGroup();
+        executeUnitGroup.setId(1);
+        executeUnitGroup.setName("测试规则集");
+        executeUnitGroup.setDesc("测试规则集desc");
+        executeUnitGroup.setOperator("yibozhang4");
+        executeUnitGroup.setCreateTime(DateUtil.getCurDateTime());
+        executeUnitGroup.setUpdateTime(DateUtil.getCurDateTime());
 
 
         //ruleSets2
-        RuleSet ruleSet2 = new RuleSet();
-        ruleSet2.setId(2);
-        ruleSet2.setName("测试规则集2");
-        ruleSet2.setDesc("测试规则集2desc");
-        ruleSet2.setOperator("yibozhang4");
-        ruleSet2.setCreateTime(DateUtil.getCurDateTime());
-        ruleSet2.setUpdateTime(DateUtil.getCurDateTime());
+        ExecuteUnitGroup executeUnitGroup2 = new ExecuteUnitGroup();
+        executeUnitGroup2.setId(2);
+        executeUnitGroup2.setName("测试规则集2");
+        executeUnitGroup2.setDesc("测试规则集2desc");
+        executeUnitGroup2.setOperator("yibozhang4");
+        executeUnitGroup2.setCreateTime(DateUtil.getCurDateTime());
+        executeUnitGroup2.setUpdateTime(DateUtil.getCurDateTime());
 
         //rules
-        Rule rule = new Rule();
-        rule.setId(1);
-        rule.setName("测试规则");
-        rule.setDesc("测试规则desc");
-        rule.setCreateTime(DateUtil.getCurDateTime());
-        rule.setUpdateTime(DateUtil.getCurDateTime());
-        rule.setOperator("yibozhang");
+        ExecuteUnit executeUnit = new ExecuteUnit();
+        executeUnit.setId(1);
+        executeUnit.setName("测试规则");
+        executeUnit.setDesc("测试规则desc");
+        executeUnit.setCreateTime(DateUtil.getCurDateTime());
+        executeUnit.setUpdateTime(DateUtil.getCurDateTime());
+        executeUnit.setOperator("yibozhang");
         //feature
-        Feature ageFeature = new Feature();
-        ageFeature.setId(1);
-        ageFeature.setName("获取年龄");
-        ageFeature.setCode("function $feature_001(data){ return data.age} \n $feature_001(data);");
-        rule.setFeatures(Arrays.asList(ageFeature));
+        Fact ageFact = new Fact();
+        ageFact.setId(1);
+        ageFact.setName("获取年龄");
+        ageFact.setCode("function $feature_001(data){ return data.age} \n $feature_001(data);");
+        executeUnit.setFacts(Arrays.asList(ageFact));
         //express
         Express express = new Express();
         Express subExpress1 = new Express();
@@ -69,12 +69,11 @@ public class LocalTestResourceLoader implements ResourceLoader {
         express.setSrc(subExpress1);
         express.setTarget(subExpress2);
         express.setOp(Operation.AND);
-        rule.setExpress(express);
-        rule.setAction(new JumpToRuleSet(ruleSet2.getId()));
+        executeUnit.setExpress(express);
 
-        ruleSet.setRules(Arrays.asList(rule));
-//        unit.setRuleSets(Arrays.asList(ruleSet,ruleSet2));
-        resource.setDecisionUnits(Arrays.asList(unit));
+        executeUnitGroup.setExecuteUnits(Arrays.asList(executeUnit));
+//        unit.setRuleSets(Arrays.asList(executeUnitGroup,executeUnitGroup2));
+        resource.setDecisionChains(Arrays.asList(unit));
         return resource;
     }
 

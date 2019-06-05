@@ -1,10 +1,6 @@
 package com.aihulk.tech.context;
 
 
-import com.aihulk.tech.resource.entity.Feature;
-import com.aihulk.tech.resource.entity.Rule;
-import com.google.common.base.Strings;
-
 import java.util.Collections;
 import java.util.Map;
 

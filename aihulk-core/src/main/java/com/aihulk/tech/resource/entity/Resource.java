@@ -15,6 +15,6 @@ import java.util.List;
 @Data
 public class Resource {
 
-    private List<DecisionUnit> decisionUnits = Lists.newArrayList();
+    private List<DecisionChain> decisionChains = Lists.newArrayList();
 
 }

@@ -2,9 +2,8 @@ package com.aihulk.tech.resource.entity;
 
 import com.aihulk.tech.context.DecisionContext;
 import com.aihulk.tech.logic.EvalAble;
+import com.aihulk.tech.logic.Operation;
 import com.aihulk.tech.util.JsonUtil;
-import com.fasterxml.jackson.databind.BeanProperty;
-import com.fasterxml.jackson.databind.util.BeanUtil;
 import lombok.Data;
 
 import java.util.LinkedHashMap;
@@ -28,6 +27,17 @@ public class Express extends BaseEntity implements EvalAble {
     private Operation op;
 
     private Object target;
+
+    public Express() {
+    }
+
+    public Express(String expressStr) {
+        Express express = Express.parse(expressStr);
+        this.src = express.src;
+        this.op = express.op;
+        this.target = express.target;
+    }
+
 
     @Override
     public boolean eval() {

@@ -1,4 +1,4 @@
-package com.aihulk.tech.resource.entity;
+package com.aihulk.tech.logic;
 
 import com.google.common.base.Strings;
 

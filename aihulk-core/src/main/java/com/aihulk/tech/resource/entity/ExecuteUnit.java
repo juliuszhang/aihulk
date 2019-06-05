@@ -8,31 +8,31 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * @ClassName Rule
- * @Description TODO
+ * @ClassName ExecuteUnit
+ * @Description 执行单元
  * @Author yibozhang
  * @Date 2019/5/1 12:20
  * @Version 1.0
  */
 @Data
-public class Rule extends BaseResource implements EvalAble {
+public class ExecuteUnit extends BaseResource implements EvalAble {
 
     private Express express;
 
     private Action action;
 
-    private List<Feature> features = Lists.newArrayList();
+    private List<Fact> facts = Lists.newArrayList();
 
     @Override
     public boolean eval() {
         return express.eval();
     }
 
-    public List<Feature> getFeatures() {
-        return features;
+    public List<Fact> getFacts() {
+        return facts;
     }
 
-    public void setFeatures(List<Feature> features) {
-        this.features = features;
+    public void setFacts(List<Fact> facts) {
+        this.facts = facts;
     }
 }

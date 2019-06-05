@@ -1,5 +1,6 @@
 package com.aihulk.tech.resource.entity;
 
+import com.aihulk.tech.logic.Operation;
 import com.aihulk.tech.util.JsonUtil;
 import org.junit.Assert;
 import org.junit.Test;

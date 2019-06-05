@@ -20,7 +20,7 @@ create table decision_unit
 	operator varchar(32) null
 );
 
-create table feature
+create table fact
 (
 	id int auto_increment
 		primary key,
@@ -33,7 +33,7 @@ create table feature
 	operator varchar(32) null
 );
 
-create table rule
+create table executeUnit
 (
 	id int auto_increment
 		primary key,

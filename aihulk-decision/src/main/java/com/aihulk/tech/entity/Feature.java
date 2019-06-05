@@ -7,7 +7,7 @@ import javax.persistence.Table;
 
 /**
  * @author zhangyibo
- * @title: Feature
+ * @title: Fact
  * @projectName aihulk
  * @description: 特征
  * @date 2019-06-0314:18
