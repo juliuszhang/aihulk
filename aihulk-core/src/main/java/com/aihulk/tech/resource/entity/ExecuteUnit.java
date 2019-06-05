@@ -15,7 +15,7 @@ import java.util.List;
  * @Version 1.0
  */
 @Data
-public class ExecuteUnit extends BaseResource implements EvalAble {
+public class ExecuteUnit extends BaseResource implements EvalAble, BasicUnit {
 
     private Express express;
 
@@ -34,5 +34,10 @@ public class ExecuteUnit extends BaseResource implements EvalAble {
 
     public void setFacts(List<Fact> facts) {
         this.facts = facts;
+    }
+
+    @Override
+    public UnitType getType() {
+        return UnitType.EXECUTE_UNIT;
     }
 }

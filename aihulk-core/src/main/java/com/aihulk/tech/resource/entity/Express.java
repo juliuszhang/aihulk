@@ -20,7 +20,7 @@ public class Express extends BaseEntity implements EvalAble {
 
     private static final String EXPRESS_KEYWORD_SRC = "src";
     private static final String EXPRESS_KEYWORD_OP = "op";
-    private static final String EXPRESS_KEYWORD_TARGET = "target";
+    private static final String EXPRESS_KEYWORD_TARGET = "dest";
 
     private Object src;
 

@@ -13,8 +13,12 @@ import java.util.List;
  * @Version 1.0
  */
 @Data
-public class ExecuteUnitGroup extends BaseResource {
+public class ExecuteUnitGroup extends BaseResource implements BasicUnit {
 
     private List<ExecuteUnit> executeUnits = Lists.newArrayList();
 
+    @Override
+    public UnitType getType() {
+        return UnitType.EXECUTE_UNIT_GROUP;
+    }
 }

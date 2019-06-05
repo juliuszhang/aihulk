@@ -61,10 +61,17 @@ public class DefaultEngine implements Engine {
         //2.extract features
         DecisionChain decisionChain = getDecisionUnit(request.getUnitId());
         //3.iterate and eval rules
-        Iterator<ExecuteUnitGroup> iterator = decisionChain.iterator();
+        Iterator<BasicUnit> iterator = decisionChain.iterator();
         while (iterator.hasNext()) {
-            ExecuteUnitGroup executeUnitGroup = iterator.next();
-            this.evalRules(executeUnitGroup.getExecuteUnits(), response);
+            BasicUnit basicUnit = iterator.next();
+            if (basicUnit.getType() == BasicUnit.UnitType.EXECUTE_UNIT) {
+                ExecuteUnit executeUnit = (ExecuteUnit) basicUnit;
+                this.evalRules(Arrays.asList(executeUnit), response);
+            } else if (basicUnit.getType() == BasicUnit.UnitType.EXECUTE_UNIT_GROUP) {
+                this.evalRules(((ExecuteUnitGroup) basicUnit).getExecuteUnits(), response);
+            } else {
+                throw new UnsupportedOperationException("unknown basic unit type");
+            }
         }
 
         response.setStatus(0);

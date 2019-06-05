@@ -9,7 +9,7 @@ import java.util.*;
 /**
  * @ClassName DecisionChain
  * @Description <p>
- * 决策单元会将所有规则集组织成一个图，图中的每个顶点就是规则集，每条边就是是否能到达下一个顶点的条件
+ * 决策链会将所有规则集组织成一个图，图中的每个顶点就是规则集，每条边就是是否能到达下一个顶点的条件
  * <p/>
  * @Author yibozhang
  * @Date 2019/5/1 12:25
@@ -32,25 +32,25 @@ public class DecisionChain extends BaseResource {
     @Data
     private static class Node {
 
-        private ExecuteUnitGroup executeUnitGroup;
+        private BasicUnit basicUnit;
 
         private List<ConditionEdge> conditions;
 
-        public Node(ExecuteUnitGroup executeUnitGroup) {
-            this.executeUnitGroup = executeUnitGroup;
+        public Node(BasicUnit basicUnit) {
+            this.basicUnit = basicUnit;
             this.conditions = Lists.newLinkedList();
         }
 
         public void addCondition(ConditionEdge condition) {
-            if (getCondition(condition.getTarget()) == null)
+            if (getCondition(condition.getDest()) == null)
                 conditions.add(condition);
         }
 
-        public ConditionEdge getCondition(ExecuteUnitGroup executeUnitGroup) {
-            if (executeUnitGroup == null) return null;
+        public ConditionEdge getCondition(BasicUnit basicUnit) {
+            if (basicUnit == null) return null;
             for (ConditionEdge condition : conditions) {
-                if (condition.getTarget() != null
-                        && condition.getTarget().equals(executeUnitGroup)) {
+                if (condition.getDest() != null
+                        && condition.getDest().equals(basicUnit)) {
                     return condition;
                 }
             }
@@ -67,9 +67,9 @@ public class DecisionChain extends BaseResource {
     @Data
     public static class ConditionEdge {
 
-        private ExecuteUnitGroup src;
+        private BasicUnit src;
 
-        private ExecuteUnitGroup target;
+        private BasicUnit dest;
 
         //满足该条件才表示target可达
         private Express express;
@@ -87,16 +87,16 @@ public class DecisionChain extends BaseResource {
     /**
      * 广度优先搜索
      */
-    private class BFSIterator implements Iterator<ExecuteUnitGroup> {
+    private class BFSIterator implements Iterator<BasicUnit> {
 
         //已访问的规则集
-        private List<ExecuteUnitGroup> visitedExecuteUnitGroup;
+        private List<BasicUnit> visited;
 
         //待访问的规则集
-        private Queue<ExecuteUnitGroup> waitToVisit;
+        private Queue<BasicUnit> waitToVisit;
 
-        public BFSIterator(ExecuteUnitGroup root) {
-            this.visitedExecuteUnitGroup = Lists.newLinkedList();
+        public BFSIterator(BasicUnit root) {
+            this.visited = Lists.newLinkedList();
             this.waitToVisit = Lists.newLinkedList();
             waitToVisit.offer(root);
         }
@@ -108,16 +108,16 @@ public class DecisionChain extends BaseResource {
         }
 
         @Override
-        public ExecuteUnitGroup next() {
-            ExecuteUnitGroup executeUnitGroup = waitToVisit.poll();
-            if (executeUnitGroup == null) return null;
+        public BasicUnit next() {
+            BasicUnit basicUnit = waitToVisit.poll();
+            if (basicUnit == null) return null;
             //从节点列表里找到对应的节点
-            Node node = getNode(executeUnitGroup);
+            Node node = getNode(basicUnit);
             if (node == null) return null;
             //遍历节点所有的边
             for (ConditionEdge condition : node.conditions) {
-                ExecuteUnitGroup target = condition.getTarget();
-                if (!visitedExecuteUnitGroup.contains(target)
+                BasicUnit target = condition.getDest();
+                if (!visited.contains(target)
                         && !waitToVisit.contains(target) //判断是否访问过以及待访问的节点中是否已经包含了该目标节点
                         && condition.connected() //判断两个节点之间是否连通
                         && waitToVisit.isEmpty()) { //判断是否已经存在一个待待访问节点了
@@ -125,9 +125,9 @@ public class DecisionChain extends BaseResource {
                 }
             }
 
-            visitedExecuteUnitGroup.add(executeUnitGroup);
+            visited.add(basicUnit);
 
-            return executeUnitGroup;
+            return basicUnit;
         }
 
     }
@@ -171,18 +171,18 @@ public class DecisionChain extends BaseResource {
         }
     }
 
-    public Iterator<ExecuteUnitGroup> iterator() {
+    public Iterator<BasicUnit> iterator() {
         if (!nodes.isEmpty())
-            return new BFSIterator(nodes.get(0).executeUnitGroup);
+            return new BFSIterator(nodes.get(0).basicUnit);
         else
             throw new NullPointerException();
     }
 
-    private Node getNode(ExecuteUnitGroup executeUnitGroup) {
-        if (executeUnitGroup == null) return null;
+    private Node getNode(BasicUnit basicUnit) {
+        if (basicUnit == null) return null;
 
         for (Node n : nodes) {
-            if (n.executeUnitGroup != null && n.executeUnitGroup.equals(executeUnitGroup)) {
+            if (n.basicUnit != null && n.basicUnit.equals(basicUnit)) {
                 return n;
             }
         }
