@@ -7,14 +7,14 @@ import javax.persistence.Table;
 
 /**
  * @author zhangyibo
- * @title: ExecuteUnitGroupMapper
+ * @title: UnitGroupMapper
  * @projectName aihulk
  * @description: TODO
  * @date 2019-06-0314:11
  */
-@Table(name = "rule")
+@Table(name = "decision_chain")
 @Data
-public class ExecuteUnit extends BaseEntity {
+public class Chain extends BaseEntity {
 
     @Column(name = "name")
     private String name;
@@ -22,10 +22,5 @@ public class ExecuteUnit extends BaseEntity {
     @Column(name = "name_en")
     private String nameEn;
 
-    @Column(name = "action")
-    private String action;
-
-    @Column(name = "express")
-    private String express;
 
 }

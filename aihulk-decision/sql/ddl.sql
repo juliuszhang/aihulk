@@ -33,7 +33,7 @@ create table fact
 	operator varchar(32) null
 );
 
-create table executeUnit
+create table unit
 (
 	id int auto_increment
 		primary key,

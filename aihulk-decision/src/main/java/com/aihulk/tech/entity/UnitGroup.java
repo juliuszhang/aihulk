@@ -7,14 +7,14 @@ import javax.persistence.Table;
 
 /**
  * @author zhangyibo
- * @title: ExecuteUnitGroupMapper
+ * @title: UnitGroupMapper
  * @projectName aihulk
  * @description: TODO
  * @date 2019-06-0314:11
  */
 @Table(name = "rule_set")
 @Data
-public class ExecuteUnitGroup extends BaseEntity {
+public class UnitGroup extends BaseEntity {
 
     @Column(name = "name")
     private String name;

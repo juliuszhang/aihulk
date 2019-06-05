@@ -1,14 +1,14 @@
 package com.aihulk.tech.resource.loader;
 
 import com.aihulk.tech.component.MybatisService;
-import com.aihulk.tech.entity.DecisionChain;
+import com.aihulk.tech.entity.Chain;
 import com.aihulk.tech.entity.Fact;
-import com.aihulk.tech.entity.ExecuteUnit;
-import com.aihulk.tech.entity.ExecuteUnitGroup;
-import com.aihulk.tech.mapper.DecisionChainMapper;
-import com.aihulk.tech.mapper.ExecuteUnitGroupMapper;
+import com.aihulk.tech.entity.Unit;
+import com.aihulk.tech.entity.UnitGroup;
+import com.aihulk.tech.mapper.ChainMapper;
+import com.aihulk.tech.mapper.UnitGroupMapper;
 import com.aihulk.tech.mapper.FactMapper;
-import com.aihulk.tech.mapper.ExecuteUnitMapper;
+import com.aihulk.tech.mapper.UnitMapper;
 import com.aihulk.tech.resource.entity.*;
 import com.google.common.collect.Lists;
 import org.apache.ibatis.session.SqlSession;
@@ -37,31 +37,31 @@ public class MysqlResourceLoader implements ResourceLoader {
     public Map<String, Resource> loadAllResources() {
         SqlSession sqlSession = MYBATIS_SERVICE.getSqlSession();
 
-        DecisionChainMapper decisionChainMapper = sqlSession.getMapper(DecisionChainMapper.class);
-        ExecuteUnitGroupMapper executeUnitGroupMapper = sqlSession.getMapper(ExecuteUnitGroupMapper.class);
-        ExecuteUnitMapper executeUnitMapper = sqlSession.getMapper(ExecuteUnitMapper.class);
-        List<DecisionChain> decisionChains = decisionChainMapper.selectAll();
-        List<com.aihulk.tech.resource.entity.DecisionChain> coreDecisionChains = Lists.newArrayListWithCapacity(decisionChains.size());
-        for (DecisionChain decisionChain : decisionChains) {
+        ChainMapper chainMapper = sqlSession.getMapper(ChainMapper.class);
+        UnitGroupMapper unitGroupMapper = sqlSession.getMapper(UnitGroupMapper.class);
+        UnitMapper unitMapper = sqlSession.getMapper(UnitMapper.class);
+        List<Chain> chains = chainMapper.selectAll();
+        List<com.aihulk.tech.resource.entity.DecisionChain> coreDecisionChains = Lists.newArrayListWithCapacity(chains.size());
+        for (Chain chain : chains) {
             com.aihulk.tech.resource.entity.DecisionChain coreDecisionChain = new com.aihulk.tech.resource.entity.DecisionChain();
-            coreDecisionChain.setName(decisionChain.getName());
-            coreDecisionChain.setId(decisionChain.getId());
-            coreDecisionChain.setNameEn(decisionChain.getNameEn());
-            List<ExecuteUnitGroup> executeUnitGroups = executeUnitGroupMapper.findByDecisionUnitId(decisionChain.getId());
-            List<com.aihulk.tech.resource.entity.ExecuteUnitGroup> coreExecuteUnitGroups = Lists.newArrayListWithCapacity(executeUnitGroups.size());
-            for (ExecuteUnitGroup executeUnitGroup : executeUnitGroups) {
+            coreDecisionChain.setName(chain.getName());
+            coreDecisionChain.setId(chain.getId());
+            coreDecisionChain.setNameEn(chain.getNameEn());
+            List<UnitGroup> unitGroups = unitGroupMapper.findByDecisionUnitId(chain.getId());
+            List<com.aihulk.tech.resource.entity.ExecuteUnitGroup> coreExecuteUnitGroups = Lists.newArrayListWithCapacity(unitGroups.size());
+            for (UnitGroup unitGroup : unitGroups) {
                 com.aihulk.tech.resource.entity.ExecuteUnitGroup coreExecuteUnitGroup = new com.aihulk.tech.resource.entity.ExecuteUnitGroup();
-                coreExecuteUnitGroup.setId(executeUnitGroup.getId());
-                coreExecuteUnitGroup.setName(executeUnitGroup.getName());
-                coreExecuteUnitGroup.setNameEn(executeUnitGroup.getNameEn());
-                List<ExecuteUnit> executeUnits = executeUnitMapper.selectByExecuteUnitGroupId(executeUnitGroup.getId());
-                List<com.aihulk.tech.resource.entity.ExecuteUnit> coreExecuteUnits = Lists.newArrayListWithCapacity(executeUnits.size());
-                for (ExecuteUnit executeUnit : executeUnits) {
+                coreExecuteUnitGroup.setId(unitGroup.getId());
+                coreExecuteUnitGroup.setName(unitGroup.getName());
+                coreExecuteUnitGroup.setNameEn(unitGroup.getNameEn());
+                List<Unit> units = unitMapper.selectByExecuteUnitGroupId(unitGroup.getId());
+                List<com.aihulk.tech.resource.entity.ExecuteUnit> coreExecuteUnits = Lists.newArrayListWithCapacity(units.size());
+                for (Unit unit : units) {
                     com.aihulk.tech.resource.entity.ExecuteUnit coreExecuteUnit = new com.aihulk.tech.resource.entity.ExecuteUnit();
-                    coreExecuteUnit.setName(executeUnit.getName());
-                    coreExecuteUnit.setNameEn(executeUnit.getNameEn());
-                    coreExecuteUnit.setFacts(getFeatures(sqlSession, executeUnit.getId()));
-                    coreExecuteUnit.setExpress(Express.parse(executeUnit.getExpress()));
+                    coreExecuteUnit.setName(unit.getName());
+                    coreExecuteUnit.setNameEn(unit.getNameEn());
+                    coreExecuteUnit.setFacts(getFeatures(sqlSession, unit.getId()));
+                    coreExecuteUnit.setExpress(Express.parse(unit.getExpress()));
 //                    coreExecuteUnit.setAction();
                     coreExecuteUnits.add(coreExecuteUnit);
                 }
