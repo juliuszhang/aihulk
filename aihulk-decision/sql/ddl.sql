@@ -27,8 +27,8 @@ create table fact
 		primary key comment '主键',
 	name varchar(32) null comment '名称',
 	name_en varchar(32) null comment '英文名',
-	code text null,
-	type varchar(10) null,
+	code text null comment '事实代码',
+	type varchar(10) null comment '返回值类型',
 	create_time varchar(19) null comment '创建时间',
 	update_time varchar(19) null comment '更新时间',
 	operator varchar(32) null comment '操作人'
