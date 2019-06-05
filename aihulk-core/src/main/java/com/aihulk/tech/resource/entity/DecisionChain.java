@@ -119,9 +119,10 @@ public class DecisionChain extends BaseResource {
                 BasicUnit target = condition.getDest();
                 if (!visited.contains(target)
                         && !waitToVisit.contains(target) //判断是否访问过以及待访问的节点中是否已经包含了该目标节点
-                        && condition.connected() //判断两个节点之间是否连通
-                        && waitToVisit.isEmpty()) { //判断是否已经存在一个待待访问节点了
+                        && condition.connected()) { //判断两个节点之间是否连通
                     waitToVisit.offer(target);
+                    //默认有一个节点连通后就不访问其他节点了
+                    break;
                 }
             }
 
