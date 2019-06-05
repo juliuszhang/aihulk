@@ -17,21 +17,26 @@ public class LocalTestResourceLoader implements ResourceLoader {
     public Resource loadResource(String version) {
         Resource resource = new Resource();
         //decision unit
-        DecisionChain unit = new DecisionChain();
-        unit.setId(1);
-        unit.setName("测试决策单元");
-        unit.setDesc("测试决策单元desc");
-        unit.setOperator("yibozhang");
-        unit.setCreateTime(DateUtil.getCurDateTime());
-        unit.setUpdateTime(DateUtil.getCurDateTime());
-        //ruleSets
-        ExecuteUnitGroup executeUnitGroup = new ExecuteUnitGroup();
-        executeUnitGroup.setId(1);
-        executeUnitGroup.setName("测试规则集");
-        executeUnitGroup.setDesc("测试规则集desc");
-        executeUnitGroup.setOperator("yibozhang4");
-        executeUnitGroup.setCreateTime(DateUtil.getCurDateTime());
-        executeUnitGroup.setUpdateTime(DateUtil.getCurDateTime());
+        DecisionChain chain = new DecisionChain();
+        chain.setId(1);
+        chain.setName("测试决策单元");
+        chain.setDesc("测试决策单元desc");
+        chain.setOperator("yibozhang");
+        chain.setCreateTime(DateUtil.getCurDateTime());
+        chain.setUpdateTime(DateUtil.getCurDateTime());
+        //executeUnit
+        ExecuteUnit executeUnit1 = new ExecuteUnit();
+        executeUnit1.setId(1);
+        executeUnit1.setName("测试规则集");
+        executeUnit1.setDesc("测试规则集desc");
+        executeUnit1.setOperator("yibozhang4");
+        executeUnit1.setCreateTime(DateUtil.getCurDateTime());
+        executeUnit1.setUpdateTime(DateUtil.getCurDateTime());
+        Express executeUnitExpress = new Express();
+        executeUnitExpress.setSrc(3);
+        executeUnitExpress.setTarget(2);
+        executeUnitExpress.setOp(Operation.GT);
+        executeUnit1.setExpress(executeUnitExpress);
 
 
         //ruleSets2
@@ -71,9 +76,18 @@ public class LocalTestResourceLoader implements ResourceLoader {
         express.setOp(Operation.AND);
         executeUnit.setExpress(express);
 
-        executeUnitGroup.setExecuteUnits(Arrays.asList(executeUnit));
-//        unit.setRuleSets(Arrays.asList(executeUnitGroup,executeUnitGroup2));
-        resource.setDecisionChains(Arrays.asList(unit));
+        executeUnitGroup2.setExecuteUnits(Arrays.asList(executeUnit));
+        chain.add(executeUnit1);
+        chain.add(executeUnitGroup2);
+        DecisionChain.ConditionEdge conditionEdge = new DecisionChain.ConditionEdge();
+        conditionEdge.setSrc(executeUnit1);
+        conditionEdge.setDest(executeUnitGroup2);
+        Express flowExpress = new Express();
+        flowExpress.setSrc(false);
+        flowExpress.setOp(Operation.IS_TRUE);
+        conditionEdge.setExpress(flowExpress);
+        chain.add(conditionEdge);
+        resource.setDecisionChains(Arrays.asList(chain));
         return resource;
     }
 

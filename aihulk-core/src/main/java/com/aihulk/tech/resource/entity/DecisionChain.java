@@ -57,9 +57,9 @@ public class DecisionChain extends BaseResource {
             return null;
         }
 
-        public void removeCondition(ExecuteUnitGroup executeUnitGroup) {
-            if (executeUnitGroup == null) return;
-            conditions.remove(getCondition(executeUnitGroup));
+        public void removeCondition(BasicUnit basicUnit) {
+            if (basicUnit == null) return;
+            conditions.remove(getCondition(basicUnit));
         }
 
     }
@@ -132,9 +132,9 @@ public class DecisionChain extends BaseResource {
 
     }
 
-    public void add(ExecuteUnitGroup executeUnitGroup, ConditionEdge... conditions) {
-        if (executeUnitGroup == null) return;
-        Node node = new Node(executeUnitGroup);
+    public void add(BasicUnit basicUnit, ConditionEdge... conditions) {
+        if (basicUnit == null) return;
+        Node node = new Node(basicUnit);
         for (ConditionEdge condition : conditions) {
             node.addCondition(condition);
         }
@@ -147,17 +147,17 @@ public class DecisionChain extends BaseResource {
         if (node != null) {
             node.addCondition(condition);
         } else {
-            log.error("unknown executeUnitGroup:{}", condition.getSrc());
+            log.error("unknown basicUnit:{}", condition.getSrc());
         }
     }
 
-    public void remove(ExecuteUnitGroup executeUnitGroup) {
-        if (executeUnitGroup == null) return;
-        Node node = getNode(executeUnitGroup);
+    public void remove(BasicUnit basicUnit) {
+        if (basicUnit == null) return;
+        Node node = getNode(basicUnit);
         if (node != null) {
             nodes.remove(node);
         } else {
-            log.error("unknown executeUnitGroup:{}", executeUnitGroup);
+            log.error("unknown basicUnit:{}", basicUnit);
         }
     }
 
@@ -167,7 +167,7 @@ public class DecisionChain extends BaseResource {
         if (node != null) {
             nodes.remove(node);
         } else {
-            log.error("unknown executeUnitGroup:{}", condition.getSrc());
+            log.error("unknown basicUnit:{}", condition.getSrc());
         }
     }
 

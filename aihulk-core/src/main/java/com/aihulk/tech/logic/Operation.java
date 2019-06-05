@@ -16,7 +16,7 @@ import java.util.Map;
 public enum Operation {
     AND("and") {
         @Override
-        boolean eval(Object src, Object target) {
+        public boolean eval(Object src, Object target) {
             if (src instanceof Boolean && target instanceof Boolean) {
                 return (boolean) src && (boolean) target;
             }
@@ -25,7 +25,7 @@ public enum Operation {
     },
     OR("or") {
         @Override
-        boolean eval(Object src, Object target) {
+        public boolean eval(Object src, Object target) {
             if (src instanceof Boolean && target instanceof Boolean) {
                 return (boolean) src || (boolean) target;
             }
@@ -34,13 +34,13 @@ public enum Operation {
     },
     IS_NULL("is_null") {
         @Override
-        boolean eval(Object src, Object target) {
+        public boolean eval(Object src, Object target) {
             return src == null;
         }
     },
     IS_EMPTY("is_empty") {
         @Override
-        boolean eval(Object src, Object target) {
+        public boolean eval(Object src, Object target) {
             if (src == null) return true;
             if (src instanceof String) return Strings.isNullOrEmpty(src.toString());
             if (src instanceof Collection) return ((Collection) src).isEmpty();
@@ -50,7 +50,7 @@ public enum Operation {
     },
     GT("gt") {
         @Override
-        boolean eval(Object src, Object target) {
+        public boolean eval(Object src, Object target) {
             if (src instanceof Number && target instanceof Number) {
                 BigDecimal srcDecimal = new BigDecimal(src.toString());
                 BigDecimal tarDecimal = new BigDecimal(target.toString());
@@ -61,7 +61,7 @@ public enum Operation {
     },
     LT("lt") {
         @Override
-        boolean eval(Object src, Object target) {
+        public boolean eval(Object src, Object target) {
             if (src instanceof Number && target instanceof Number) {
                 BigDecimal srcDecimal = new BigDecimal(src.toString());
                 BigDecimal tarDecimal = new BigDecimal(target.toString());
@@ -72,8 +72,20 @@ public enum Operation {
     },
     EQ("eq") {
         @Override
-        boolean eval(Object src, Object target) {
+        public boolean eval(Object src, Object target) {
             return src.equals(target);
+        }
+    },
+    IS_TRUE("true") {
+        @Override
+        public boolean eval(Object src, Object target) {
+            return src instanceof Boolean && (Boolean) src;
+        }
+    },
+    IS_FALSE("false") {
+        @Override
+        public boolean eval(Object src, Object target) {
+            return !(src instanceof Boolean) || !(Boolean) src;
         }
     };
 
@@ -83,5 +95,5 @@ public enum Operation {
         this.name = name;
     }
 
-    abstract boolean eval(Object src, Object target);
+    public abstract boolean eval(Object src, Object target);
 }

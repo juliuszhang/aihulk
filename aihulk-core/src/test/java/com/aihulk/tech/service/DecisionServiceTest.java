@@ -2,6 +2,8 @@ package com.aihulk.tech.service;
 
 import com.aihulk.tech.resource.decision.DecisionRequest;
 import com.aihulk.tech.resource.decision.DecisionResponse;
+import com.aihulk.tech.resource.entity.Resource;
+import com.aihulk.tech.resource.loader.LocalTestResourceLoader;
 import org.junit.Test;
 
 /**
@@ -15,7 +17,7 @@ public class DecisionServiceTest {
     public void decision() {
         DecisionService decisionService = new DecisionService();
         DecisionRequest request = new DecisionRequest();
-        request.setData("{\"data\":{\"name\":\"zhangsan\",\"age\":26}}");
+        request.setData("{\"data\":{\"age\":30}}");
         request.setUnitId(1);
         DecisionResponse response = decisionService.decision(request, "test");
         System.out.println(response);
