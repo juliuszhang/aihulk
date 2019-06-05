@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * @ClassName Resource
- * @Description TODO
+ * @Description biz下最大的资源对象
  * @Author yibozhang
  * @Date 2019/5/1 11:50
  * @Version 1.0

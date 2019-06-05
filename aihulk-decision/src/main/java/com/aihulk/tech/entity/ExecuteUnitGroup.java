@@ -7,25 +7,19 @@ import javax.persistence.Table;
 
 /**
  * @author zhangyibo
- * @title: Fact
+ * @title: ExecuteUnitGroupMapper
  * @projectName aihulk
- * @description: 特征
- * @date 2019-06-0314:18
+ * @description: TODO
+ * @date 2019-06-0314:11
  */
+@Table(name = "rule_set")
 @Data
-@Table
-public class Feature extends BaseEntity {
+public class ExecuteUnitGroup extends BaseEntity {
 
     @Column(name = "name")
     private String name;
 
     @Column(name = "name_en")
     private String nameEn;
-
-    @Column(name = "code")
-    private String code;
-
-    @Column(name = "type")
-    private String type;
 
 }

@@ -7,14 +7,14 @@ import javax.persistence.Table;
 
 /**
  * @author zhangyibo
- * @title: RuleSetMapper
+ * @title: Fact
  * @projectName aihulk
- * @description: TODO
- * @date 2019-06-0314:11
+ * @description: 特征
+ * @date 2019-06-0314:18
  */
-@Table(name = "decision_unit")
 @Data
-public class DecisionUnit extends BaseEntity {
+@Table
+public class Fact extends BaseEntity {
 
     @Column(name = "name")
     private String name;
@@ -22,5 +22,10 @@ public class DecisionUnit extends BaseEntity {
     @Column(name = "name_en")
     private String nameEn;
 
+    @Column(name = "code")
+    private String code;
+
+    @Column(name = "type")
+    private String type;
 
 }

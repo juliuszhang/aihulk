@@ -1,14 +1,14 @@
 package com.aihulk.tech.resource.loader;
 
 import com.aihulk.tech.component.MybatisService;
-import com.aihulk.tech.entity.DecisionUnit;
-import com.aihulk.tech.entity.Feature;
-import com.aihulk.tech.entity.Rule;
-import com.aihulk.tech.entity.RuleSet;
-import com.aihulk.tech.mapper.DecisionUnitMapper;
-import com.aihulk.tech.mapper.FeatureMapper;
-import com.aihulk.tech.mapper.RuleMapper;
-import com.aihulk.tech.mapper.RuleSetMapper;
+import com.aihulk.tech.entity.DecisionChain;
+import com.aihulk.tech.entity.Fact;
+import com.aihulk.tech.entity.ExecuteUnit;
+import com.aihulk.tech.entity.ExecuteUnitGroup;
+import com.aihulk.tech.mapper.DecisionChainMapper;
+import com.aihulk.tech.mapper.ExecuteUnitGroupMapper;
+import com.aihulk.tech.mapper.FactMapper;
+import com.aihulk.tech.mapper.ExecuteUnitMapper;
 import com.aihulk.tech.resource.entity.*;
 import com.google.common.collect.Lists;
 import org.apache.ibatis.session.SqlSession;
@@ -37,31 +37,31 @@ public class MysqlResourceLoader implements ResourceLoader {
     public Map<String, Resource> loadAllResources() {
         SqlSession sqlSession = MYBATIS_SERVICE.getSqlSession();
 
-        DecisionUnitMapper decisionUnitMapper = sqlSession.getMapper(DecisionUnitMapper.class);
-        RuleSetMapper ruleSetMapper = sqlSession.getMapper(RuleSetMapper.class);
-        RuleMapper ruleMapper = sqlSession.getMapper(RuleMapper.class);
-        List<DecisionUnit> decisionUnits = decisionUnitMapper.selectAll();
-        List<DecisionChain> coreDecisionChains = Lists.newArrayListWithCapacity(decisionUnits.size());
-        for (DecisionUnit decisionUnit : decisionUnits) {
-            DecisionChain coreDecisionChain = new DecisionChain();
-            coreDecisionChain.setName(decisionUnit.getName());
-            coreDecisionChain.setId(decisionUnit.getId());
-            coreDecisionChain.setNameEn(decisionUnit.getNameEn());
-            List<RuleSet> ruleSets = ruleSetMapper.findByDecisionUnitId(decisionUnit.getId());
-            List<ExecuteUnitGroup> coreExecuteUnitGroups = Lists.newArrayListWithCapacity(ruleSets.size());
-            for (RuleSet ruleSet : ruleSets) {
-                ExecuteUnitGroup coreExecuteUnitGroup = new ExecuteUnitGroup();
-                coreExecuteUnitGroup.setId(ruleSet.getId());
-                coreExecuteUnitGroup.setName(ruleSet.getName());
-                coreExecuteUnitGroup.setNameEn(ruleSet.getNameEn());
-                List<Rule> rules = ruleMapper.selectByRuleSetId(ruleSet.getId());
-                List<ExecuteUnit> coreExecuteUnits = Lists.newArrayListWithCapacity(rules.size());
-                for (Rule rule : rules) {
-                    ExecuteUnit coreExecuteUnit = new ExecuteUnit();
-                    coreExecuteUnit.setName(rule.getName());
-                    coreExecuteUnit.setNameEn(rule.getNameEn());
-                    coreExecuteUnit.setFacts(getFeatures(sqlSession, rule.getId()));
-                    coreExecuteUnit.setExpress(Express.parse(rule.getExpress()));
+        DecisionChainMapper decisionChainMapper = sqlSession.getMapper(DecisionChainMapper.class);
+        ExecuteUnitGroupMapper executeUnitGroupMapper = sqlSession.getMapper(ExecuteUnitGroupMapper.class);
+        ExecuteUnitMapper executeUnitMapper = sqlSession.getMapper(ExecuteUnitMapper.class);
+        List<DecisionChain> decisionChains = decisionChainMapper.selectAll();
+        List<com.aihulk.tech.resource.entity.DecisionChain> coreDecisionChains = Lists.newArrayListWithCapacity(decisionChains.size());
+        for (DecisionChain decisionChain : decisionChains) {
+            com.aihulk.tech.resource.entity.DecisionChain coreDecisionChain = new com.aihulk.tech.resource.entity.DecisionChain();
+            coreDecisionChain.setName(decisionChain.getName());
+            coreDecisionChain.setId(decisionChain.getId());
+            coreDecisionChain.setNameEn(decisionChain.getNameEn());
+            List<ExecuteUnitGroup> executeUnitGroups = executeUnitGroupMapper.findByDecisionUnitId(decisionChain.getId());
+            List<com.aihulk.tech.resource.entity.ExecuteUnitGroup> coreExecuteUnitGroups = Lists.newArrayListWithCapacity(executeUnitGroups.size());
+            for (ExecuteUnitGroup executeUnitGroup : executeUnitGroups) {
+                com.aihulk.tech.resource.entity.ExecuteUnitGroup coreExecuteUnitGroup = new com.aihulk.tech.resource.entity.ExecuteUnitGroup();
+                coreExecuteUnitGroup.setId(executeUnitGroup.getId());
+                coreExecuteUnitGroup.setName(executeUnitGroup.getName());
+                coreExecuteUnitGroup.setNameEn(executeUnitGroup.getNameEn());
+                List<ExecuteUnit> executeUnits = executeUnitMapper.selectByExecuteUnitGroupId(executeUnitGroup.getId());
+                List<com.aihulk.tech.resource.entity.ExecuteUnit> coreExecuteUnits = Lists.newArrayListWithCapacity(executeUnits.size());
+                for (ExecuteUnit executeUnit : executeUnits) {
+                    com.aihulk.tech.resource.entity.ExecuteUnit coreExecuteUnit = new com.aihulk.tech.resource.entity.ExecuteUnit();
+                    coreExecuteUnit.setName(executeUnit.getName());
+                    coreExecuteUnit.setNameEn(executeUnit.getNameEn());
+                    coreExecuteUnit.setFacts(getFeatures(sqlSession, executeUnit.getId()));
+                    coreExecuteUnit.setExpress(Express.parse(executeUnit.getExpress()));
 //                    coreExecuteUnit.setAction();
                     coreExecuteUnits.add(coreExecuteUnit);
                 }
@@ -75,16 +75,16 @@ public class MysqlResourceLoader implements ResourceLoader {
     }
 
 
-    private List<Fact> getFeatures(SqlSession sqlSession, Integer ruleId) {
-        FeatureMapper featureMapper = sqlSession.getMapper(FeatureMapper.class);
-        List<Feature> features = featureMapper.selectByRuleId(ruleId);
-        List<Fact> coreFacts = Lists.newArrayListWithCapacity(features.size());
-        for (Feature feature : features) {
-            Fact coreFact = new Fact();
-            coreFact.setId(feature.getId());
-            coreFact.setName(feature.getName());
-            coreFact.setNameEn(feature.getNameEn());
-            coreFact.setCode(feature.getCode());
+    private List<com.aihulk.tech.resource.entity.Fact> getFeatures(SqlSession sqlSession, Integer ruleId) {
+        FactMapper factMapper = sqlSession.getMapper(FactMapper.class);
+        List<Fact> facts = factMapper.selectByRuleId(ruleId);
+        List<com.aihulk.tech.resource.entity.Fact> coreFacts = Lists.newArrayListWithCapacity(facts.size());
+        for (Fact fact : facts) {
+            com.aihulk.tech.resource.entity.Fact coreFact = new com.aihulk.tech.resource.entity.Fact();
+            coreFact.setId(fact.getId());
+            coreFact.setName(fact.getName());
+            coreFact.setNameEn(fact.getNameEn());
+            coreFact.setCode(fact.getCode());
             coreFacts.add(coreFact);
         }
 

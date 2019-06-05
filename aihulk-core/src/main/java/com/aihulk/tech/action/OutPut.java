@@ -6,6 +6,13 @@ import lombok.Setter;
 
 import java.util.List;
 
+/**
+ * @ClassName OutPut
+ * @Description 变量输出动作
+ * @Author yibozhang
+ * @Date 2019/6/5 11:51
+ * @Version 1.0
+ */
 @Getter
 @Setter
 public class OutPut implements Action {
@@ -17,6 +24,9 @@ public class OutPut implements Action {
     private MergeStrategy mergeStrategy;
 
 
+    /**
+     * merge 策略
+     */
     public enum MergeStrategy {
 
         OVERWRITE {

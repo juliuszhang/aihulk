@@ -2,6 +2,13 @@ package com.aihulk.tech.resource.entity;
 
 import lombok.Data;
 
+/**
+ * @ClassName FactRelation
+ * @Description 事实之间的引用关系
+ * @Author yibozhang
+ * @Date 2019/6/5 11:51
+ * @Version 1.0
+ */
 @Data
 public class FactRelation extends BaseEntity {
 
