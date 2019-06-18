@@ -67,11 +67,13 @@ public class DecisionChain extends BaseResource {
     @Data
     public static class ConditionEdge {
 
+        //FIXME NODE
         private BasicUnit src;
 
         private BasicUnit dest;
 
         //满足该条件才表示target可达
+        //FIXME 多个表达式
         private Express express;
 
         /**

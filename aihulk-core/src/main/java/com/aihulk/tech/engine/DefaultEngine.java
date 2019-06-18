@@ -59,7 +59,7 @@ public class DefaultEngine implements Engine {
         //1.check engine status
         if (!inited) throw new EngineNotInitException("engine 尚未初始化完成");
         //2.extract features
-        DecisionChain decisionChain = getDecisionUnit(request.getUnitId());
+        DecisionChain decisionChain = getDecisionChain(request.getUnitId());
         //3.iterate and eval rules
         Iterator<BasicUnit> iterator = decisionChain.iterator();
         while (iterator.hasNext()) {
@@ -124,9 +124,9 @@ public class DefaultEngine implements Engine {
         return scriptInfo;
     }
 
-    private DecisionChain getDecisionUnit(Integer unitId) {
+    private DecisionChain getDecisionChain(Integer chainId) {
         Optional<DecisionChain> decisionUnitOp = resource.getDecisionChains().stream().filter(
-                unit -> unit.getId().equals(unitId)).findAny();
-        return decisionUnitOp.orElseThrow(() -> new IllegalArgumentException("不存在的决策单元 unitId = " + unitId));
+                unit -> unit.getId().equals(chainId)).findAny();
+        return decisionUnitOp.orElseThrow(() -> new IllegalArgumentException("不存在的决策单元 chainId = " + chainId));
     }
 }
