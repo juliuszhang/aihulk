@@ -42,7 +42,7 @@ public class DecisionChain extends BaseResource {
         }
 
         public void addCondition(ConditionEdge condition) {
-            if (getCondition(condition.getDest()) == null)
+            if (getCondition(condition.getDest().basicUnit) == null)
                 conditions.add(condition);
         }
 
@@ -67,10 +67,9 @@ public class DecisionChain extends BaseResource {
     @Data
     public static class ConditionEdge {
 
-        //FIXME NODE
-        private BasicUnit src;
+        private Node src;
 
-        private BasicUnit dest;
+        private Node dest;
 
         //满足该条件才表示target可达
         //FIXME 多个表达式
@@ -84,6 +83,22 @@ public class DecisionChain extends BaseResource {
         public boolean connected() {
             return express.eval();
         }
+
+        public BasicUnit getSrcBasicUnit() {
+            return this.src.basicUnit;
+        }
+
+        public void setSrcBasicUnit(BasicUnit basicUnit) {
+            this.src = new Node(basicUnit);
+        }
+
+        public BasicUnit getDestBasicUnit() {
+            return this.dest.basicUnit;
+        }
+
+        public void setDestBasicUnit(BasicUnit basicUnit) {
+            this.dest = new Node(basicUnit);
+        }
     }
 
     /**
@@ -92,12 +107,12 @@ public class DecisionChain extends BaseResource {
     private class BFSIterator implements Iterator<BasicUnit> {
 
         //已访问的规则集
-        private List<BasicUnit> visited;
+        private List<Node> visited;
 
         //待访问的规则集
-        private Queue<BasicUnit> waitToVisit;
+        private Queue<Node> waitToVisit;
 
-        public BFSIterator(BasicUnit root) {
+        public BFSIterator(Node root) {
             this.visited = Lists.newLinkedList();
             this.waitToVisit = Lists.newLinkedList();
             waitToVisit.offer(root);
@@ -111,14 +126,11 @@ public class DecisionChain extends BaseResource {
 
         @Override
         public BasicUnit next() {
-            BasicUnit basicUnit = waitToVisit.poll();
-            if (basicUnit == null) return null;
-            //从节点列表里找到对应的节点
-            Node node = getNode(basicUnit);
+            Node node = waitToVisit.poll();
             if (node == null) return null;
             //遍历节点所有的边
             for (ConditionEdge condition : node.conditions) {
-                BasicUnit target = condition.getDest();
+                Node target = condition.getDest();
                 if (!visited.contains(target)
                         && !waitToVisit.contains(target) //判断是否访问过以及待访问的节点中是否已经包含了该目标节点
                         && condition.connected()) { //判断两个节点之间是否连通
@@ -128,9 +140,9 @@ public class DecisionChain extends BaseResource {
                 }
             }
 
-            visited.add(basicUnit);
+            visited.add(node);
 
-            return basicUnit;
+            return node.basicUnit;
         }
 
     }
@@ -146,7 +158,7 @@ public class DecisionChain extends BaseResource {
 
     public void add(ConditionEdge condition) {
         if (condition == null) return;
-        Node node = getNode(condition.getSrc());
+        Node node = condition.getSrc();
         if (node != null) {
             node.addCondition(condition);
         } else {
@@ -166,7 +178,7 @@ public class DecisionChain extends BaseResource {
 
     public void remove(ConditionEdge condition) {
         if (condition == null) return;
-        Node node = getNode(condition.getSrc());
+        Node node = condition.getSrc();
         if (node != null) {
             nodes.remove(node);
         } else {
@@ -176,7 +188,7 @@ public class DecisionChain extends BaseResource {
 
     public Iterator<BasicUnit> iterator() {
         if (!nodes.isEmpty())
-            return new BFSIterator(nodes.get(0).basicUnit);
+            return new BFSIterator(nodes.get(0));
         else
             throw new NullPointerException();
     }
