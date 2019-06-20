@@ -45,8 +45,9 @@ public class ExecuteUnit extends BaseResource implements EvalAble, BasicUnit {
         this.facts = facts;
     }
 
-    public void setFactsWithSort(List<Fact> facts) {
+    public void setFactsWithSort(List<Fact> facts, Map<Integer, List<Fact>> factRelation) {
         this.facts = facts;
+        this.factRelation = factRelation;
         sortFacts();
     }
 

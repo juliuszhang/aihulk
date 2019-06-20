@@ -3,8 +3,10 @@ package com.aihulk.tech.resource.loader;
 import com.aihulk.tech.logic.Operation;
 import com.aihulk.tech.resource.entity.*;
 import com.aihulk.tech.util.DateUtil;
+import com.google.common.collect.Maps;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -60,8 +62,14 @@ public class LocalTestResourceLoader implements ResourceLoader {
         Fact ageFact = new Fact();
         ageFact.setId(1);
         ageFact.setName("获取年龄");
-        ageFact.setCode("function $feature_001(data){ return data.age} \n $feature_001(data);");
-        executeUnit.setFacts(Arrays.asList(ageFact));
+        ageFact.setCode("function $fact_001(data){ return $ref_fact_002} \n $fact_001(data);");
+        Fact refFact = new Fact();
+        refFact.setId(2);
+        refFact.setName("引用特征");
+        refFact.setCode("function $fact_002(data){ return data.age} \n $fact_002(data);");
+        Map<Integer, List<Fact>> relation = Maps.newHashMap();
+        relation.put(1, Arrays.asList(refFact));
+        executeUnit.setFactsWithSort(Arrays.asList(ageFact, refFact), relation);
         //express
         Express express = new Express();
         Express subExpress1 = new Express();

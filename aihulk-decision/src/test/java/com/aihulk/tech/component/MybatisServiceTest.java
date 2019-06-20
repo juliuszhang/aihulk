@@ -12,8 +12,7 @@ public class MybatisServiceTest {
 
     @Test
     public void getSqlSession() {
-
-        MybatisService mybatisService = new MybatisService();
+        MybatisService mybatisService = MybatisService.getInstance();
         BusinessMapper mapper = mybatisService.getSqlSession().getMapper(BusinessMapper.class);
         List<Business> businesses = mapper.selectAll();
         System.out.println(businesses);

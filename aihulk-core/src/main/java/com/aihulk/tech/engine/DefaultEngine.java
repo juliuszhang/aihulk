@@ -120,7 +120,9 @@ public class DefaultEngine implements Engine {
     }
 
     private ScriptEngine.ScriptInfo buildScriptInfo(Fact fact, Map<String, Object> data) {
-        ScriptEngine.ScriptInfo scriptInfo = new ScriptEngine.ScriptInfo(fact.getId(), fact.getCode(), data);
+        String code = fact.getCode();
+        //处理code中事实引用部分的代码 将其替换为事实的真实值 TODO 正则group匹配
+        ScriptEngine.ScriptInfo scriptInfo = new ScriptEngine.ScriptInfo(fact.getId(), code, data);
         return scriptInfo;
     }
 
