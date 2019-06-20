@@ -1,6 +1,7 @@
 package com.aihulk.tech.resource.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @ClassName FactRelation
@@ -10,6 +11,7 @@ import lombok.Data;
  * @Version 1.0
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class FactRelation extends BaseEntity {
 
     private Integer featureId;

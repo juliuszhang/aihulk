@@ -2,6 +2,7 @@ package com.aihulk.tech.resource.entity;
 
 import com.google.common.collect.Lists;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
@@ -17,6 +18,7 @@ import java.util.*;
  */
 @Slf4j
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class DecisionChain extends BaseResource {
 
     private LinkedList<Node> nodes;

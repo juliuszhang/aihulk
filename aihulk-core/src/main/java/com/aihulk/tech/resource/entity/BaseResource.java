@@ -1,6 +1,8 @@
 package com.aihulk.tech.resource.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * @ClassName BaseResource
@@ -10,12 +12,14 @@ import lombok.Data;
  * @Version 1.0
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 public abstract class BaseResource extends BaseEntity {
 
-    private String name;
+    protected String name;
 
-    private String nameEn;
+    protected String nameEn;
 
-    private String desc;
+    protected String desc;
 
 }

@@ -12,12 +12,12 @@ import lombok.Data;
 @Data
 public abstract class BaseEntity {
 
-    private Integer id;
+    protected Integer id;
 
-    private String createTime;
+    protected String createTime;
 
-    private String updateTime;
+    protected String updateTime;
 
-    private String operator;
+    protected String operator;
 
 }

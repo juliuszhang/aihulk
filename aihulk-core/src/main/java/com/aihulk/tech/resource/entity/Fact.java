@@ -1,6 +1,8 @@
 package com.aihulk.tech.resource.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * @ClassName Fact
@@ -10,6 +12,8 @@ import lombok.Data;
  * @Version 1.0
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 public class Fact extends BaseResource {
 
     private String code;

@@ -5,6 +5,7 @@ import com.aihulk.tech.logic.EvalAble;
 import com.aihulk.tech.logic.Operation;
 import com.aihulk.tech.util.JsonUtil;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.LinkedHashMap;
 
@@ -14,6 +15,7 @@ import java.util.LinkedHashMap;
  * @Description: 定义规则中的表达式
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class Express extends BaseEntity implements EvalAble {
 
     private static final String FEATURE_KEYWORD = "$feature_";

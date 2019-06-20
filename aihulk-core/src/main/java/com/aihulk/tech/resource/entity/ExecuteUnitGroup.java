@@ -2,6 +2,7 @@ package com.aihulk.tech.resource.entity;
 
 import com.google.common.collect.Lists;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
  * @Version 1.0
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class ExecuteUnitGroup extends BaseResource implements BasicUnit {
 
     private List<ExecuteUnit> executeUnits = Lists.newArrayList();
