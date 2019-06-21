@@ -56,11 +56,11 @@ public class DefaultEngine implements Engine {
         DecisionResponse response = new DecisionResponse();
 
         //0.param check
-        Preconditions.checkArgument(request.getUnitId() != null && request.getUnitId() > 0, "unitId 参数不合法");
+        Preconditions.checkArgument(request.getChainId() != null && request.getChainId() > 0, "chainId 参数不合法");
         //1.check engine status
         if (!inited) throw new EngineNotInitException("engine 尚未初始化完成");
         //2.extract features
-        DecisionChain decisionChain = getDecisionChain(request.getUnitId());
+        DecisionChain decisionChain = getDecisionChain(request.getChainId());
         //3.iterate and eval rules
         Iterator<BasicUnit> iterator = decisionChain.iterator();
         while (iterator.hasNext()) {

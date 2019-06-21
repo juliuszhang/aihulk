@@ -10,7 +10,7 @@ public class DecisionRequest {
     private String data;
 
     /**
-     * 决策单元ID
+     * 决策链id
      */
-    private Integer unitId;
+    private Integer chainId;
 }
