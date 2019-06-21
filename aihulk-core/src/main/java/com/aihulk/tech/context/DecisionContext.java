@@ -1,7 +1,7 @@
 package com.aihulk.tech.context;
 
 
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -11,19 +11,23 @@ import java.util.Map;
  */
 public class DecisionContext {
 
-    private static final ThreadLocal<Map<Integer, Object>> FEATURE_MAP
-            = ThreadLocal.withInitial(() -> Collections.EMPTY_MAP);
+    private static final ThreadLocal<Map<Integer, Object>> FACT_MAP
+            = ThreadLocal.withInitial(() -> new HashMap<>());
 
     private static final ThreadLocal<String> DATA = new ThreadLocal<>();
 
 
-    public static void setFeatureMap(Map<Integer, Object> featureMap) {
-        if (featureMap == null) return;
-        FEATURE_MAP.set(featureMap);
+    public static void setFactMap(Map<Integer, Object> factMap) {
+        if (factMap == null) return;
+        FACT_MAP.set(factMap);
     }
 
-    public static Object getFeature(Integer featureId) {
-        return FEATURE_MAP.get().get(featureId);
+    public static Object getFactMap(Integer factId) {
+        return FACT_MAP.get().get(factId);
+    }
+
+    public static void addFact(Integer factId, Object val) {
+        FACT_MAP.get().put(factId, val);
     }
 
     public static String getData() {

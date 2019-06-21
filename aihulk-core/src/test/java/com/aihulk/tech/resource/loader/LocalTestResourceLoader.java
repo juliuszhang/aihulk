@@ -87,11 +87,12 @@ public class LocalTestResourceLoader implements ResourceLoader {
         executeUnitGroup2.setExecuteUnits(Arrays.asList(executeUnit));
         chain.add(executeUnit1);
         chain.add(executeUnitGroup2);
-        DecisionChain.ConditionEdge conditionEdge = new DecisionChain.ConditionEdge();
+
+        DecisionChain.ConditionEdge conditionEdge = chain.new ConditionEdge();
         conditionEdge.setSrcBasicUnit(executeUnit1);
         conditionEdge.setDestBasicUnit(executeUnitGroup2);
         Express flowExpress = new Express();
-        flowExpress.setSrc(false);
+        flowExpress.setSrc(true);
         flowExpress.setOp(Operation.IS_TRUE);
         conditionEdge.setExpress(flowExpress);
         chain.add(conditionEdge);

@@ -5,7 +5,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 /**
  * @ClassName DecisionChain
@@ -67,7 +70,7 @@ public class DecisionChain extends BaseResource {
     }
 
     @Data
-    public static class ConditionEdge {
+    public class ConditionEdge {
 
         private Node src;
 
@@ -91,7 +94,7 @@ public class DecisionChain extends BaseResource {
         }
 
         public void setSrcBasicUnit(BasicUnit basicUnit) {
-            this.src = new Node(basicUnit);
+            this.src = findNode(basicUnit);
         }
 
         public BasicUnit getDestBasicUnit() {
@@ -99,7 +102,16 @@ public class DecisionChain extends BaseResource {
         }
 
         public void setDestBasicUnit(BasicUnit basicUnit) {
-            this.dest = new Node(basicUnit);
+            this.dest = findNode(basicUnit);
+        }
+
+        private Node findNode(BasicUnit basicUnit) {
+            for (Node node : nodes) {
+                if (node.getBasicUnit().equals(basicUnit)) {
+                    return node;
+                }
+            }
+            return null;
         }
     }
 

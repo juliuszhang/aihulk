@@ -62,7 +62,7 @@ public class Express extends BaseEntity implements EvalAble {
 
     private Object getFeatureVal(Object src) {
         Integer featureId = Integer.parseInt(src.toString().replace(FEATURE_KEYWORD, ""));
-        return DecisionContext.getFeature(featureId);
+        return DecisionContext.getFactMap(featureId);
     }
 
     public static Express parse(String expressStr) {

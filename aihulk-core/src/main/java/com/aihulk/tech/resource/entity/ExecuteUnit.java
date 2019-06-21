@@ -46,19 +46,20 @@ public class ExecuteUnit extends BaseResource implements EvalAble, BasicUnit {
     }
 
     public void setFactsWithSort(List<Fact> facts, Map<Integer, List<Fact>> factRelation) {
-        this.facts = facts;
+        List<Fact> sortedFacts = sortFacts(facts);
+        this.facts = sortedFacts;
         this.factRelation = factRelation;
-        sortFacts();
     }
 
-    public void sortFacts() {
+    public List<Fact> sortFacts(List<Fact> facts) {
         DirectedAcyclicGraph<Fact, DefaultEdge> dag = new DirectedAcyclicGraph<>(DefaultEdge.class);
         buildDagRecursive(facts, dag);
-        facts.clear();
+        List<Fact> resultFacts = Lists.newArrayListWithExpectedSize(facts.size());
         for (Fact fact : dag) {
-            facts.add(fact);
+            resultFacts.add(fact);
         }
-        Collections.reverse(facts);
+        Collections.reverse(resultFacts);
+        return resultFacts;
     }
 
     public void buildDagRecursive(List<Fact> facts, DirectedAcyclicGraph<Fact, DefaultEdge> dag) {

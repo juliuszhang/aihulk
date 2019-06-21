@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.*;
-
 /**
  * @author zhangyibo
  * @title: ExecuteUnitTest
@@ -50,7 +48,6 @@ public class ExecuteUnitTest {
         facts.add(fact3);
         facts.add(fact5);
         facts.add(fact7);
-        executeUnit.setFacts(facts);
 
         Map<Integer, List<Fact>> relation = Maps.newHashMap();
         relation.put(1, Arrays.asList(fact5));
@@ -64,10 +61,9 @@ public class ExecuteUnitTest {
 //      1->5->3->8
 //         |
 //      2->7->4-6
-        executeUnit.setFactRelation(relation);
 
 
-        executeUnit.sortFacts();
+        executeUnit.setFactsWithSort(facts, relation);
 
     }
 

@@ -14,6 +14,6 @@ public interface BasicUnit {
         EXECUTE_UNIT_GROUP;
     }
 
-    public UnitType getType();
+    UnitType getType();
 
 }

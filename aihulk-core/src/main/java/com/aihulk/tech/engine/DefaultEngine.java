@@ -1,6 +1,6 @@
 package com.aihulk.tech.engine;
 
-import com.aihulk.tech.action.*;
+import com.aihulk.tech.action.OutPut;
 import com.aihulk.tech.component.ScriptEngine;
 import com.aihulk.tech.config.RuleEngineConfig;
 import com.aihulk.tech.context.DecisionContext;
@@ -15,7 +15,8 @@ import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
-import java.util.stream.Collectors;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @ClassName DefaultEngine
@@ -86,8 +87,8 @@ public class DefaultEngine implements Engine {
         Map<String, Object> variables = response.getVariables();
         for (int i = 0; i < executeUnits.size(); i++) {
             ExecuteUnit executeUnit = executeUnits.get(i);
-            Map<Integer, Object> featureMap = extractFeature(executeUnit.getFacts());
-            DecisionContext.setFeatureMap(featureMap);
+            extractFeature(executeUnit.getFacts());
+//            DecisionContext.setFactMap(featureMap);
             //3.run executeUnit logic
             if (executeUnit.eval()) {
                 fireExecuteUnits.add(executeUnit);
@@ -111,17 +112,32 @@ public class DefaultEngine implements Engine {
     }
 
 
-    private Map<Integer, Object> extractFeature(List<Fact> facts) {
+    private void extractFeature(List<Fact> facts) {
         Map<String, Object> map = JsonUtil.parseObject(DecisionContext.getData(), Map.class);
         //构造抽取特征需要的对象
-        List<ScriptEngine.ScriptInfo> scriptInfos = facts.stream().map(fact -> buildScriptInfo(fact, map)).collect(Collectors.toList());
-        Map<Integer, Object> executeResults = scriptEngine.execute(scriptInfos);
-        return executeResults;
+        for (Fact fact : facts) {
+            ScriptEngine.ScriptInfo scriptInfo = buildScriptInfo(fact, map);
+            Object result = scriptEngine.execute(scriptInfo);
+            DecisionContext.addFact(fact.getId(), result);
+        }
+//        List<ScriptEngine.ScriptInfo> scriptInfos = facts.stream().map(fact -> buildScriptInfo(fact, map)).collect(Collectors.toList());
+//        Map<Integer, Object> executeResults = scriptEngine.execute(scriptInfos);
     }
+
+    private static final String REF_FACT_REGEX = "\\$ref_fact_\\d{1,}";
 
     private ScriptEngine.ScriptInfo buildScriptInfo(Fact fact, Map<String, Object> data) {
         String code = fact.getCode();
-        //处理code中事实引用部分的代码 将其替换为事实的真实值 TODO 正则group匹配
+        Pattern pattern = Pattern.compile(REF_FACT_REGEX);
+        Matcher matcher = pattern.matcher(code);
+        while (matcher.find()) {
+            String refFactSign = matcher.group();
+            String factIdStr = refFactSign.replaceAll("\\$ref_fact_", "");
+            int factId = Integer.parseInt(factIdStr);
+            Object factVal = DecisionContext.getFactMap(factId);
+            //处理code中事实引用部分的代码 将其替换为事实的真实值 由于特征前面有$需要加两个\\做转义
+            code = code.replaceAll("\\" + refFactSign, factVal.toString());
+        }
         ScriptEngine.ScriptInfo scriptInfo = new ScriptEngine.ScriptInfo(fact.getId(), code, data);
         return scriptInfo;
     }
