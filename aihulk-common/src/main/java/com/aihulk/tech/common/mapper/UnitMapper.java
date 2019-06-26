@@ -1,6 +1,6 @@
-package com.aihulk.tech.decision.mapper;
+package com.aihulk.tech.common.mapper;
 
-import com.aihulk.tech.decision.entity.Unit;
+import com.aihulk.tech.common.entity.Unit;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import tk.mybatis.mapper.common.Mapper;

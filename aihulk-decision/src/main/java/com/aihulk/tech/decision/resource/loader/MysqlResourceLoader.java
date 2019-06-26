@@ -1,15 +1,15 @@
 package com.aihulk.tech.decision.resource.loader;
 
+import com.aihulk.tech.common.mapper.ChainMapper;
+import com.aihulk.tech.common.mapper.FactMapper;
+import com.aihulk.tech.common.mapper.UnitGroupMapper;
+import com.aihulk.tech.common.mapper.UnitMapper;
 import com.aihulk.tech.core.resource.entity.*;
 import com.aihulk.tech.core.resource.loader.ResourceLoader;
 import com.aihulk.tech.decision.component.MybatisService;
-import com.aihulk.tech.decision.entity.Chain;
-import com.aihulk.tech.decision.entity.Unit;
-import com.aihulk.tech.decision.entity.UnitGroup;
-import com.aihulk.tech.decision.mapper.ChainMapper;
-import com.aihulk.tech.decision.mapper.FactMapper;
-import com.aihulk.tech.decision.mapper.UnitGroupMapper;
-import com.aihulk.tech.decision.mapper.UnitMapper;
+import com.aihulk.tech.common.entity.Chain;
+import com.aihulk.tech.common.entity.Unit;
+import com.aihulk.tech.common.entity.UnitGroup;
 import com.google.common.collect.Lists;
 import org.apache.ibatis.session.SqlSession;
 
@@ -77,9 +77,9 @@ public class MysqlResourceLoader implements ResourceLoader {
 
     private List<Fact> getFeatures(SqlSession sqlSession, Integer ruleId) {
         FactMapper factMapper = sqlSession.getMapper(FactMapper.class);
-        List<com.aihulk.tech.decision.entity.Fact> facts = factMapper.selectByRuleId(ruleId);
+        List<com.aihulk.tech.common.entity.Fact> facts = factMapper.selectByRuleId(ruleId);
         List<Fact> coreFacts = Lists.newArrayListWithCapacity(facts.size());
-        for (com.aihulk.tech.decision.entity.Fact fact : facts) {
+        for (com.aihulk.tech.common.entity.Fact fact : facts) {
             Fact coreFact = new Fact();
             coreFact.setId(fact.getId());
             coreFact.setName(fact.getName());

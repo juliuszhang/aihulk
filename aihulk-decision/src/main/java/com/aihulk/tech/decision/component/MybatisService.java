@@ -38,7 +38,7 @@ public class MybatisService {
 
     private static final String DEFAULT_ENV_ID = "default";
 
-    private static final String BASE_SCAN_PACKAGE = "com.aihulk.tech.mapper";
+    private static final String BASE_SCAN_PACKAGE = "com.aihulk.tech.common.mapper";
 
     private static volatile MybatisService INSTANCE;
 

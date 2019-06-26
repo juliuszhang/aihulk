@@ -1,6 +1,7 @@
-package com.aihulk.tech.decision.entity;
+package com.aihulk.tech.common.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Table;
@@ -14,6 +15,7 @@ import javax.persistence.Table;
  */
 @Table(name = "decision_chain")
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class Chain extends BaseEntity {
 
     @Column(name = "name")

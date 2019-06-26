@@ -1,31 +1,27 @@
-package com.aihulk.tech.decision.entity;
+package com.aihulk.tech.common.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Table;
 
 /**
  * @author zhangyibo
- * @title: Fact
+ * @title: UnitGroupMapper
  * @projectName aihulk
- * @description: 特征
- * @date 2019-06-0314:18
+ * @description: TODO
+ * @date 2019-06-0314:11
  */
 @Data
-@Table
-public class Fact extends BaseEntity {
+@Table(name = "business")
+@EqualsAndHashCode(callSuper = true)
+public class Business extends BaseEntity {
 
     @Column(name = "name")
     private String name;
 
     @Column(name = "name_en")
     private String nameEn;
-
-    @Column(name = "code")
-    private String code;
-
-    @Column(name = "type")
-    private String type;
 
 }

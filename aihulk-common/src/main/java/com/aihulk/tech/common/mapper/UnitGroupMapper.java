@@ -1,6 +1,6 @@
-package com.aihulk.tech.decision.mapper;
+package com.aihulk.tech.common.mapper;
 
-import com.aihulk.tech.decision.entity.UnitGroup;
+import com.aihulk.tech.common.entity.UnitGroup;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import tk.mybatis.mapper.common.Mapper;
@@ -14,7 +14,7 @@ import java.util.List;
  * @description: TODO
  * @date 2019-06-0314:11
  */
-public interface UnitGroupMapper extends Mapper<UnitGroupMapper> {
+public interface UnitGroupMapper extends Mapper<UnitGroup> {
 
     @Select(value = "SELECT eug.* FROM execute_unit_group as eug,decision_chain_execute_unit_group dceug WHERE " +
             "dceug.group_id = eug.id " +

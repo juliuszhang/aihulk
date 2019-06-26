@@ -1,6 +1,7 @@
-package com.aihulk.tech.decision.entity;
+package com.aihulk.tech.common.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Table;
@@ -12,8 +13,9 @@ import javax.persistence.Table;
  * @description: TODO
  * @date 2019-06-0314:11
  */
-@Table(name = "rule_set")
+@Table(name = "unit_group")
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class UnitGroup extends BaseEntity {
 
     @Column(name = "name")

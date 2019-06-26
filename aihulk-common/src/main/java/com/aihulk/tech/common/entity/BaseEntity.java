@@ -1,4 +1,4 @@
-package com.aihulk.tech.decision.entity;
+package com.aihulk.tech.common.entity;
 
 import lombok.Data;
 import tk.mybatis.mapper.annotation.KeySql;

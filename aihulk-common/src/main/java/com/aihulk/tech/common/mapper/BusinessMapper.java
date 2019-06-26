@@ -1,6 +1,6 @@
-package com.aihulk.tech.decision.mapper;
+package com.aihulk.tech.common.mapper;
 
-import com.aihulk.tech.decision.entity.Business;
+import com.aihulk.tech.common.entity.Business;
 import tk.mybatis.mapper.common.Mapper;
 
 /**
