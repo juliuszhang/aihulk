@@ -14,7 +14,6 @@ import java.util.List;
  * @description: feature mapper
  * @date 2019-06-0314:22
  */
-@org.apache.ibatis.annotations.Mapper
 public interface FactMapper extends Mapper<Fact> {
 
     @Select(value = "SELECT feature.* FROM feature,rule_feature WHERE feature.id = rule_feature.feature_id AND rule_feature.rule_id = #{ruleId}")
