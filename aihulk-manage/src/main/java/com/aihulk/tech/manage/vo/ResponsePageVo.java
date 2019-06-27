@@ -14,13 +14,13 @@ import java.util.List;
 @Getter
 public class ResponsePageVo<R> extends BaseResponseVo<List<R>> {
 
-    private int start;
+    private long start;
 
-    private int pageSize;
+    private long pageSize;
 
     private int count;
 
-    public ResponsePageVo<R> buildSuccess(List<R> data, String msg, int start, int pageSize) {
+    public ResponsePageVo<R> buildSuccess(List<R> data, String msg, long start, long pageSize) {
         this.data = data;
         this.code = CommonCode.SUCCESS.code;
         this.msg = msg;
@@ -30,7 +30,7 @@ public class ResponsePageVo<R> extends BaseResponseVo<List<R>> {
         return this;
     }
 
-    public ResponsePageVo<R> buildFail(ResponseCode code, String msg, int start, int pageSize) {
+    public ResponsePageVo<R> buildFail(ResponseCode code, String msg, long start, long pageSize) {
         this.code = code.code;
         this.msg = msg;
         this.start = start;

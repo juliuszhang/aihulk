@@ -1,33 +1,36 @@
 package com.aihulk.tech.common.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
-import tk.mybatis.mapper.annotation.KeySql;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
 import java.io.Serializable;
 
 /**
  * @author zhangyibo
  * @title: UnitGroupMapper
  * @projectName aihulk
- * @description: TODO
+ * @description: BaseEntity
  * @date 2019-06-0314:11
  */
 @Data
 public abstract class BaseEntity implements Serializable {
 
-    @Id
-    @KeySql(useGeneratedKeys = true)
+    @TableId
     private Integer id;
 
-    @Column(name = "create_time")
+    @TableField(value = "create_time")
     private String createTime;
 
-    @Column(name = "update_time")
+    @TableField(value = "update_time")
     private String updateTime;
 
-    @Column(name = "operator")
+    @TableField(value = "operator")
     private String operator;
+
+    @TableLogic(value = "0", delval = "1")
+    @TableField(value = "deleted")
+    private Integer deleted;
 
 }

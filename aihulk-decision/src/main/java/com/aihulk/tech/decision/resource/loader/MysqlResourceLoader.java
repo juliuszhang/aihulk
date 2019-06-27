@@ -40,7 +40,7 @@ public class MysqlResourceLoader implements ResourceLoader {
         ChainMapper chainMapper = sqlSession.getMapper(ChainMapper.class);
         UnitGroupMapper unitGroupMapper = sqlSession.getMapper(UnitGroupMapper.class);
         UnitMapper unitMapper = sqlSession.getMapper(UnitMapper.class);
-        List<Chain> chains = chainMapper.selectAll();
+        List<Chain> chains = chainMapper.selectList(null);
         List<DecisionChain> coreDecisionChains = Lists.newArrayListWithCapacity(chains.size());
         for (Chain chain : chains) {
             DecisionChain coreDecisionChain = new DecisionChain();

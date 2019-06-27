@@ -2,17 +2,15 @@ package com.aihulk.tech.decision.component;
 
 import com.aihulk.tech.decision.config.DecisionConfig;
 import com.aihulk.tech.decision.config.DecisionConfigEntity;
-import org.apache.ibatis.annotations.Mapper;
+import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import org.apache.ibatis.datasource.pooled.PooledDataSource;
 import org.apache.ibatis.mapping.Environment;
+import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
-import tk.mybatis.mapper.entity.Config;
-import tk.mybatis.mapper.mapperhelper.MapperHelper;
-import tk.mybatis.mapper.session.Configuration;
 
 public class MybatisService {
 
@@ -63,25 +61,10 @@ public class MybatisService {
         Environment env = new Environment(DEFAULT_ENV_ID, transactionFactory, dataSource);
 
         //set env
-        Configuration configuration = new Configuration();
+        Configuration configuration = new MybatisConfiguration();
         configuration.setEnvironment(env);
-
-        MapperHelper mapperHelper = new MapperHelper();
-        Config config = new Config();
-        config.setIDENTITY("MYSQL");
-        config.setEnableMethodAnnotation(true);
-        config.setCheckExampleEntityClass(true);
-        config.setUseSimpleType(true);
-        config.setEnumAsSimpleType(true);
-        config.setWrapKeyword("`{0}`");
-        mapperHelper.setConfig(config);
-        mapperHelper.registerMapper(Mapper.class);
-        sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
-        mapperHelper.processConfiguration(sqlSessionFactory.openSession().getConfiguration());
-
-        //set mapper helper
-        configuration.setMapperHelper(mapperHelper);
         configuration.addMappers(BASE_SCAN_PACKAGE);
+        sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
     }
 
     public SqlSession getSqlSession() {

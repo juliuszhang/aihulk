@@ -6,6 +6,6 @@ spring:
     password: rulengine
 
 #mybatis config
-mybatis:
+mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true

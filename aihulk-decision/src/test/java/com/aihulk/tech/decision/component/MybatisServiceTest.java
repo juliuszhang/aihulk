@@ -14,10 +14,10 @@ public class MybatisServiceTest {
     public void getSqlSession() {
         MybatisService mybatisService = MybatisService.getInstance();
         BusinessMapper mapper = mybatisService.getSqlSession().getMapper(BusinessMapper.class);
-        List<Business> businesses = mapper.selectAll();
+        List<Business> businesses = mapper.selectList(null);
         System.out.println(businesses);
         FactMapper factMapper = mybatisService.getSqlSession().getMapper(FactMapper.class);
-        List<Fact> facts = factMapper.selectAll();
+        List<Fact> facts = factMapper.selectList(null);
         System.out.println(facts);
 
     }

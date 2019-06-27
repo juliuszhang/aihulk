@@ -5,15 +5,16 @@ import com.aihulk.tech.manage.service.FactService;
 import com.aihulk.tech.manage.vo.BaseResponseVo;
 import com.aihulk.tech.manage.vo.ResponsePageVo;
 import com.aihulk.tech.manage.vo.ResponseVo;
-import com.github.pagehelper.PageHelper;
-
-import static com.google.common.base.Preconditions.*;
-
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.base.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author zhangyibo
@@ -33,15 +34,11 @@ public class FactController {
     public BaseResponseVo<List<Fact>> select(@RequestParam(required = false) Integer start,
                                              @RequestParam(required = false) Integer pageSize,
                                              Fact fact) {
-        boolean pageQuery = false;
         if (start != null && start > 0 && pageSize != null && pageSize > 0) {
-            PageHelper.startPage(start, pageSize);
-            pageQuery = true;
-        }
-        List<Fact> facts = factService.select(fact);
-        if (pageQuery) {
-            return new ResponsePageVo<Fact>().buildSuccess(facts, "ok", start, pageSize);
+            IPage<Fact> iPage = factService.selectPage(fact, new Page<>(start, pageSize));
+            return new ResponsePageVo<Fact>().buildSuccess(iPage.getRecords(), "ok", iPage.getCurrent(), iPage.getSize());
         } else {
+            List<Fact> facts = factService.select(fact);
             return new ResponseVo<List<Fact>>().buildSuccess(facts, "ok");
         }
     }

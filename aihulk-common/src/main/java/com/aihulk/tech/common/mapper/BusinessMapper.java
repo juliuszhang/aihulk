@@ -1,7 +1,7 @@
 package com.aihulk.tech.common.mapper;
 
 import com.aihulk.tech.common.entity.Business;
-import tk.mybatis.mapper.common.Mapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * @author zhangyibo
@@ -10,5 +10,5 @@ import tk.mybatis.mapper.common.Mapper;
  * @description: TODO
  * @date 2019-06-0314:11
  */
-public interface BusinessMapper extends Mapper<Business> {
+public interface BusinessMapper extends BaseMapper<Business> {
 }

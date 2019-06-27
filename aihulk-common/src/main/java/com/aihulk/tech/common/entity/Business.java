@@ -1,10 +1,10 @@
 package com.aihulk.tech.common.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import javax.persistence.Column;
-import javax.persistence.Table;
 
 /**
  * @author zhangyibo
@@ -14,14 +14,14 @@ import javax.persistence.Table;
  * @date 2019-06-0314:11
  */
 @Data
-@Table(name = "business")
+@TableName(value = "business")
 @EqualsAndHashCode(callSuper = true)
 public class Business extends BaseEntity {
 
-    @Column(name = "name")
+    @TableField(value = "name")
     private String name;
 
-    @Column(name = "name_en")
+    @TableField(value = "name_en")
     private String nameEn;
 
 }
