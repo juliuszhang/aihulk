@@ -19,6 +19,11 @@ public class ResponseVo<R> extends BaseResponseVo<R> {
         return this;
     }
 
+    public ResponseVo<R> buildSuccess(String msg) {
+        this.buildSuccess(null, msg);
+        return this;
+    }
+
     public ResponseVo<R> buildFail(ResponseCode code, String msg) {
         this.code = code.code;
         this.msg = msg;

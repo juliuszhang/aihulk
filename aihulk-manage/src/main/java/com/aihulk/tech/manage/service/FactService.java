@@ -24,4 +24,16 @@ public class FactService {
         return factMapper.select(fact);
     }
 
+    public void add(Fact fact) {
+        factMapper.insert(fact);
+    }
+
+    public void update(Fact fact) {
+        factMapper.updateByPrimaryKeySelective(fact);
+    }
+
+    public void delete(Integer id) {
+        factMapper.deleteByPrimaryKey(id);
+    }
+
 }
