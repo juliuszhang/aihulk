@@ -20,8 +20,8 @@ public class FactService {
     @Autowired
     private FactMapper factMapper;
 
-    public List<Fact> selectAll(){
-        return factMapper.selectAll();
+    public List<Fact> select(Fact fact) {
+        return factMapper.select(fact);
     }
 
 }

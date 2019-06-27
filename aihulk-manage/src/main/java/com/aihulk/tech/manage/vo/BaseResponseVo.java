@@ -4,13 +4,13 @@ import lombok.Getter;
 
 /**
  * @author zhangyibo
- * @title: BaseResponseVO
+ * @title: BaseResponseVo
  * @projectName aihulk
  * @description: TODO
  * @date 2019-06-2716:34
  */
 @Getter
-public abstract class BaseResponseVO<R> {
+public abstract class BaseResponseVo<R> {
 
     protected int code;
 

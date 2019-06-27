@@ -10,7 +10,7 @@ import lombok.Getter;
  * @date 2019-06-2616:54
  */
 @Getter
-public class ResponseVo<R> extends BaseResponseVO<R> {
+public class ResponseVo<R> extends BaseResponseVo<R> {
 
     public ResponseVo<R> buildSuccess(R data, String msg) {
         this.data = data;

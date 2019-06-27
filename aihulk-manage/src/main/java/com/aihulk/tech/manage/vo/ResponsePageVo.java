@@ -12,7 +12,7 @@ import java.util.List;
  * @date 2019-06-2716:35
  */
 @Getter
-public class ResponsePageVo<R> extends BaseResponseVO<List<R>> {
+public class ResponsePageVo<R> extends BaseResponseVo<List<R>> {
 
     private int start;
 
