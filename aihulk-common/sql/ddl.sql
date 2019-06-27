@@ -30,7 +30,7 @@ create table fact
 	business_id int(11) null comment '所属业务id',
 	code text null comment '事实代码',
 	code_type varchar(32) null comment '事实代码类型',
-	type varchar(10) null comment '返回值类型',
+	result_type varchar(10) null comment '返回值类型',
 	create_time varchar(19) null comment '创建时间',
 	update_time varchar(19) null comment '更新时间',
 	operator varchar(32) null comment '操作人'
