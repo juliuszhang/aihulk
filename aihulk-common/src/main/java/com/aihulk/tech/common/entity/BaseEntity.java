@@ -1,8 +1,6 @@
 package com.aihulk.tech.common.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -17,16 +15,16 @@ import java.io.Serializable;
 @Data
 public abstract class BaseEntity implements Serializable {
 
-    @TableId
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
-    @TableField(value = "create_time")
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
     private String createTime;
 
-    @TableField(value = "update_time")
+    @TableField(value = "update_time", fill = FieldFill.UPDATE)
     private String updateTime;
 
-    @TableField(value = "operator")
+    @TableField(value = "operator", fill = FieldFill.INSERT_UPDATE)
     private String operator;
 
     @TableLogic(value = "0", delval = "1")

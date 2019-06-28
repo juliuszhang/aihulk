@@ -51,7 +51,6 @@ public class FactController {
         checkArgument(!Strings.isNullOrEmpty(fact.getCodeType()), "fact.codeType 不能为空");
         checkArgument(!Strings.isNullOrEmpty(fact.getResultType()), "fact.resultType 不能为空");
         checkNotNull(fact.getBusinessId(), "fact.businessId 不能为空");
-        //TODO 操作人和更新时间
         factService.add(fact);
         return new ResponseVo<Void>().buildSuccess("添加成功");
     }

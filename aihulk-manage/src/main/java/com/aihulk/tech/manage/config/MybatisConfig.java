@@ -1,5 +1,7 @@
 package com.aihulk.tech.manage.config;
 
+import com.aihulk.tech.common.component.SysFieldAutoSetHandler;
+import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,4 +21,8 @@ public class MybatisConfig {
         return new PaginationInterceptor();
     }
 
+    @Bean
+    public MetaObjectHandler metaObjectHandler() {
+        return new SysFieldAutoSetHandler();
+    }
 }
