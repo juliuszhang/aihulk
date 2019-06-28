@@ -56,4 +56,23 @@ public abstract class BaseResponseVo<R> {
 
     }
 
+    /**
+     * 业务上的错误
+     */
+    public static class ManageBusinessErrorCode extends ResponseCode {
+
+        public ManageBusinessErrorCode(int code) {
+            super(code);
+        }
+
+        //用户不存在
+        public static final ManageBusinessErrorCode USER_NOT_EXIST = new ManageBusinessErrorCode(201);
+
+        //用户密码错误
+        public static final ManageBusinessErrorCode USER_PASSWORD_WRONG = new ManageBusinessErrorCode(202);
+
+        //邮箱暂未认证
+        public static final ManageBusinessErrorCode USER_EMAIL_UNCHECKED = new ManageBusinessErrorCode(203);
+    }
+
 }
