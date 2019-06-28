@@ -39,6 +39,21 @@ create table fact
 	operator varchar(32) null comment '操作人'
 ) comment '事实';
 
+create table variable
+(
+	id int auto_increment
+		primary key comment '主键',
+	name varchar(32) null comment '名称',
+	name_en varchar(32) null comment '英文名',
+	business_id int(11) null comment '所属业务id',
+	type varchar(10) null comment '变量类型',
+	merge_strategy int(11) null comment '合并逻辑',
+	create_time varchar(19) null comment '创建时间',
+	update_time varchar(19) null comment '更新时间',
+	deleted tinyint(1) null DEFAULT 0 comment '逻辑删除字段',
+	operator varchar(32) null comment '操作人'
+) comment '变量';
+
 create table unit
 (
 	id int auto_increment

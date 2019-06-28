@@ -55,7 +55,7 @@ public class UserController {
             //TODO mail send
         }
         user.setPassword(MD5Util.encrypt(user.getPassword()));
-        userService.insert(user);
+        userService.add(user);
         return new ResponseVo<User>().buildSuccess(user, "注册成功");
     }
 
@@ -104,7 +104,7 @@ public class UserController {
 
     private String refreshToken(User user) {
         String token = user.initToken();
-        userService.udpate(user);
+        userService.update(user);
         return token;
     }
 

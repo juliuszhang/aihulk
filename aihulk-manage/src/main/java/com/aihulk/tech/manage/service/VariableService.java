@@ -1,16 +1,15 @@
 package com.aihulk.tech.manage.service;
 
-import com.aihulk.tech.common.entity.User;
+import com.aihulk.tech.common.entity.Variable;
 import org.springframework.stereotype.Service;
 
 /**
  * @author zhangyibo
- * @title: UserService
+ * @title: VariableService
  * @projectName aihulk
  * @description: TODO
- * @date 2019-06-2811:33
+ * @date 2019-06-2814:50
  */
 @Service
-public class UserService extends BaseService<User> {
-
+public class VariableService extends BaseService<Variable> {
 }
