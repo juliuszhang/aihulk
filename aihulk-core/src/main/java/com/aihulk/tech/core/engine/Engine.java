@@ -15,7 +15,7 @@ import com.aihulk.tech.core.resource.decision.DecisionResponse;
 public interface Engine {
 
 
-    void init(String version) throws EngineInitException;
+    void init(Integer bizId, String version) throws EngineInitException;
 
     /**
      * 决策

@@ -1,7 +1,6 @@
 package com.aihulk.tech.common.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,6 +16,9 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class Chain extends BaseEntity {
+
+    @TableField(value = "business_id")
+    private Integer businessId;
 
     @TableField(value = "name")
     private String name;

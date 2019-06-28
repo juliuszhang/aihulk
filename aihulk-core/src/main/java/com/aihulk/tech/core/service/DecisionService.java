@@ -14,8 +14,8 @@ import com.aihulk.tech.core.resource.decision.DecisionResponse;
  */
 public class DecisionService {
 
-    public DecisionResponse decision(DecisionRequest decisionRequest, String version) {
-        Engine engine = EngineStore.getEngine(version);
+    public DecisionResponse decision(DecisionRequest decisionRequest, Integer bizId, String version) {
+        Engine engine = EngineStore.getEngine(bizId, version);
         DecisionContext.setData(decisionRequest.getData());
         DecisionResponse response = engine.decision(decisionRequest);
         return response;

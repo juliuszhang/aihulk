@@ -1,5 +1,8 @@
 package com.aihulk.tech.decision.resource.loader;
 
+import com.aihulk.tech.common.entity.Chain;
+import com.aihulk.tech.common.entity.Unit;
+import com.aihulk.tech.common.entity.UnitGroup;
 import com.aihulk.tech.common.mapper.ChainMapper;
 import com.aihulk.tech.common.mapper.FactMapper;
 import com.aihulk.tech.common.mapper.UnitGroupMapper;
@@ -7,9 +10,6 @@ import com.aihulk.tech.common.mapper.UnitMapper;
 import com.aihulk.tech.core.resource.entity.*;
 import com.aihulk.tech.core.resource.loader.ResourceLoader;
 import com.aihulk.tech.decision.component.MybatisService;
-import com.aihulk.tech.common.entity.Chain;
-import com.aihulk.tech.common.entity.Unit;
-import com.aihulk.tech.common.entity.UnitGroup;
 import com.google.common.collect.Lists;
 import org.apache.ibatis.session.SqlSession;
 
@@ -23,24 +23,27 @@ import java.util.Map;
  * @description: TODO
  * @date 2019-06-0414:52
  */
-public class MysqlResourceLoader implements ResourceLoader {
+public class MysqlResourceLoader implements ResourceLoader<Resource> {
 
     private static final MybatisService MYBATIS_SERVICE = MybatisService.getInstance();
 
+    private static final SqlSession SQL_SESSION = MYBATIS_SERVICE.getSqlSession();
+
+    private static final ChainMapper chainMapper = SQL_SESSION.getMapper(ChainMapper.class);
+
+    private static final UnitGroupMapper unitGroupMapper = SQL_SESSION.getMapper(UnitGroupMapper.class);
+
+    private static final UnitMapper unitMapper = SQL_SESSION.getMapper(UnitMapper.class);
+
 
     @Override
-    public Resource loadResource(String version) {
+    public Resource loadResource(Integer bizId, String version) {
         return null;
     }
 
     @Override
-    public Map<String, Resource> loadAllResources() {
-        SqlSession sqlSession = MYBATIS_SERVICE.getSqlSession();
-
-        ChainMapper chainMapper = sqlSession.getMapper(ChainMapper.class);
-        UnitGroupMapper unitGroupMapper = sqlSession.getMapper(UnitGroupMapper.class);
-        UnitMapper unitMapper = sqlSession.getMapper(UnitMapper.class);
-        List<Chain> chains = chainMapper.selectList(null);
+    public Map<String, Resource> loadAllResources(Integer bizId) {
+        List<Chain> chains = this.selectChainsByBizId(bizId);
         List<DecisionChain> coreDecisionChains = Lists.newArrayListWithCapacity(chains.size());
         for (Chain chain : chains) {
             DecisionChain coreDecisionChain = new DecisionChain();
@@ -60,7 +63,7 @@ public class MysqlResourceLoader implements ResourceLoader {
                     ExecuteUnit coreExecuteUnit = new ExecuteUnit();
                     coreExecuteUnit.setName(unit.getName());
                     coreExecuteUnit.setNameEn(unit.getNameEn());
-                    coreExecuteUnit.setFacts(getFeatures(sqlSession, unit.getId()));
+                    coreExecuteUnit.setFacts(getFeatures(SQL_SESSION, unit.getId()));
                     coreExecuteUnit.setExpress(Express.parse(unit.getExpress()));
 //                    coreExecuteUnit.setAction();
                     coreExecuteUnits.add(coreExecuteUnit);
@@ -71,6 +74,10 @@ public class MysqlResourceLoader implements ResourceLoader {
             coreDecisionChains.add(coreDecisionChain);
         }
 
+        return null;
+    }
+
+    private List<Chain> selectChainsByBizId(Integer bizId) {
         return null;
     }
 

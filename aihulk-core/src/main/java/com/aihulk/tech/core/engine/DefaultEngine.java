@@ -46,8 +46,8 @@ public class DefaultEngine implements Engine {
     }
 
     @Override
-    public void init(String version) throws EngineInitException {
-        resource = resourceLoader.loadResource(version);
+    public void init(Integer bizId, String version) throws EngineInitException {
+        resource = (Resource) resourceLoader.loadResource(bizId, version);
         inited = true;
     }
 

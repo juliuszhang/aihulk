@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public class LocalTestResourceLoader implements ResourceLoader {
     @Override
-    public Resource loadResource(String version) {
+    public Resource loadResource(Integer bizId, String version) {
         Resource resource = new Resource();
         //decision unit
         DecisionChain chain = new DecisionChain();
@@ -101,7 +101,7 @@ public class LocalTestResourceLoader implements ResourceLoader {
     }
 
     @Override
-    public Map<String, Resource> loadAllResources() {
+    public Map<String, Resource> loadAllResources(Integer bizId) {
         return null;
     }
 }

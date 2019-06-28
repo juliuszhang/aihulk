@@ -17,7 +17,7 @@ public class DecisionServiceTest {
         DecisionRequest request = new DecisionRequest();
         request.setData("{\"data\":{\"age\":30}}");
         request.setChainId(1);
-        DecisionResponse response = decisionService.decision(request, "test");
+        DecisionResponse response = decisionService.decision(request, 1, "test");
         System.out.println(response);
     }
 }

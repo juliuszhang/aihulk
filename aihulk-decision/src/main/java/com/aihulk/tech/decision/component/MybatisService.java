@@ -70,7 +70,7 @@ public class MybatisService {
     public SqlSession getSqlSession() {
         SqlSession session = SQL_SESSIONS.get();
         if (session == null) {
-            session = sqlSessionFactory.openSession();
+            session = sqlSessionFactory.openSession(true);
             SQL_SESSIONS.set(session);
         }
         return session;

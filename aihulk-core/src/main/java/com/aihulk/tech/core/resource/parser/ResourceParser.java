@@ -1,7 +1,5 @@
 package com.aihulk.tech.core.resource.parser;
 
-import com.aihulk.tech.core.resource.entity.Resource;
-
 /**
  * @ClassName ResourceParser
  * @Description 资源解析器
@@ -11,6 +9,6 @@ import com.aihulk.tech.core.resource.entity.Resource;
  */
 public interface ResourceParser<T> {
 
-    Resource parse(T t);
+    T parse(T t, Integer bizId, String version);
 
 }
