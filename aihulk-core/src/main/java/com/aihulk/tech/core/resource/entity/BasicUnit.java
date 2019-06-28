@@ -11,7 +11,7 @@ public interface BasicUnit {
 
     enum UnitType {
         EXECUTE_UNIT,
-        EXECUTE_UNIT_GROUP;
+        EXECUTE_UNIT_GROUP
     }
 
     UnitType getType();

@@ -7,8 +7,8 @@ package com.aihulk.tech.core.constant;
  * @Date 2019/2/22 21:45
  * @Version 1.0
  */
-public enum  ScriptEngineType {
+public enum ScriptEngineType {
 
-    JS_ENGINE;
+    JS_ENGINE
 
 }
