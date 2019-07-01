@@ -1,5 +1,7 @@
 package com.aihulk.tech.core.resource.entity;
 
+import lombok.Getter;
+
 /**
  * @author zhangyibo
  * @title: BasicUnit
@@ -9,11 +11,19 @@ package com.aihulk.tech.core.resource.entity;
  */
 public interface BasicUnit {
 
+    @Getter
     enum UnitType {
-        EXECUTE_UNIT,
-        EXECUTE_UNIT_GROUP
+        EXECUTE_UNIT(0),
+        EXECUTE_UNIT_GROUP(1);
+
+        Integer val;
+
+        UnitType(Integer val) {
+            this.val = val;
+        }
     }
 
     UnitType getType();
+
 
 }

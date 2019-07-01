@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author zhangyibo
@@ -16,9 +17,13 @@ import java.util.List;
  */
 public interface UnitGroupMapper extends BaseMapper<UnitGroup> {
 
-    @Select(value = "SELECT eug.* FROM execute_unit_group as eug,decision_chain_execute_unit_group dceug WHERE " +
-            "dceug.group_id = eug.id " +
-            "AND dceug.chain_id = #{decisionUnitId}")
-    List<UnitGroup> findByDecisionUnitId(@Param(value = "chainId") Integer chainId);
+    @Select(value = "SELECT ug.* FROM unit_group as ug,chain_unit_relation cur WHERE " +
+            "cur.type = 1 AND" +
+            "ug.id = cur.unit_id " +
+            "AND ug.chain_id = #{chainId}")
+    List<UnitGroup> selectByChainId(@Param(value = "chainId") Integer chainId);
+
+    @Select(value = "SELECT * FROM unit_unit_group_relation")
+    List<Map<String, Object>> selectUnitUnitGroupRelation();
 
 }

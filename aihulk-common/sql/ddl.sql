@@ -90,6 +90,8 @@ create table flow_rule
 (
 	id int auto_increment
 		primary key comment '主键',
+	chain_id int(11) null comment '所属决策链id',
+	biz_id int(11) null comment '所属biz',
 	name varchar(32) null comment '名称',
 	name_en varchar(32) null comment '英文名',
 	src_type int(11) null comment 'src 类型（执行单元、执行单元组）',
@@ -128,6 +130,18 @@ create table unit_fact_relation
 	operator varchar(32) null comment '操作人'
 ) comment '执行单元事实关联表';
 
+create table fact_relation
+(
+	id int auto_increment
+		primary key comment '主键',
+	fact_id int(11) null comment '事实id',
+	ref_fact_id int(11) null comment '被引用的事实id',
+	create_time varchar(19) null comment '创建时间',
+	update_time varchar(19) null comment '更新时间',
+	deleted tinyint(1) null DEFAULT 0 comment '逻辑删除字段',
+	operator varchar(32) null comment '操作人'
+) comment '事实引用关系表';
+
 create table unit_unit_group_relation
 (
 	id int auto_increment
@@ -147,24 +161,12 @@ create table chain_unit_relation
 		primary key comment '主键',
 	chain_id int(11) null comment '决策链id',
 	unit_id int(11) null comment '执行单元id',
+	`type` tinyint(1) null comment '关联的执行单元类型(0执行单元，1执行单元组)',
 	create_time varchar(19) null comment '创建时间',
 	update_time varchar(19) null comment '更新时间',
 	deleted tinyint(1) null DEFAULT 0 comment '逻辑删除字段',
 	operator varchar(32) null comment '操作人'
 ) comment '决策链执行单元关联表';
-
-create table chain_unit_group_relation
-(
-	id int auto_increment
-		primary key comment '主键',
-	chain_id int(11) null comment '决策链id',
-	unit_group_id int(11) null comment '执行单元组id',
-	create_time varchar(19) null comment '创建时间',
-	update_time varchar(19) null comment '更新时间',
-	deleted tinyint(1) null DEFAULT 0 comment '逻辑删除字段',
-	operator varchar(32) null comment '操作人'
-) comment '决策链执行单元组关联表';
-
 
 create table `user`
 (

@@ -16,7 +16,9 @@ import java.util.List;
  */
 public interface UnitMapper extends BaseMapper<Unit> {
 
-    @Select(value = "SELECT execute_unit.* FROM execute_unit,execute_unit_execute_unit_group WHERE execute_unit.id = execute_unit_execute_unit_group.execute_unit_id AND execute_unit_execute_unit_group.execute_unit_group_id = #{ruleSetId}")
-    List<Unit> selectByExecuteUnitGroupId(@Param(value = "executeUnitGroupId") Integer executeUnitGroupId);
+    @Select(value = "SELECT unit.* FROM unit,chain_unit_relation" +
+            " WHERE chain_unit_relation.type = 0 AND" +
+            " AND unit.id = chain_unit_relation.unit_id AND chain_unit_relation.chain_id = #{chainId}")
+    List<Unit> selectByChainId(@Param(value = "chainId") Integer chainId);
 
 }

@@ -23,7 +23,6 @@ public class LocalTestResourceLoader implements ResourceLoader {
         chain.setId(1);
         chain.setName("测试决策单元");
         chain.setDesc("测试决策单元desc");
-        chain.setOperator("yibozhang");
         chain.setCreateTime(DateUtil.getCurDateTime());
         chain.setUpdateTime(DateUtil.getCurDateTime());
         //executeUnit
@@ -31,7 +30,6 @@ public class LocalTestResourceLoader implements ResourceLoader {
         executeUnit1.setId(1);
         executeUnit1.setName("测试规则集");
         executeUnit1.setDesc("测试规则集desc");
-        executeUnit1.setOperator("yibozhang4");
         executeUnit1.setCreateTime(DateUtil.getCurDateTime());
         executeUnit1.setUpdateTime(DateUtil.getCurDateTime());
         Express executeUnitExpress = new Express();
@@ -46,7 +44,6 @@ public class LocalTestResourceLoader implements ResourceLoader {
         executeUnitGroup2.setId(2);
         executeUnitGroup2.setName("测试规则集2");
         executeUnitGroup2.setDesc("测试规则集2desc");
-        executeUnitGroup2.setOperator("yibozhang4");
         executeUnitGroup2.setCreateTime(DateUtil.getCurDateTime());
         executeUnitGroup2.setUpdateTime(DateUtil.getCurDateTime());
 
@@ -57,7 +54,6 @@ public class LocalTestResourceLoader implements ResourceLoader {
         executeUnit.setDesc("测试规则desc");
         executeUnit.setCreateTime(DateUtil.getCurDateTime());
         executeUnit.setUpdateTime(DateUtil.getCurDateTime());
-        executeUnit.setOperator("yibozhang");
         //feature
         Fact ageFact = new Fact();
         ageFact.setId(1);

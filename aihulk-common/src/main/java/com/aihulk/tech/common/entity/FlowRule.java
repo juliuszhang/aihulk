@@ -7,18 +7,21 @@ import lombok.EqualsAndHashCode;
 
 /**
  * @author zhangyibo
- * @title: UnitGroupMapper
+ * @title: FlowRule
  * @projectName aihulk
- * @description: TODO
- * @date 2019-06-0314:11
+ * @description: 流程规则
+ * @date 2019-07-0115:17
  */
-@TableName(value = "unit")
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Unit extends BaseEntity {
+@TableName(value = "flow_rule")
+public class FlowRule extends BaseEntity {
 
     @TableField(value = "biz_id")
     private Integer bizId;
+
+    @TableField(value = "chain_id")
+    private Integer chainId;
 
     @TableField(value = "name")
     private String name;
@@ -26,10 +29,18 @@ public class Unit extends BaseEntity {
     @TableField(value = "name_en")
     private String nameEn;
 
-    @TableField(value = "action")
-    private String action;
+    @TableField(value = "src_type")
+    private Integer srcType;
+
+    @TableField(value = "dest_type")
+    private Integer destType;
 
     @TableField(value = "express")
     private String express;
 
+    @TableField(value = "src_id")
+    private Integer srcId;
+
+    @TableField(value = "dest_id")
+    private Integer destId;
 }

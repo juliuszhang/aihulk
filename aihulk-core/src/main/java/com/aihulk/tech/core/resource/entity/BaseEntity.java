@@ -18,6 +18,4 @@ public abstract class BaseEntity {
 
     protected String updateTime;
 
-    protected String operator;
-
 }

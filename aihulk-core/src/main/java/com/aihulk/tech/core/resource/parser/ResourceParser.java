@@ -7,8 +7,8 @@ package com.aihulk.tech.core.resource.parser;
  * @Date 2019/5/1 13:28
  * @Version 1.0
  */
-public interface ResourceParser<T> {
+public interface ResourceParser<T, R> {
 
-    T parse(T t, Integer bizId, String version);
+    R parse(T t, Integer bizId, String version);
 
 }

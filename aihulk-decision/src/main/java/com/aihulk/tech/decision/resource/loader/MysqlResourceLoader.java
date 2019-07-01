@@ -50,14 +50,14 @@ public class MysqlResourceLoader implements ResourceLoader<Resource> {
             coreDecisionChain.setName(chain.getName());
             coreDecisionChain.setId(chain.getId());
             coreDecisionChain.setNameEn(chain.getNameEn());
-            List<UnitGroup> unitGroups = unitGroupMapper.findByDecisionUnitId(chain.getId());
+            List<UnitGroup> unitGroups = unitGroupMapper.selectByChainId(chain.getId());
             List<ExecuteUnitGroup> coreExecuteUnitGroups = Lists.newArrayListWithCapacity(unitGroups.size());
             for (UnitGroup unitGroup : unitGroups) {
                 ExecuteUnitGroup coreExecuteUnitGroup = new ExecuteUnitGroup();
                 coreExecuteUnitGroup.setId(unitGroup.getId());
                 coreExecuteUnitGroup.setName(unitGroup.getName());
                 coreExecuteUnitGroup.setNameEn(unitGroup.getNameEn());
-                List<Unit> units = unitMapper.selectByExecuteUnitGroupId(unitGroup.getId());
+                List<Unit> units = unitMapper.selectByChainId(unitGroup.getId());
                 List<ExecuteUnit> coreExecuteUnits = Lists.newArrayListWithCapacity(units.size());
                 for (Unit unit : units) {
                     ExecuteUnit coreExecuteUnit = new ExecuteUnit();
@@ -84,7 +84,7 @@ public class MysqlResourceLoader implements ResourceLoader<Resource> {
 
     private List<Fact> getFeatures(SqlSession sqlSession, Integer ruleId) {
         FactMapper factMapper = sqlSession.getMapper(FactMapper.class);
-        List<com.aihulk.tech.common.entity.Fact> facts = factMapper.selectByRuleId(ruleId);
+        List<com.aihulk.tech.common.entity.Fact> facts = factMapper.selectByUnitId(ruleId);
         List<Fact> coreFacts = Lists.newArrayListWithCapacity(facts.size());
         for (com.aihulk.tech.common.entity.Fact fact : facts) {
             Fact coreFact = new Fact();

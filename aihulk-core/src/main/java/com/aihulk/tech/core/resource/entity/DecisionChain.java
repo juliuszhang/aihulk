@@ -161,6 +161,7 @@ public class DecisionChain extends BaseResource {
 
     }
 
+
     public void add(BasicUnit basicUnit, ConditionEdge... conditions) {
         if (basicUnit == null) return;
         Node node = new Node(basicUnit);
@@ -177,6 +178,13 @@ public class DecisionChain extends BaseResource {
             node.addCondition(condition);
         } else {
             log.error("unknown basicUnit:{}", condition.getSrc());
+        }
+    }
+
+    public void add(List<ConditionEdge> conditions) {
+        if (conditions == null) return;
+        for (ConditionEdge conditionEdge : conditions) {
+            this.add(conditionEdge);
         }
     }
 

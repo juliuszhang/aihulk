@@ -19,6 +19,8 @@ public class Fact extends BaseResource {
     //引用事实在code中的特殊标识
     public static final String REF_FACT_SIGN = "$ref_fact_";
 
+    private Integer unitId;
+
     private String code;
 
 }
