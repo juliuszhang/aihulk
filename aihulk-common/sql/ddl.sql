@@ -165,8 +165,18 @@ create table chain_unit_relation
 	create_time varchar(19) null comment '创建时间',
 	update_time varchar(19) null comment '更新时间',
 	deleted tinyint(1) null DEFAULT 0 comment '逻辑删除字段',
-	operator varchar(32) null comment '操作人'
 ) comment '决策链执行单元关联表';
+
+create table unit_variable_relation
+{
+    id int auto_increment
+		primary key comment '主键',
+	unit_id int(11) null comment '执行单元id',
+	variable_id int(11) null comment '变量id',
+	create_time varchar(19) null comment '创建时间',
+	update_time varchar(19) null comment '更新时间',
+	deleted tinyint(1) null DEFAULT 0 comment '逻辑删除字段',
+}
 
 create table `user`
 (
