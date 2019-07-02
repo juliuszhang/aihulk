@@ -95,5 +95,12 @@ public enum Operation {
         this.name = name;
     }
 
+    public static Operation parse(String opStr) {
+        for (Operation value : Operation.values()) {
+            if (value.name.equalsIgnoreCase(opStr)) return value;
+        }
+        return null;
+    }
+
     public abstract boolean eval(Object src, Object target);
 }

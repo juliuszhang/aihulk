@@ -1,5 +1,7 @@
 package com.aihulk.tech.core;
 
+import com.aihulk.tech.core.logic.Logic;
+import com.aihulk.tech.core.logic.LogicHelper;
 import org.junit.Test;
 
 import java.util.regex.Matcher;
@@ -25,6 +27,13 @@ public class RegexTest {
 
             System.out.println(group);
         }
+    }
+
+    @Test
+    public void test2() {
+        String logicStr = "{\"and\":[{\"src\":\"3\",\"op\":\"GT\",\"dest\":\"4\"},{\"or\":[{}]}]}";
+        Logic parse = LogicHelper.parse(logicStr);
+        System.out.println(parse);
     }
 
 }

@@ -49,7 +49,7 @@ public class EngineStore {
                 }
             }
         }
-        return ENGINE_STORE.get(version);
+        return ENGINE_STORE.get(engineKey);
     }
 
     private static Engine constructEngine(Integer bizId, String version) {

@@ -1,5 +1,6 @@
 package com.aihulk.tech.core.resource.loader;
 
+import com.aihulk.tech.core.logic.Express;
 import com.aihulk.tech.core.logic.Operation;
 import com.aihulk.tech.core.resource.entity.*;
 import com.aihulk.tech.core.util.DateUtil;
@@ -36,7 +37,7 @@ public class LocalTestResourceLoader implements ResourceLoader {
         executeUnitExpress.setSrc(3);
         executeUnitExpress.setTarget(2);
         executeUnitExpress.setOp(Operation.GT);
-        executeUnit1.setExpress(executeUnitExpress);
+        executeUnit1.setEvalAble(executeUnitExpress);
 
 
         //ruleSets2
@@ -78,7 +79,7 @@ public class LocalTestResourceLoader implements ResourceLoader {
         express.setSrc(subExpress1);
         express.setTarget(subExpress2);
         express.setOp(Operation.AND);
-        executeUnit.setExpress(express);
+        executeUnit.setEvalAble(express);
 
         executeUnitGroup2.setExecuteUnits(Arrays.asList(executeUnit));
         chain.add(executeUnit1);

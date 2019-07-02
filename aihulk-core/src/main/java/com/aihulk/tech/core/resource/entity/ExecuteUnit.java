@@ -24,7 +24,7 @@ import java.util.Map;
 @EqualsAndHashCode(callSuper = true)
 public class ExecuteUnit extends BaseResource implements EvalAble, BasicUnit {
 
-    private Express express;
+    private EvalAble evalAble;
 
     private Action action;
 
@@ -34,7 +34,7 @@ public class ExecuteUnit extends BaseResource implements EvalAble, BasicUnit {
 
     @Override
     public boolean eval() {
-        return express.eval();
+        return evalAble.eval();
     }
 
     public List<Fact> getFacts() {

@@ -1,5 +1,6 @@
 package com.aihulk.tech.core.resource.entity;
 
+import com.aihulk.tech.core.logic.Express;
 import com.google.common.collect.Lists;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

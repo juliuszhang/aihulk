@@ -3,8 +3,8 @@ package com.aihulk.tech.decision.resource.loader;
 import com.aihulk.tech.common.entity.Unit;
 import com.aihulk.tech.common.mapper.FactMapper;
 import com.aihulk.tech.common.mapper.UnitMapper;
+import com.aihulk.tech.core.logic.LogicHelper;
 import com.aihulk.tech.core.resource.entity.ExecuteUnit;
-import com.aihulk.tech.core.resource.entity.Express;
 import com.aihulk.tech.core.resource.entity.Fact;
 import com.aihulk.tech.core.resource.loader.ResourceLoader;
 import com.aihulk.tech.decision.component.MybatisService;
@@ -54,7 +54,7 @@ public class UnitResourceLoader implements ResourceLoader<Map<Integer, ExecuteUn
         if ("output".equals(unit.getAction())) {
             //TODO
         }
-        executeUnit.setExpress(Express.parse(unit.getExpress()));
+        executeUnit.setEvalAble(LogicHelper.parse(unit.getExpress()));
         List<Fact> runtimeFacts = this.selectByUnitId(facts, unit.getId());
         Map<Integer, List<Fact>> relations = Maps.newHashMap();
         this.queryAllFactRelations(runtimeFacts, relations, facts);

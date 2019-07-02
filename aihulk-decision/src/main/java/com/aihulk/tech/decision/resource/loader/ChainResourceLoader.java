@@ -27,8 +27,8 @@ import java.util.stream.Collectors;
  */
 public class ChainResourceLoader implements ResourceLoader<List<DecisionChain>> {
 
-    private static final int CHAIN_UNIT_RELATION_TYPE_UNIT = 0;
-    private static final int CHAIN_UNIT_RELATION_TYPE_UNIT_GROUP = 1;
+    private static final int CHAIN_UNIT_RELATION_TYPE_UNIT = BasicUnit.UnitType.EXECUTE_UNIT.getVal();
+    private static final int CHAIN_UNIT_RELATION_TYPE_UNIT_GROUP = BasicUnit.UnitType.EXECUTE_UNIT_GROUP.getVal();
 
     private UnitResourceLoader unitResourceLoader = new UnitResourceLoader();
 
