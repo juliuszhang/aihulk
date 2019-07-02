@@ -3,7 +3,7 @@ package com.aihulk.tech.decision.resource.loader;
 import com.aihulk.tech.common.entity.FlowRule;
 import com.aihulk.tech.common.mapper.FlowRuleMapper;
 import com.aihulk.tech.core.exception.EngineInitException;
-import com.aihulk.tech.core.logic.Express;
+import com.aihulk.tech.core.logic.LogicHelper;
 import com.aihulk.tech.core.resource.entity.BasicUnit;
 import com.aihulk.tech.core.resource.entity.DecisionChain;
 import com.aihulk.tech.core.resource.entity.ExecuteUnit;
@@ -58,7 +58,7 @@ public class FlowRuleResourceLoader implements ResourceLoader<Map<Integer, List<
         Map<Integer, List<DecisionChain.ConditionEdge>> resultMap = Maps.newHashMap();
         for (FlowRule flowRule : flowRules) {
             DecisionChain.ConditionEdge conditionEdge = new DecisionChain().new ConditionEdge();
-            conditionEdge.setExpress(Express.parse(flowRule.getExpress()));
+            conditionEdge.setLogic(LogicHelper.parse(flowRule.getExpress()));
             Integer srcId = flowRule.getSrcId();
             Integer destId = flowRule.getDestId();
             BasicUnit src;

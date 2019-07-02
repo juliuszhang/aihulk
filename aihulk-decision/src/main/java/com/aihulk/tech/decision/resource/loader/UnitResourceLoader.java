@@ -4,6 +4,7 @@ import com.aihulk.tech.common.entity.Unit;
 import com.aihulk.tech.common.mapper.FactMapper;
 import com.aihulk.tech.common.mapper.UnitMapper;
 import com.aihulk.tech.core.logic.LogicHelper;
+import com.aihulk.tech.core.resource.entity.DecisionFlow;
 import com.aihulk.tech.core.resource.entity.ExecuteUnit;
 import com.aihulk.tech.core.resource.entity.Fact;
 import com.aihulk.tech.core.resource.loader.ResourceLoader;
@@ -47,14 +48,14 @@ public class UnitResourceLoader implements ResourceLoader<Map<Integer, ExecuteUn
     }
 
     private ExecuteUnit mapExecuteUnit(Unit unit, List<Fact> facts) {
-        ExecuteUnit executeUnit = new ExecuteUnit();
+        DecisionFlow executeUnit = new DecisionFlow();
         executeUnit.setName(unit.getName());
         executeUnit.setNameEn(unit.getNameEn());
         //变量输出
         if ("output".equals(unit.getAction())) {
             //TODO
         }
-        executeUnit.setEvalAble(LogicHelper.parse(unit.getExpress()));
+        executeUnit.setLogic(LogicHelper.parse(unit.getExpress()));
         List<Fact> runtimeFacts = this.selectByUnitId(facts, unit.getId());
         Map<Integer, List<Fact>> relations = Maps.newHashMap();
         this.queryAllFactRelations(runtimeFacts, relations, facts);

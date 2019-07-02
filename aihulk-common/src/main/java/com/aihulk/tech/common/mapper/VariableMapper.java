@@ -1,5 +1,6 @@
 package com.aihulk.tech.common.mapper;
 
+import com.aihulk.tech.common.entity.Variable;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -9,5 +10,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @description: TODO
  * @date 2019-06-2815:43
  */
-public interface VariableMapper extends BaseMapper<VariableMapper> {
+public interface VariableMapper extends BaseMapper<Variable> {
 }

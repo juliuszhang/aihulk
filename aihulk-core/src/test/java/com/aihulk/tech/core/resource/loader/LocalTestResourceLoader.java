@@ -96,7 +96,7 @@ public class LocalTestResourceLoader implements ResourceLoader {
         Express flowExpress = new Express();
         flowExpress.setSrc(true);
         flowExpress.setOp(Operation.IS_TRUE);
-        conditionEdge.setExpress(flowExpress);
+        conditionEdge.setLogic(flowExpress);
         chain.add(conditionEdge);
         resource.setDecisionChains(Arrays.asList(chain));
         return resource;

@@ -7,7 +7,7 @@ import com.aihulk.tech.common.mapper.ChainMapper;
 import com.aihulk.tech.common.mapper.FactMapper;
 import com.aihulk.tech.common.mapper.UnitGroupMapper;
 import com.aihulk.tech.common.mapper.UnitMapper;
-import com.aihulk.tech.core.logic.Express;
+import com.aihulk.tech.core.logic.LogicHelper;
 import com.aihulk.tech.core.resource.entity.*;
 import com.aihulk.tech.core.resource.loader.ResourceLoader;
 import com.aihulk.tech.decision.component.MybatisService;
@@ -61,11 +61,11 @@ public class MysqlResourceLoader implements ResourceLoader<Resource> {
                 List<Unit> units = unitMapper.selectByChainId(unitGroup.getId());
                 List<ExecuteUnit> coreExecuteUnits = Lists.newArrayListWithCapacity(units.size());
                 for (Unit unit : units) {
-                    ExecuteUnit coreExecuteUnit = new ExecuteUnit();
+                    DecisionFlow coreExecuteUnit = new DecisionFlow();
                     coreExecuteUnit.setName(unit.getName());
                     coreExecuteUnit.setNameEn(unit.getNameEn());
                     coreExecuteUnit.setFacts(getFeatures(SQL_SESSION, unit.getId()));
-                    coreExecuteUnit.setExpress(Express.parse(unit.getExpress()));
+                    coreExecuteUnit.setLogic(LogicHelper.parse(unit.getExpress()));
 //                    coreExecuteUnit.setAction();
                     coreExecuteUnits.add(coreExecuteUnit);
                 }
