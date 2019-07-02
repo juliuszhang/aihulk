@@ -29,7 +29,8 @@ public class RuleEngineException extends RuntimeException {
         FAIL(-1),
         ENGINE_INIT_FAIL(-2),
         SCRIPT_EXEC_FAIL(-3),
-        ENGINE_NOT_INIT(-4);
+        ENGINE_NOT_INIT(-4),
+        DECISION_CHAIN_HAS_CIRCLE(-5);
 
         int code;
 

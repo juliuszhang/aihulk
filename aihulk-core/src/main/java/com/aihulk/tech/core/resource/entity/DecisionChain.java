@@ -1,9 +1,11 @@
 package com.aihulk.tech.core.resource.entity;
 
+import com.aihulk.tech.core.exception.RuleEngineException;
 import com.aihulk.tech.core.logic.Express;
 import com.google.common.collect.Lists;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Iterator;
@@ -21,7 +23,8 @@ import java.util.Queue;
  * @Version 1.0
  */
 @Slf4j
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(callSuper = true)
 public class DecisionChain extends BaseResource {
 
@@ -35,8 +38,13 @@ public class DecisionChain extends BaseResource {
     /**
      * 图中的节点对象
      */
-    @Data
-    private static class Node {
+    @Getter
+    @Setter
+    @EqualsAndHashCode
+    private class Node {
+
+        //保存一个入度以便查找到第一个执行的节点（也就是入度为0的节点）
+        private int inDegree;
 
         private BasicUnit basicUnit;
 
@@ -48,8 +56,11 @@ public class DecisionChain extends BaseResource {
         }
 
         public void addCondition(ConditionEdge condition) {
-            if (getCondition(condition.getDest().basicUnit) == null)
+            if (getCondition(condition.getDest().basicUnit) == null) {
+                Node node = DecisionChain.this.getNode(condition.getDest().basicUnit);
+                node.inDegree++;
                 conditions.add(condition);
+            }
         }
 
         public ConditionEdge getCondition(BasicUnit basicUnit) {
@@ -70,7 +81,9 @@ public class DecisionChain extends BaseResource {
 
     }
 
-    @Data
+    @Getter
+    @Setter
+    @EqualsAndHashCode
     public class ConditionEdge {
 
         private Node src;
@@ -210,10 +223,16 @@ public class DecisionChain extends BaseResource {
     }
 
     public Iterator<BasicUnit> iterator() {
-        if (!nodes.isEmpty())
-            return new BFSIterator(nodes.get(0));
-        else
+        if (!nodes.isEmpty()) {
+            //找到入度为0的node作为开始
+            for (Node node : nodes) {
+                if (node.inDegree == 0) return new BFSIterator(node);
+            }
+            log.error("检测到决策链中存在环,chainId = " + this.getId());
+            throw new RuleEngineException(RuleEngineException.Code.DECISION_CHAIN_HAS_CIRCLE, "决策链存在环");
+        } else {
             throw new NullPointerException();
+        }
     }
 
     private Node getNode(BasicUnit basicUnit) {

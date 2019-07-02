@@ -4,7 +4,7 @@ import com.aihulk.tech.core.action.Action;
 import com.aihulk.tech.core.action.OutPut;
 import com.aihulk.tech.core.config.RuleEngineConfig;
 import com.aihulk.tech.core.exception.EngineInitException;
-import com.aihulk.tech.core.exception.EngineNotInitException;
+import com.aihulk.tech.core.exception.RuleEngineException;
 import com.aihulk.tech.core.resource.decision.DecisionRequest;
 import com.aihulk.tech.core.resource.decision.DecisionResponse;
 import com.aihulk.tech.core.resource.entity.*;
@@ -51,7 +51,7 @@ public class DefaultEngine implements Engine {
         //0.param check
         Preconditions.checkArgument(request.getChainId() != null && request.getChainId() > 0, "chainId 参数不合法");
         //1.check engine status
-        if (!inited) throw new EngineNotInitException("engine 尚未初始化完成");
+        if (!inited) throw new RuleEngineException(RuleEngineException.Code.ENGINE_NOT_INIT, "engine 尚未初始化完成");
         //2.extract features
         DecisionChain decisionChain = getDecisionChain(request.getChainId());
         //3.iterate and eval rules
@@ -78,8 +78,7 @@ public class DefaultEngine implements Engine {
         List<ExecuteUnit> fireExecuteUnits = response.getFireExecuteUnits();
         List<ExecuteUnit> execRules = response.getExecExecuteUnits();
         Map<String, Object> variables = response.getVariables();
-        for (int i = 0; i < executeUnits.size(); i++) {
-            ExecuteUnit executeUnit = executeUnits.get(i);
+        for (ExecuteUnit executeUnit : executeUnits) {
             //run executeUnit logic
             ExecuteUnit.ExecuteUnitResponse evalResult = executeUnit.eval();
             if (evalResult.isFired()) {
