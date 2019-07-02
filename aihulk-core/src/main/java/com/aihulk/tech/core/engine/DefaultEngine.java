@@ -1,22 +1,18 @@
 package com.aihulk.tech.core.engine;
 
+import com.aihulk.tech.core.action.Action;
 import com.aihulk.tech.core.action.OutPut;
-import com.aihulk.tech.core.component.ScriptEngine;
 import com.aihulk.tech.core.config.RuleEngineConfig;
-import com.aihulk.tech.core.context.DecisionContext;
 import com.aihulk.tech.core.exception.EngineInitException;
 import com.aihulk.tech.core.exception.EngineNotInitException;
 import com.aihulk.tech.core.resource.decision.DecisionRequest;
 import com.aihulk.tech.core.resource.decision.DecisionResponse;
 import com.aihulk.tech.core.resource.entity.*;
 import com.aihulk.tech.core.resource.loader.ResourceLoader;
-import com.aihulk.tech.core.util.JsonUtil;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @ClassName DefaultEngine
@@ -34,12 +30,9 @@ public class DefaultEngine implements Engine {
 
     private static ResourceLoader resourceLoader;
 
-    private static ScriptEngine scriptEngine;
-
     static {
         try {
             resourceLoader = RuleEngineConfig.getResourceLoader().newInstance();
-            scriptEngine = RuleEngineConfig.getScriptEngine().newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
             throw new EngineInitException("resourceLoader 初始化失败");
         }
@@ -87,59 +80,31 @@ public class DefaultEngine implements Engine {
         Map<String, Object> variables = response.getVariables();
         for (int i = 0; i < executeUnits.size(); i++) {
             ExecuteUnit executeUnit = executeUnits.get(i);
-            extractFeature(executeUnit.getFacts());
-//            DecisionContext.setFactMap(featureMap);
-            //3.run executeUnit logic
-            if (executeUnit.eval()) {
+            //run executeUnit logic
+            ExecuteUnit.ExecuteUnitResponse evalResult = executeUnit.eval();
+            if (evalResult.isFired()) {
                 fireExecuteUnits.add(executeUnit);
-                if (executeUnit.getAction() instanceof OutPut) {
-                    //输出一个变量
-                    OutPut outPut = (OutPut) executeUnit.getAction();
-                    String key = outPut.getKey();
-                    Object obj = outPut.getObj();
-                    if (variables.containsKey(key)) {
-                        //变量合并逻辑
-                        OutPut.MergeStrategy mergeStrategy = outPut.getMergeStrategy();
-                        Object mergeResult = mergeStrategy.merge(variables.get(key), obj);
-                        variables.put(key, mergeResult);
-                    } else {
-                        variables.put(key, obj);
+                List<Action> actions = evalResult.getActions() == null
+                        ? new ArrayList<>() : evalResult.getActions();
+                for (Action action : actions) {
+                    if (action instanceof OutPut) {
+                        //输出一个变量
+                        OutPut outPut = (OutPut) action;
+                        String key = outPut.getKey();
+                        Object obj = outPut.getObj();
+                        if (variables.containsKey(key)) {
+                            //变量合并逻辑
+                            OutPut.MergeStrategy mergeStrategy = outPut.getMergeStrategy();
+                            Object mergeResult = mergeStrategy.merge(variables.get(key), obj);
+                            variables.put(key, mergeResult);
+                        } else {
+                            variables.put(key, obj);
+                        }
                     }
                 }
             }
             execRules.add(executeUnit);
         }
-    }
-
-
-    private void extractFeature(List<Fact> facts) {
-        Map<String, Object> map = JsonUtil.parseObject(DecisionContext.getData(), Map.class);
-        //构造抽取特征需要的对象
-        for (Fact fact : facts) {
-            ScriptEngine.ScriptInfo scriptInfo = buildScriptInfo(fact, map);
-            Object result = scriptEngine.execute(scriptInfo);
-            DecisionContext.addFact(fact.getId(), result);
-        }
-//        List<ScriptEngine.ScriptInfo> scriptInfos = facts.stream().map(fact -> buildScriptInfo(fact, map)).collect(Collectors.toList());
-//        Map<Integer, Object> executeResults = scriptEngine.execute(scriptInfos);
-    }
-
-    private static final String REF_FACT_REGEX = "\\$ref_fact_\\d{1,}";
-
-    private ScriptEngine.ScriptInfo buildScriptInfo(Fact fact, Map<String, Object> data) {
-        String code = fact.getCode();
-        Pattern pattern = Pattern.compile(REF_FACT_REGEX);
-        Matcher matcher = pattern.matcher(code);
-        while (matcher.find()) {
-            String refFactSign = matcher.group();
-            String factIdStr = refFactSign.replaceAll("\\$ref_fact_", "");
-            int factId = Integer.parseInt(factIdStr);
-            Object factVal = DecisionContext.getFactMap(factId);
-            //处理code中事实引用部分的代码 将其替换为事实的真实值 由于特征前面有$需要加两个\\做转义
-            code = code.replaceAll("\\" + refFactSign, factVal.toString());
-        }
-        ScriptEngine.ScriptInfo scriptInfo = new ScriptEngine.ScriptInfo(fact.getId(), code, data);
-        return scriptInfo;
     }
 
     private DecisionChain getDecisionChain(Integer chainId) {

@@ -7,7 +7,6 @@ package com.aihulk.tech.core.logic;
  * @description: TODO
  * @date 2019-07-0118:43
  */
-public interface Logic extends EvalAble {
-
+public interface Logic extends EvalAble<Boolean> {
 
 }

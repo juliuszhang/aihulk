@@ -1,5 +1,6 @@
 package com.aihulk.tech.core.resource.loader;
 
+import com.aihulk.tech.core.action.OutPut;
 import com.aihulk.tech.core.logic.Express;
 import com.aihulk.tech.core.logic.Operation;
 import com.aihulk.tech.core.resource.entity.*;
@@ -27,7 +28,7 @@ public class LocalTestResourceLoader implements ResourceLoader {
         chain.setCreateTime(DateUtil.getCurDateTime());
         chain.setUpdateTime(DateUtil.getCurDateTime());
         //executeUnit
-        ExecuteUnit executeUnit1 = new ExecuteUnit();
+        DecisionFlow executeUnit1 = new DecisionFlow();
         executeUnit1.setId(1);
         executeUnit1.setName("测试规则集");
         executeUnit1.setDesc("测试规则集desc");
@@ -37,7 +38,7 @@ public class LocalTestResourceLoader implements ResourceLoader {
         executeUnitExpress.setSrc(3);
         executeUnitExpress.setTarget(2);
         executeUnitExpress.setOp(Operation.GT);
-        executeUnit1.setEvalAble(executeUnitExpress);
+        executeUnit1.setLogic(executeUnitExpress);
 
 
         //ruleSets2
@@ -49,7 +50,7 @@ public class LocalTestResourceLoader implements ResourceLoader {
         executeUnitGroup2.setUpdateTime(DateUtil.getCurDateTime());
 
         //rules
-        ExecuteUnit executeUnit = new ExecuteUnit();
+        DecisionFlow executeUnit = new DecisionFlow();
         executeUnit.setId(1);
         executeUnit.setName("测试规则");
         executeUnit.setDesc("测试规则desc");
@@ -79,7 +80,11 @@ public class LocalTestResourceLoader implements ResourceLoader {
         express.setSrc(subExpress1);
         express.setTarget(subExpress2);
         express.setOp(Operation.AND);
-        executeUnit.setEvalAble(express);
+        executeUnit.setLogic(express);
+        OutPut action = new OutPut();
+        action.setKey("a");
+        action.setObj(23891);
+        executeUnit.setActions(Arrays.asList(action));
 
         executeUnitGroup2.setExecuteUnits(Arrays.asList(executeUnit));
         chain.add(executeUnit1);

@@ -22,28 +22,11 @@ import java.util.Map;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ExecuteUnit extends BaseResource implements EvalAble, BasicUnit {
+public abstract class ExecuteUnit extends BaseResource implements BasicUnit, EvalAble<ExecuteUnit.ExecuteUnitResponse> {
 
-    private EvalAble evalAble;
+    protected List<Fact> facts = Lists.newArrayList();
 
-    private Action action;
-
-    private List<Fact> facts = Lists.newArrayList();
-
-    private Map<Integer, List<Fact>> factRelation = Maps.newHashMap();
-
-    @Override
-    public boolean eval() {
-        return evalAble.eval();
-    }
-
-    public List<Fact> getFacts() {
-        return facts;
-    }
-
-    public void setFacts(List<Fact> facts) {
-        this.facts = facts;
-    }
+    protected Map<Integer, List<Fact>> factRelation = Maps.newHashMap();
 
     public void setFactsWithSort(List<Fact> facts, Map<Integer, List<Fact>> factRelation) {
         List<Fact> sortedFacts = sortFacts(facts);
@@ -82,4 +65,11 @@ public class ExecuteUnit extends BaseResource implements EvalAble, BasicUnit {
         return UnitType.EXECUTE_UNIT;
     }
 
+    @Data
+    public static class ExecuteUnitResponse {
+
+        private boolean fired;
+
+        private List<Action> actions;
+    }
 }

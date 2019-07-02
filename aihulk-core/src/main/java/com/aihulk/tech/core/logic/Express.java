@@ -30,7 +30,7 @@ public class Express extends BaseEntity implements Logic {
     }
 
     @Override
-    public boolean eval() {
+    public Boolean eval() {
         if (src instanceof Express && target instanceof Express) {
             return op.eval(((Express) src).eval(), ((Express) target).eval());
         } else {

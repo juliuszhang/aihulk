@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * @date 2019-06-2015:04
  */
 public class ExecuteUnitTest {
-    ExecuteUnit executeUnit = new ExecuteUnit();
+    DecisionFlow executeUnit = new DecisionFlow();
 
     @Before
     public void setUp() throws Exception {

@@ -25,5 +25,4 @@ public interface BasicUnit {
 
     UnitType getType();
 
-
 }
