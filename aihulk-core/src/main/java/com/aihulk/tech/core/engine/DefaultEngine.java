@@ -60,9 +60,9 @@ public class DefaultEngine implements Engine {
             BasicUnit basicUnit = iterator.next();
             if (basicUnit.getType() == BasicUnit.UnitType.EXECUTE_UNIT) {
                 ExecuteUnit executeUnit = (ExecuteUnit) basicUnit;
-                this.evalRules(Arrays.asList(executeUnit), response);
+                this.evalExecuteUnit(Arrays.asList(executeUnit), response);
             } else if (basicUnit.getType() == BasicUnit.UnitType.EXECUTE_UNIT_GROUP) {
-                this.evalRules(((ExecuteUnitGroup) basicUnit).getExecuteUnits(), response);
+                this.evalExecuteUnit(((ExecuteUnitGroup) basicUnit).getExecuteUnits(), response);
             } else {
                 throw new UnsupportedOperationException("unknown basic unit type");
             }
@@ -74,7 +74,7 @@ public class DefaultEngine implements Engine {
 
     }
 
-    private void evalRules(List<ExecuteUnit> executeUnits, DecisionResponse response) {
+    private void evalExecuteUnit(List<ExecuteUnit> executeUnits, DecisionResponse response) {
         List<ExecuteUnit> fireExecuteUnits = response.getFireExecuteUnits();
         List<ExecuteUnit> execRules = response.getExecExecuteUnits();
         Map<String, Object> variables = response.getVariables();
