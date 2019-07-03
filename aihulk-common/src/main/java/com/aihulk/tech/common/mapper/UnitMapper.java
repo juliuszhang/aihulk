@@ -11,7 +11,7 @@ import java.util.List;
  * @author zhangyibo
  * @title: UnitGroupMapper
  * @projectName aihulk
- * @description: TODO
+ * @description: UnitMapper
  * @date 2019-06-0314:11
  */
 public interface UnitMapper extends BaseMapper<Unit> {

@@ -12,7 +12,7 @@ import java.util.Map;
  * @author zhangyibo
  * @title: UnitGroupMapper
  * @projectName aihulk
- * @description: TODO
+ * @description: UnitGroupMapper
  * @date 2019-06-0314:11
  */
 public interface UnitGroupMapper extends BaseMapper<UnitGroup> {

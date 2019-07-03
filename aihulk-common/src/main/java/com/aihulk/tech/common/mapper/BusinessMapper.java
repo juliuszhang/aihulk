@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author zhangyibo
  * @title: UnitGroupMapper
  * @projectName aihulk
- * @description: TODO
+ * @description: BusinessMapper
  * @date 2019-06-0314:11
  */
 public interface BusinessMapper extends BaseMapper<Business> {
