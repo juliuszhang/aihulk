@@ -15,20 +15,21 @@ import java.util.List;
  * @date 2019-07-0211:46
  */
 @Data
-public class DecisionFlow extends ExecuteUnit {
+public class DecisionFlow extends ExecuteUnit<ExecuteUnit.ExecuteUnitResponse> {
 
     private Logic logic;
 
     private List<Action> actions;
 
     @Override
-    public ExecuteUnitResponse eval() {
+    public ExecuteUnitResponse exec() {
         FactService factService = new FactService();
         factService.extractFeature(this.facts);
         boolean fired = logic.eval();
         ExecuteUnitResponse response = new ExecuteUnitResponse();
         response.setFired(fired);
         response.setActions(this.actions);
+        response.setExecuteUnit(this);
         return response;
     }
 

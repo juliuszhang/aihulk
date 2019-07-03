@@ -30,7 +30,7 @@ public class Express extends BaseEntity implements Logic {
     }
 
     @Override
-    public Boolean eval() {
+    public boolean eval() {
         if (src instanceof Express && target instanceof Express) {
             return op.eval(((Express) src).eval(), ((Express) target).eval());
         } else {
@@ -52,7 +52,5 @@ public class Express extends BaseEntity implements Logic {
         Integer featureId = Integer.parseInt(src.toString().replace(FEATURE_KEYWORD, ""));
         return DecisionContext.getFactMap(featureId);
     }
-
-
 
 }

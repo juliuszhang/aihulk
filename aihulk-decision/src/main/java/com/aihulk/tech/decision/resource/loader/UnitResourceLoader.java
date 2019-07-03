@@ -5,6 +5,7 @@ import com.aihulk.tech.common.mapper.FactMapper;
 import com.aihulk.tech.common.mapper.UnitMapper;
 import com.aihulk.tech.core.logic.LogicHelper;
 import com.aihulk.tech.core.resource.entity.DecisionFlow;
+import com.aihulk.tech.core.resource.entity.DecisionTable;
 import com.aihulk.tech.core.resource.entity.ExecuteUnit;
 import com.aihulk.tech.core.resource.entity.Fact;
 import com.aihulk.tech.core.resource.loader.ResourceLoader;
@@ -48,19 +49,31 @@ public class UnitResourceLoader implements ResourceLoader<Map<Integer, ExecuteUn
     }
 
     private ExecuteUnit mapExecuteUnit(Unit unit, List<Fact> facts) {
-        DecisionFlow executeUnit = new DecisionFlow();
-        executeUnit.setName(unit.getName());
-        executeUnit.setNameEn(unit.getNameEn());
-        //变量输出
-        if ("output".equals(unit.getAction())) {
-            //TODO
+        if (Unit.TYPE_DECISION_FLOW == unit.getType()) {
+            DecisionFlow executeUnit = new DecisionFlow();
+            executeUnit.setName(unit.getName());
+            executeUnit.setNameEn(unit.getNameEn());
+            executeUnit.setLogic(LogicHelper.parse(unit.getEvalStr()));
+            List<Fact> runtimeFacts = this.selectByUnitId(facts, unit.getId());
+            Map<Integer, List<Fact>> relations = Maps.newHashMap();
+            this.queryAllFactRelations(runtimeFacts, relations, facts);
+            executeUnit.setFactsWithSort(runtimeFacts, relations);
+            //变量输出
+            if ("output".equals(unit.getAction())) {
+                //TODO
+            }
+            return executeUnit;
+        } else if (Unit.TYPE_DECISION_TABLE == unit.getType()) {
+            DecisionTable decisionTable = new DecisionTable();
+            decisionTable.setRows(null);
+            decisionTable.setCols(null);
+            decisionTable.setCellMap(null);
+            return decisionTable;
+        } else {
+            // throw exception
         }
-        executeUnit.setLogic(LogicHelper.parse(unit.getExpress()));
-        List<Fact> runtimeFacts = this.selectByUnitId(facts, unit.getId());
-        Map<Integer, List<Fact>> relations = Maps.newHashMap();
-        this.queryAllFactRelations(runtimeFacts, relations, facts);
-        executeUnit.setFactsWithSort(runtimeFacts, relations);
-        return executeUnit;
+
+        return null;
     }
 
     private void queryAllFactRelations(List<Fact> facts, Map<Integer, List<Fact>> relations, List<Fact> allFacts) {

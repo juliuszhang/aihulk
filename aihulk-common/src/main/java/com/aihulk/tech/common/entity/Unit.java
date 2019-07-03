@@ -17,6 +17,10 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class Unit extends BaseEntity {
 
+    public static final Integer TYPE_DECISION_FLOW = 0;
+
+    public static final Integer TYPE_DECISION_TABLE = 1;
+
     @TableField(value = "biz_id")
     private Integer bizId;
 
@@ -29,7 +33,10 @@ public class Unit extends BaseEntity {
     @TableField(value = "action")
     private String action;
 
-    @TableField(value = "express")
-    private String express;
+    @TableField(value = "eval_str")
+    private String evalStr;
+
+    @TableField(value = "`type`")
+    private Integer Type;
 
 }

@@ -17,7 +17,7 @@ import java.util.Map;
  * @date 2019-07-0117:32
  */
 @Data
-public class DecisionTable extends ExecuteUnit {
+public class DecisionTable extends ExecuteUnit<ExecuteUnit.ExecuteUnitResponse> {
 
     private Map<String, Cell> cellMap;
 
@@ -26,7 +26,7 @@ public class DecisionTable extends ExecuteUnit {
     private List<Col> cols;
 
     @Override
-    public ExecuteUnit.ExecuteUnitResponse eval() {
+    public ExecuteUnit.ExecuteUnitResponse exec() {
         //extract features
         FactService factService = new FactService();
         factService.extractFeature(this.facts);
@@ -55,6 +55,7 @@ public class DecisionTable extends ExecuteUnit {
             }
         }
         response.setActions(firedActions);
+        response.setExecuteUnit(this);
         return response;
     }
 

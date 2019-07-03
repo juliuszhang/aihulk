@@ -1,7 +1,6 @@
 package com.aihulk.tech.core.resource.entity;
 
 import com.aihulk.tech.core.action.Action;
-import com.aihulk.tech.core.logic.EvalAble;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.Data;
@@ -22,7 +21,7 @@ import java.util.Map;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public abstract class ExecuteUnit extends BaseResource implements BasicUnit, EvalAble<ExecuteUnit.ExecuteUnitResponse> {
+public abstract class ExecuteUnit<R extends ExecuteUnit.ExecuteUnitResponse> extends BaseResource implements BasicUnit<R> {
 
     protected List<Fact> facts = Lists.newArrayList();
 
@@ -65,11 +64,24 @@ public abstract class ExecuteUnit extends BaseResource implements BasicUnit, Eva
         return UnitType.EXECUTE_UNIT;
     }
 
+    public abstract R exec();
+
     @Data
     public static class ExecuteUnitResponse {
+
+        private ExecuteUnit executeUnit;
 
         private boolean fired;
 
         private List<Action> actions;
     }
+
+    /**
+     * 执行单元类型
+     */
+    public enum ExecuteUnitType {
+        DECISION_FLOW,
+        DECISION_TABLE;
+    }
+
 }

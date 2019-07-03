@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ExecuteUnitGroup extends BaseResource implements BasicUnit {
+public class ExecuteUnitGroup extends BaseResource implements BasicUnit<List<ExecuteUnit.ExecuteUnitResponse>> {
 
     private List<ExecuteUnit> executeUnits = Lists.newArrayList();
 
@@ -23,4 +23,5 @@ public class ExecuteUnitGroup extends BaseResource implements BasicUnit {
     public UnitType getType() {
         return UnitType.EXECUTE_UNIT_GROUP;
     }
+
 }

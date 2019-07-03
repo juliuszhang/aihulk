@@ -47,7 +47,6 @@ public class DefaultEngine implements Engine {
     @Override
     public DecisionResponse decision(DecisionRequest request) {
         DecisionResponse response = new DecisionResponse();
-
         //0.param check
         Preconditions.checkArgument(request.getChainId() != null && request.getChainId() > 0, "chainId 参数不合法");
         //1.check engine status
@@ -59,10 +58,10 @@ public class DefaultEngine implements Engine {
         while (iterator.hasNext()) {
             BasicUnit basicUnit = iterator.next();
             if (basicUnit.getType() == BasicUnit.UnitType.EXECUTE_UNIT) {
-                ExecuteUnit executeUnit = (ExecuteUnit) basicUnit;
-                this.evalExecuteUnit(Arrays.asList(executeUnit), response);
+                this.evalExecuteUnits(Arrays.asList((ExecuteUnit) basicUnit), response);
             } else if (basicUnit.getType() == BasicUnit.UnitType.EXECUTE_UNIT_GROUP) {
-                this.evalExecuteUnit(((ExecuteUnitGroup) basicUnit).getExecuteUnits(), response);
+                List<ExecuteUnit> executeUnits = ((ExecuteUnitGroup) basicUnit).getExecuteUnits();
+                this.evalExecuteUnits(executeUnits, response);
             } else {
                 throw new UnsupportedOperationException("unknown basic unit type");
             }
@@ -74,13 +73,13 @@ public class DefaultEngine implements Engine {
 
     }
 
-    private void evalExecuteUnit(List<ExecuteUnit> executeUnits, DecisionResponse response) {
+    private DecisionResponse evalExecuteUnits(List<ExecuteUnit> executeUnits, DecisionResponse response) {
         List<ExecuteUnit> fireExecuteUnits = response.getFireExecuteUnits();
         List<ExecuteUnit> execRules = response.getExecExecuteUnits();
         Map<String, Object> variables = response.getVariables();
         for (ExecuteUnit executeUnit : executeUnits) {
             //run executeUnit logic
-            ExecuteUnit.ExecuteUnitResponse evalResult = executeUnit.eval();
+            ExecuteUnit.ExecuteUnitResponse evalResult = executeUnit.exec();
             if (evalResult.isFired()) {
                 fireExecuteUnits.add(executeUnit);
                 List<Action> actions = evalResult.getActions() == null
@@ -104,6 +103,7 @@ public class DefaultEngine implements Engine {
             }
             execRules.add(executeUnit);
         }
+        return response;
     }
 
     private DecisionChain getDecisionChain(Integer chainId) {

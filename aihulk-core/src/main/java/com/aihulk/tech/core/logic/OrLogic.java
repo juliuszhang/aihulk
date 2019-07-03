@@ -18,7 +18,7 @@ public class OrLogic implements Logic {
     }
 
     @Override
-    public Boolean eval() {
+    public boolean eval() {
         for (Logic logic : logics) {
             if (logic.eval()) return true;
         }
