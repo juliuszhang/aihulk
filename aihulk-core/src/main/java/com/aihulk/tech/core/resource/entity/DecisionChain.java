@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
+import java.util.Stack;
 
 /**
  * @ClassName DecisionChain
@@ -130,20 +130,20 @@ public class DecisionChain extends BaseResource {
     }
 
     /**
-     * 广度优先搜索
+     * 深度优先搜索
      */
-    private class BFSIterator implements Iterator<BasicUnit> {
+    private class DFSIterator implements Iterator<BasicUnit> {
 
         //已访问的规则集
         private List<Node> visited;
 
         //待访问的规则集
-        private Queue<Node> waitToVisit;
+        private Stack<Node> waitToVisit;
 
-        public BFSIterator(Node root) {
+        public DFSIterator(Node root) {
             this.visited = Lists.newLinkedList();
-            this.waitToVisit = Lists.newLinkedList();
-            waitToVisit.offer(root);
+            this.waitToVisit = new Stack<>();
+            waitToVisit.push(root);
         }
 
         @Override
@@ -154,7 +154,7 @@ public class DecisionChain extends BaseResource {
 
         @Override
         public BasicUnit next() {
-            Node node = waitToVisit.poll();
+            Node node = waitToVisit.pop();
             if (node == null) return null;
             //遍历节点所有的边
             for (ConditionEdge condition : node.conditions) {
@@ -162,7 +162,7 @@ public class DecisionChain extends BaseResource {
                 if (!visited.contains(target)
                         && !waitToVisit.contains(target) //判断是否访问过以及待访问的节点中是否已经包含了该目标节点
                         && condition.connected()) { //判断两个节点之间是否连通
-                    waitToVisit.offer(target);
+                    waitToVisit.push(target);
                     //默认有一个节点连通后就不访问其他节点了
                     break;
                 }
@@ -226,7 +226,7 @@ public class DecisionChain extends BaseResource {
         if (!nodes.isEmpty()) {
             //找到入度为0的node作为开始
             for (Node node : nodes) {
-                if (node.inDegree == 0) return new BFSIterator(node);
+                if (node.inDegree == 0) return new DFSIterator(node);
             }
             log.error("检测到决策链中存在环,chainId = " + this.getId());
             throw new RuleEngineException(RuleEngineException.Code.DECISION_CHAIN_HAS_CIRCLE, "决策链存在环");
