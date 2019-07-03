@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
  * @date 2019-06-2814:53
  */
 @Data
-@TableName(value = "varibale")
+@TableName(value = "variable")
 @EqualsAndHashCode(callSuper = true)
 public class Variable extends BaseEntity {
 
