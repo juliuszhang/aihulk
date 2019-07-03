@@ -23,6 +23,6 @@ public interface BasicUnit<R> {
         }
     }
 
-    UnitType getType();
+    UnitType getUnitType();
 
 }

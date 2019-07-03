@@ -24,15 +24,18 @@ public class RuleEngineException extends RuntimeException {
         this.code = code;
     }
 
-    public enum Code {
-        SUCCESS(0),
-        FAIL(-1),
-        ENGINE_INIT_FAIL(-2),
-        SCRIPT_EXEC_FAIL(-3),
-        ENGINE_NOT_INIT(-4),
-        DECISION_CHAIN_HAS_CIRCLE(-5);
+    public static class Code {
 
-        int code;
+        private int code;
+
+        public static final Code SUCCESS = new Code(0);
+        public static final Code FAIL = new Code(-1);
+        public static final Code ENGINE_INIT_FAIL = new Code(-2);
+        public static final Code SCRIPT_EXEC_FAIL = new Code(-3);
+        public static final Code ENGINE_NOT_INIT = new Code(-4);
+        public static final Code DECISION_CHAIN_HAS_CIRCLE = new Code(-5);
+        //不存在的决策树节点类型
+        public static final Code UNKNOWN_DECISION_TREE_NODE_TYPE = new Code(-6);
 
         Code(int code) {
             this.code = code;

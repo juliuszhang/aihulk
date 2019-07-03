@@ -29,7 +29,6 @@ public class DecisionFlow extends ExecuteUnit<ExecuteUnit.ExecuteUnitResponse> {
         ExecuteUnitResponse response = new ExecuteUnitResponse();
         response.setFired(fired);
         response.setActions(this.actions);
-        response.setExecuteUnit(this);
         return response;
     }
 

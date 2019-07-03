@@ -60,7 +60,7 @@ public abstract class ExecuteUnit<R extends ExecuteUnit.ExecuteUnitResponse> ext
     }
 
     @Override
-    public UnitType getType() {
+    public UnitType getUnitType() {
         return UnitType.EXECUTE_UNIT;
     }
 
@@ -69,19 +69,9 @@ public abstract class ExecuteUnit<R extends ExecuteUnit.ExecuteUnitResponse> ext
     @Data
     public static class ExecuteUnitResponse {
 
-        private ExecuteUnit executeUnit;
-
         private boolean fired;
 
         private List<Action> actions;
-    }
-
-    /**
-     * 执行单元类型
-     */
-    public enum ExecuteUnitType {
-        DECISION_FLOW,
-        DECISION_TABLE;
     }
 
 }

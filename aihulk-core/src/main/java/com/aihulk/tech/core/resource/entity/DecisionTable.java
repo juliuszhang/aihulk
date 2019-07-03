@@ -56,7 +56,6 @@ public class DecisionTable extends ExecuteUnit<ExecuteUnit.ExecuteUnitResponse> 
             }
         }
         response.setActions(firedActions);
-        response.setExecuteUnit(this);
         return response;
     }
 

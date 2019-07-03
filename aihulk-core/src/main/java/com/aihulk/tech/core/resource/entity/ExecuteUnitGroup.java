@@ -20,7 +20,7 @@ public class ExecuteUnitGroup extends BaseResource implements BasicUnit<List<Exe
     private List<ExecuteUnit> executeUnits = Lists.newArrayList();
 
     @Override
-    public UnitType getType() {
+    public UnitType getUnitType() {
         return UnitType.EXECUTE_UNIT_GROUP;
     }
 

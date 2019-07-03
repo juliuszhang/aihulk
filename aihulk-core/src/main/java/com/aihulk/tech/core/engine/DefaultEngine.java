@@ -57,9 +57,9 @@ public class DefaultEngine implements Engine {
         Iterator<BasicUnit> iterator = decisionChain.iterator();
         while (iterator.hasNext()) {
             BasicUnit basicUnit = iterator.next();
-            if (basicUnit.getType() == BasicUnit.UnitType.EXECUTE_UNIT) {
+            if (basicUnit.getUnitType() == BasicUnit.UnitType.EXECUTE_UNIT) {
                 this.evalExecuteUnits(Arrays.asList((ExecuteUnit) basicUnit), response);
-            } else if (basicUnit.getType() == BasicUnit.UnitType.EXECUTE_UNIT_GROUP) {
+            } else if (basicUnit.getUnitType() == BasicUnit.UnitType.EXECUTE_UNIT_GROUP) {
                 List<ExecuteUnit> executeUnits = ((ExecuteUnitGroup) basicUnit).getExecuteUnits();
                 this.evalExecuteUnits(executeUnits, response);
             } else {
