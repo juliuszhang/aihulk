@@ -1,9 +1,10 @@
 package com.aihulk.tech.core.resource.entity;
 
 import com.aihulk.tech.core.action.Action;
-import com.aihulk.tech.core.logic.Express;
+import com.aihulk.tech.core.logic.Logic;
 import com.aihulk.tech.core.service.FactService;
 import com.google.common.collect.Lists;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.List;
@@ -34,11 +35,11 @@ public class DecisionTable extends ExecuteUnit<ExecuteUnit.ExecuteUnitResponse> 
         ExecuteUnitResponse response = new ExecuteUnitResponse();
         List<Action> firedActions = Lists.newArrayList();
         for (Row row : rows) {
-            boolean rowHit = false;
+            boolean rowHit = true;
             for (Col col : cols) {
                 Cell cell = getCell(row.getNum(), col.getNum());
                 if (Col.TYPE_CONDITION == col.getType()) {
-                    if (!cell.express.eval()) {
+                    if (!cell.logic.eval()) {
                         rowHit = false;
                         break;
                     }
@@ -76,19 +77,22 @@ public class DecisionTable extends ExecuteUnit<ExecuteUnit.ExecuteUnitResponse> 
 
         private int rowSpan;
 
-        private Express express;
+        private Logic logic;
 
         private Action value;
     }
 
     @Data
+    @AllArgsConstructor
     public static class Row {
+
         private int num;
 
         private int height;
     }
 
     @Data
+    @AllArgsConstructor
     public static class Col {
 
         //条件列

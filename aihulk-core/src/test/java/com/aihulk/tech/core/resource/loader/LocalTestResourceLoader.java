@@ -2,6 +2,7 @@ package com.aihulk.tech.core.resource.loader;
 
 import com.aihulk.tech.core.action.OutPut;
 import com.aihulk.tech.core.logic.Express;
+import com.aihulk.tech.core.logic.LogicHelper;
 import com.aihulk.tech.core.logic.Operation;
 import com.aihulk.tech.core.resource.entity.*;
 import com.aihulk.tech.core.util.DateUtil;
@@ -81,14 +82,51 @@ public class LocalTestResourceLoader implements ResourceLoader {
         express.setTarget(subExpress2);
         express.setOp(Operation.AND);
         executeUnit.setLogic(express);
-        OutPut action = new OutPut();
-        action.setKey("a");
-        action.setObj(23891);
+        OutPut action = new OutPut("a", 23891, OutPut.MergeStrategy.NOTOVERWRITE);
         executeUnit.setActions(Arrays.asList(action));
 
-        executeUnitGroup2.setExecuteUnits(Arrays.asList(executeUnit));
+        //决策表
+        DecisionTable decisionTable = new DecisionTable();
+        decisionTable.setRows(Arrays.asList(new DecisionTable.Row(1, 1), new DecisionTable.Row(2, 2)));
+        decisionTable.setCols(Arrays.asList(new DecisionTable.Col(1, 1, "年龄", DecisionTable.Col.TYPE_CONDITION),
+                new DecisionTable.Col(2, 2, "变量a", DecisionTable.Col.TYPE_RESULT)));
+        Map<String, DecisionTable.Cell> cellMap = Maps.newHashMap();
+        DecisionTable.Cell cell1 = new DecisionTable.Cell();
+        cell1.setRow(1);
+        cell1.setCol(1);
+        cell1.setRowSpan(1);
+        cell1.setLogic(LogicHelper.parse("{\"src\":1,\"op\":\"GT\",\"dest\":2}"));
+        cellMap.put("1,1", cell1);
+
+        DecisionTable.Cell cell2 = new DecisionTable.Cell();
+        cell2.setRow(1);
+        cell2.setCol(2);
+        cell2.setRowSpan(1);
+        cell2.setValue(new OutPut("var_1", 30, OutPut.MergeStrategy.NOTOVERWRITE));
+        cellMap.put("1,2", cell2);
+
+        DecisionTable.Cell cell3 = new DecisionTable.Cell();
+        cell3.setRow(2);
+        cell3.setCol(1);
+        cell3.setRowSpan(1);
+        cell3.setLogic(LogicHelper.parse("{\"src\":2,\"op\":\"GT\",\"dest\":1}"));
+        cellMap.put("2,1", cell3);
+
+        DecisionTable.Cell cell4 = new DecisionTable.Cell();
+        cell4.setRow(2);
+        cell4.setCol(2);
+        cell4.setRowSpan(1);
+        cell4.setValue(new OutPut("var_2", 50, OutPut.MergeStrategy.NOTOVERWRITE));
+        cellMap.put("2,2", cell4);
+
+        decisionTable.setCellMap(cellMap);
+
+
+        executeUnitGroup2.setExecuteUnits(Arrays.asList(executeUnit, decisionTable));
+
         chain.add(executeUnit1);
         chain.add(executeUnitGroup2);
+
 
         DecisionChain.ConditionEdge conditionEdge = chain.new ConditionEdge();
         conditionEdge.setSrcBasicUnit(executeUnit1);

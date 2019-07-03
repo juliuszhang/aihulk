@@ -31,17 +31,13 @@ public class Express extends BaseEntity implements Logic {
 
     @Override
     public boolean eval() {
-        if (src instanceof Express && target instanceof Express) {
-            return op.eval(((Express) src).eval(), ((Express) target).eval());
-        } else {
-            if (isFeature(src)) {
-                src = getFeatureVal(src);
-            }
-            if (isFeature(target)) {
-                target = getFeatureVal(target);
-            }
-            return op.eval(src, target);
+        if (isFeature(src)) {
+            src = getFeatureVal(src);
         }
+        if (isFeature(target)) {
+            target = getFeatureVal(target);
+        }
+        return op.eval(src, target);
     }
 
     private boolean isFeature(Object src) {

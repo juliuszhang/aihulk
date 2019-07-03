@@ -1,6 +1,7 @@
 package com.aihulk.tech.core.action;
 
 import com.google.common.collect.Lists;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,6 +18,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+@AllArgsConstructor
 public class OutPut implements Action {
 
     private String key;
