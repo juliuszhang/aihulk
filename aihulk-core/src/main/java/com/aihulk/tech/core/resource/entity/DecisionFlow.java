@@ -25,9 +25,8 @@ public class DecisionFlow extends ExecuteUnit<ExecuteUnit.ExecuteUnitResponse> {
     public ExecuteUnitResponse exec() {
         FactService factService = new FactService();
         factService.extractFeature(this.facts);
-        boolean fired = logic.eval();
         ExecuteUnitResponse response = new ExecuteUnitResponse();
-        response.setFired(fired);
+        response.setFired(logic.eval());
         response.setActions(this.actions);
         return response;
     }
