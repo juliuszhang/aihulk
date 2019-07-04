@@ -1,5 +1,6 @@
 package com.aihulk.tech.manage.service;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -25,8 +26,16 @@ public abstract class BaseService<T> {
         return baseMapper.selectList(wrapper);
     }
 
+    public List<T> select(Wrapper<T> wrapper) {
+        return baseMapper.selectList(wrapper);
+    }
+
     public IPage<T> selectPage(T t, Page<T> page) {
         QueryWrapper<T> wrapper = new QueryWrapper<>(t);
+        return baseMapper.selectPage(page, wrapper);
+    }
+
+    public IPage<T> selectPage(Page<T> page, Wrapper<T> wrapper) {
         return baseMapper.selectPage(page, wrapper);
     }
 
@@ -36,6 +45,10 @@ public abstract class BaseService<T> {
 
     public T selectOne(T t) {
         QueryWrapper<T> wrapper = new QueryWrapper<>(t);
+        return baseMapper.selectOne(wrapper);
+    }
+
+    public T selectOne(Wrapper<T> wrapper) {
         return baseMapper.selectOne(wrapper);
     }
 

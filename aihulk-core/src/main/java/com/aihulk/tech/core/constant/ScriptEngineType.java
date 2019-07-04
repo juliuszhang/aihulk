@@ -1,5 +1,7 @@
 package com.aihulk.tech.core.constant;
 
+import lombok.Getter;
+
 /**
  * @ClassName ScriptEngineType
  * @Description TODO
@@ -9,6 +11,13 @@ package com.aihulk.tech.core.constant;
  */
 public enum ScriptEngineType {
 
-    JS_ENGINE
+    JS_ENGINE("js"),
+    PY_ENGINE("py");
 
+    @Getter
+    private String language;
+
+    ScriptEngineType(String language) {
+        this.language = language;
+    }
 }

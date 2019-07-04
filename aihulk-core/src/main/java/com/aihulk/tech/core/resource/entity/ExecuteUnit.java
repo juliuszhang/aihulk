@@ -71,7 +71,7 @@ public abstract class ExecuteUnit<R extends ExecuteUnit.ExecuteUnitResponse> ext
 
         private boolean fired;
 
-        private List<Action> actions;
+        private List<Action> actions = Lists.newArrayList();
     }
 
 }

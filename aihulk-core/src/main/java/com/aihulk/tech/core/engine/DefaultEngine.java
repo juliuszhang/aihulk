@@ -82,8 +82,7 @@ public class DefaultEngine implements Engine {
             ExecuteUnit.ExecuteUnitResponse evalResult = executeUnit.exec();
             if (evalResult.isFired()) {
                 fireExecuteUnits.add(executeUnit);
-                List<Action> actions = evalResult.getActions() == null
-                        ? new ArrayList<>() : evalResult.getActions();
+                List<Action> actions = evalResult.getActions();
                 for (Action action : actions) {
                     if (action instanceof OutPut) {
                         //输出一个变量
