@@ -62,7 +62,7 @@ public class UserController {
             StringBuilder builder = new StringBuilder(enableEmailUrl);
             builder.append("?username=").append(user.getUsername());
             builder.append("&token=").append(token);
-            mailService.sendMail(user.getEmail(), "邮箱激活", builder.toString());
+            mailService.sendMailASync(user.getEmail(), "邮箱激活", builder.toString());
         }
         user.setPassword(MD5Util.encrypt(user.getPassword()));
         userService.add(user);
