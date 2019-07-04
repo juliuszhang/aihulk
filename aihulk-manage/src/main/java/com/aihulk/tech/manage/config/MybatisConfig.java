@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
  * @author zhangyibo
  * @title: MybatisConfig
  * @projectName aihulk
- * @description: TODO
+ * @description: MybatisConfig
  * @date 2019-06-2719:18
  */
 @Configuration

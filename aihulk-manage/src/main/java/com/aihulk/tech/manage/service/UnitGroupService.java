@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
  * @author zhangyibo
  * @title: UnitGroupService
  * @projectName aihulk
- * @description: TODO
+ * @description: UnitGroupService
  * @date 2019-06-2815:45
  */
 @Service
