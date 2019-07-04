@@ -73,6 +73,8 @@ public abstract class BaseResponseVo<R> {
 
         //邮箱暂未认证
         public static final ManageBusinessErrorCode USER_EMAIL_UNCHECKED = new ManageBusinessErrorCode(203);
+
+        public static final ManageBusinessErrorCode USER_TOKEN_ERROR = new ManageBusinessErrorCode(204);
     }
 
 }

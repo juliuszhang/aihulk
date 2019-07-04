@@ -4,10 +4,12 @@ import com.aihulk.tech.common.entity.User;
 import com.aihulk.tech.common.util.MD5Util;
 import com.aihulk.tech.manage.constant.LoginType;
 import com.aihulk.tech.manage.exception.ManageException;
+import com.aihulk.tech.manage.service.MailService;
 import com.aihulk.tech.manage.service.UserService;
 import com.aihulk.tech.manage.vo.ResponseVo;
 import com.google.common.base.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +34,13 @@ public class UserController {
     private UserService userService;
 
     @Autowired
+    private MailService mailService;
+
+    @Autowired
     private HttpServletRequest request;
+
+    @Value("${sys-config.enable_email_url}")
+    private String enableEmailUrl;
 
     private static final String SESSION_KEY_USERNAME = "username";
     private static final String SESSION_KEY_TOKEN = "token";
@@ -42,21 +50,40 @@ public class UserController {
     public ResponseVo<User> regist(@RequestBody User user) {
         //1.param check
         checkNotNull(user, "user参数不能为空");
-        boolean userNameIsEmpty = Strings.isNullOrEmpty(user.getUsername());
+        checkArgument(!Strings.isNullOrEmpty(user.getUsername()), "用户名不能为空");
         boolean emailIsEmpty = Strings.isNullOrEmpty(user.getEmail());
         boolean mobileIsEmpty = Strings.isNullOrEmpty(user.getMobile());
-        checkArgument(!userNameIsEmpty || !emailIsEmpty || !mobileIsEmpty, "用户名|密码|手机号三者至少填写一个");
+        checkArgument(!emailIsEmpty || !mobileIsEmpty, "邮箱|手机号至少填写一个");
         checkArgument(!Strings.isNullOrEmpty(user.getPassword()), "密码不能为空");
         String token = user.initToken();
         //如果是邮箱注册
         if (!emailIsEmpty) {
             user.setEmailChecked(User.EMAIL_UNCHECKED);
-            //将token拼接到url中发送给填写的邮箱
-            //TODO mail send
+            StringBuilder builder = new StringBuilder(enableEmailUrl);
+            builder.append("?username=").append(user.getUsername());
+            builder.append("&token=").append(token);
+            mailService.sendMail(user.getEmail(), "邮箱激活", builder.toString());
         }
         user.setPassword(MD5Util.encrypt(user.getPassword()));
         userService.add(user);
         return new ResponseVo<User>().buildSuccess(user, "注册成功");
+    }
+
+    @GetMapping(value = "/enableEmail")
+    public ResponseVo<Void> enableEmail(@RequestParam(value = "username") String username, @RequestParam(value = "token") String token) {
+        User queryParam = new User();
+        queryParam.setUsername(username);
+        User user = userService.selectOne(queryParam);
+        if (user == null) {
+            throw new ManageException(ResponseVo.ManageBusinessErrorCode.USER_NOT_EXIST, username + "该用户不存在");
+        }
+        if (!token.equals(user.getToken())) {
+            throw new ManageException(ResponseVo.ManageBusinessErrorCode.USER_TOKEN_ERROR, "激活链接有误");
+        }
+
+        user.setEmailChecked(User.EMAIL_CHECKED);
+        user.initToken();
+        return new ResponseVo<Void>().buildSuccess("激活成功");
     }
 
     @PostMapping(value = "/login")

@@ -16,11 +16,7 @@ spring:
           socketFactory:
             class: javax.net.ssl.SSLSocketFactory
 
-
 #mybatis config
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
-
-sys-config:
-  enable_email_url: 'localhost:8080/user/enableEmail'
