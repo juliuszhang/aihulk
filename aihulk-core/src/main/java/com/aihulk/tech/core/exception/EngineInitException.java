@@ -2,7 +2,7 @@ package com.aihulk.tech.core.exception;
 
 /**
  * @ClassName EngineInitException
- * @Description TODO
+ * @Description EngineInitException
  * @Author yibozhang
  * @Date 2019/5/1 12:46
  * @Version 1.0

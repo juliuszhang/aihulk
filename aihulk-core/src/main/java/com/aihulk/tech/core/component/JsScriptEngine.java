@@ -1,6 +1,6 @@
 package com.aihulk.tech.core.component;
 
-import com.aihulk.tech.core.exception.ScriptExecuteException;
+import com.aihulk.tech.core.exception.RuleEngineException;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
@@ -42,12 +42,12 @@ public class JsScriptEngine implements ScriptEngine {
         //暂时先用jdk的fork join自动分配线程 后面发现性能不行再调
         List<Map<Integer, Object>> mapList = scriptInfos.parallelStream()
                 .map(this::executeOne).collect(Collectors.toList());
-        Map<Integer,Object> result = Maps.newHashMapWithExpectedSize(mapList.size());
+        Map<Integer, Object> result = Maps.newHashMapWithExpectedSize(mapList.size());
         mapList.forEach(result::putAll);
         return result;
     }
 
-    private Map<Integer,Object> executeOne(ScriptInfo scriptInfo) {
+    private Map<Integer, Object> executeOne(ScriptInfo scriptInfo) {
         try {
             //1.param check
             paramsCheck(scriptInfo);
@@ -57,12 +57,12 @@ public class JsScriptEngine implements ScriptEngine {
             bindings.putAll(scriptInfo.getParams());
             //4.eval script
             Object scriptResult = scriptEngine.eval(scriptInfo.getScript(), bindings);
-            Map<Integer,Object> result = Maps.newHashMapWithExpectedSize(1);
-            result.put(scriptInfo.getScriptId(),scriptResult);
+            Map<Integer, Object> result = Maps.newHashMapWithExpectedSize(1);
+            result.put(scriptInfo.getScriptId(), scriptResult);
             return result;
         } catch (ScriptException e) {
             log.error("execute script exception,scriptId = " + scriptInfo.getScriptId(), e);
-            throw new ScriptExecuteException("execute script exception,scriptId = "+ scriptInfo.getScriptId());
+            throw new RuleEngineException(RuleEngineException.Code.SCRIPT_EXEC_FAIL, "execute script exception,scriptId = " + scriptInfo.getScriptId());
         }
     }
 
