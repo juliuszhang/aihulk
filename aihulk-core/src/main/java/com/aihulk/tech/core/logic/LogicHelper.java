@@ -1,6 +1,6 @@
 package com.aihulk.tech.core.logic;
 
-import com.aihulk.tech.core.util.JsonUtil;
+import com.aihulk.tech.common.util.JsonUtil;
 
 import java.util.List;
 import java.util.Map;

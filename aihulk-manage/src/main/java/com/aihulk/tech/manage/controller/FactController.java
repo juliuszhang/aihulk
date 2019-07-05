@@ -1,6 +1,6 @@
 package com.aihulk.tech.manage.controller;
 
-import com.aihulk.tech.common.entity.Fact;
+import com.aihulk.tech.entity.entity.Fact;
 import com.aihulk.tech.manage.service.FactService;
 import com.aihulk.tech.manage.vo.ResponseVo;
 import com.google.common.base.Strings;

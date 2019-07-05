@@ -1,11 +1,11 @@
 package com.aihulk.tech.core.service;
 
+import com.aihulk.tech.common.util.JsonUtil;
 import com.aihulk.tech.core.component.ScriptEngine;
 import com.aihulk.tech.core.config.RuleEngineConfig;
 import com.aihulk.tech.core.context.DecisionContext;
 import com.aihulk.tech.core.exception.EngineInitException;
 import com.aihulk.tech.core.resource.entity.Fact;
-import com.aihulk.tech.core.util.JsonUtil;
 
 import java.util.List;
 import java.util.Map;

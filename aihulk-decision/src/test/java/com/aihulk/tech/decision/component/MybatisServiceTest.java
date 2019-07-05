@@ -1,9 +1,9 @@
 package com.aihulk.tech.decision.component;
 
-import com.aihulk.tech.common.entity.Business;
-import com.aihulk.tech.common.entity.Fact;
-import com.aihulk.tech.common.mapper.BusinessMapper;
-import com.aihulk.tech.common.mapper.FactMapper;
+import com.aihulk.tech.entity.entity.Business;
+import com.aihulk.tech.entity.entity.Fact;
+import com.aihulk.tech.entity.mapper.BusinessMapper;
+import com.aihulk.tech.entity.mapper.FactMapper;
 import org.junit.Test;
 
 import java.util.List;

@@ -1,5 +1,6 @@
 package com.aihulk.tech.core.resource.entity;
 
+import com.aihulk.tech.common.constant.UnitType;
 import com.aihulk.tech.core.action.Action;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -21,7 +22,7 @@ import java.util.Map;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public abstract class ExecuteUnit<R extends ExecuteUnit.ExecuteUnitResponse> extends BaseResource implements BasicUnit<R> {
+public abstract class ExecuteUnit<R extends ExecuteUnit.ExecuteUnitResponse> extends BaseResource implements BasicUnit {
 
     protected List<Fact> facts = Lists.newArrayList();
 
@@ -71,7 +72,7 @@ public abstract class ExecuteUnit<R extends ExecuteUnit.ExecuteUnitResponse> ext
 
         private boolean fired;
 
-        private List<Action> actions = Lists.newArrayList();
+        private List<Action> actions;
     }
 
 }

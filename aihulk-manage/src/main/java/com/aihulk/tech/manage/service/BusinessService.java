@@ -1,6 +1,6 @@
 package com.aihulk.tech.manage.service;
 
-import com.aihulk.tech.common.entity.Business;
+import com.aihulk.tech.entity.entity.Business;
 import org.springframework.stereotype.Service;
 
 /**

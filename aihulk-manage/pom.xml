@@ -24,7 +24,7 @@
     <dependencies>
         <dependency>
             <groupId>com.aihulk.tech</groupId>
-            <artifactId>aihulk-common</artifactId>
+            <artifactId>aihulk-entity</artifactId>
             <version>1.0-SNAPSHOT</version>
             <exclusions>
                 <exclusion>

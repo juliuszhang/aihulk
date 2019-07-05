@@ -1,15 +1,14 @@
 package com.aihulk.tech.decision.resource.loader;
 
-import com.aihulk.tech.common.entity.Unit;
-import com.aihulk.tech.common.mapper.FactMapper;
-import com.aihulk.tech.common.mapper.UnitMapper;
-import com.aihulk.tech.core.logic.LogicHelper;
 import com.aihulk.tech.core.resource.entity.DecisionFlow;
 import com.aihulk.tech.core.resource.entity.DecisionTable;
 import com.aihulk.tech.core.resource.entity.ExecuteUnit;
 import com.aihulk.tech.core.resource.entity.Fact;
 import com.aihulk.tech.core.resource.loader.ResourceLoader;
 import com.aihulk.tech.decision.component.MybatisService;
+import com.aihulk.tech.entity.entity.Unit;
+import com.aihulk.tech.entity.mapper.FactMapper;
+import com.aihulk.tech.entity.mapper.UnitMapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Maps;
 import org.apache.ibatis.session.SqlSession;
@@ -53,15 +52,16 @@ public class UnitResourceLoader implements ResourceLoader<Map<Integer, ExecuteUn
             DecisionFlow executeUnit = new DecisionFlow();
             executeUnit.setName(unit.getName());
             executeUnit.setNameEn(unit.getNameEn());
-            executeUnit.setLogic(LogicHelper.parse(unit.getEvalStr()));
+            //TODO query from logic table
+//            executeUnit.setLogic(LogicHelper.parse(unit.()));
             List<Fact> runtimeFacts = this.selectByUnitId(facts, unit.getId());
             Map<Integer, List<Fact>> relations = Maps.newHashMap();
             this.queryAllFactRelations(runtimeFacts, relations, facts);
             executeUnit.setFactsWithSort(runtimeFacts, relations);
             //变量输出
-            if ("output".equals(unit.getAction())) {
+//            if ("output".equals(unit.getAction())) {
                 //TODO
-            }
+//            }
             return executeUnit;
         } else if (Unit.TYPE_DECISION_TABLE == unit.getType()) {
             DecisionTable decisionTable = new DecisionTable();

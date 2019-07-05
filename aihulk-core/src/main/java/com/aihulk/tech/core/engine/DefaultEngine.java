@@ -1,5 +1,6 @@
 package com.aihulk.tech.core.engine;
 
+import com.aihulk.tech.common.constant.UnitType;
 import com.aihulk.tech.core.action.Action;
 import com.aihulk.tech.core.action.OutPut;
 import com.aihulk.tech.core.config.RuleEngineConfig;
@@ -57,9 +58,9 @@ public class DefaultEngine implements Engine {
         Iterator<BasicUnit> iterator = decisionChain.iterator();
         while (iterator.hasNext()) {
             BasicUnit basicUnit = iterator.next();
-            if (basicUnit.getUnitType() == BasicUnit.UnitType.EXECUTE_UNIT) {
+            if (basicUnit.getUnitType() == UnitType.EXECUTE_UNIT) {
                 this.evalExecuteUnits(Arrays.asList((ExecuteUnit) basicUnit), response);
-            } else if (basicUnit.getUnitType() == BasicUnit.UnitType.EXECUTE_UNIT_GROUP) {
+            } else if (basicUnit.getUnitType() == UnitType.EXECUTE_UNIT_GROUP) {
                 List<ExecuteUnit> executeUnits = ((ExecuteUnitGroup) basicUnit).getExecuteUnits();
                 this.evalExecuteUnits(executeUnits, response);
             } else {
@@ -83,6 +84,7 @@ public class DefaultEngine implements Engine {
             if (evalResult.isFired()) {
                 fireExecuteUnits.add(executeUnit);
                 List<Action> actions = evalResult.getActions();
+                if (actions == null) actions = Collections.EMPTY_LIST;
                 for (Action action : actions) {
                     if (action instanceof OutPut) {
                         //输出一个变量

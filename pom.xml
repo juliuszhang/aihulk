@@ -13,6 +13,7 @@
         <module>aihulk-core</module>
         <module>aihulk-decision</module>
         <module>aihulk-manage</module>
+        <module>aihulk-entity</module>
     </modules>
 
     <name>aihulk</name>

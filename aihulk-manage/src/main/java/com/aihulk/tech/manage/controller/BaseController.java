@@ -1,6 +1,6 @@
 package com.aihulk.tech.manage.controller;
 
-import com.aihulk.tech.common.entity.BaseEntity;
+import com.aihulk.tech.entity.entity.BaseEntity;
 import com.aihulk.tech.manage.service.BaseService;
 import com.aihulk.tech.manage.vo.BaseResponseVo;
 import com.aihulk.tech.manage.vo.ResponsePageVo;

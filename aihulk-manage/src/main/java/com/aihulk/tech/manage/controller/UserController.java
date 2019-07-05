@@ -1,7 +1,7 @@
 package com.aihulk.tech.manage.controller;
 
-import com.aihulk.tech.common.entity.User;
 import com.aihulk.tech.common.util.MD5Util;
+import com.aihulk.tech.entity.entity.User;
 import com.aihulk.tech.manage.constant.LoginType;
 import com.aihulk.tech.manage.exception.ManageException;
 import com.aihulk.tech.manage.service.MailService;
@@ -23,7 +23,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @author zhangyibo
  * @title: UserController
  * @projectName aihulk
- * @description: TODO
+ * @description: UserController
  * @date 2019-06-2810:59
  */
 @RestController

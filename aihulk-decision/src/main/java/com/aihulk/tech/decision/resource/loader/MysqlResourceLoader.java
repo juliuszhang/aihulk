@@ -1,16 +1,15 @@
 package com.aihulk.tech.decision.resource.loader;
 
-import com.aihulk.tech.common.entity.Chain;
-import com.aihulk.tech.common.entity.Unit;
-import com.aihulk.tech.common.entity.UnitGroup;
-import com.aihulk.tech.common.mapper.ChainMapper;
-import com.aihulk.tech.common.mapper.FactMapper;
-import com.aihulk.tech.common.mapper.UnitGroupMapper;
-import com.aihulk.tech.common.mapper.UnitMapper;
-import com.aihulk.tech.core.logic.LogicHelper;
 import com.aihulk.tech.core.resource.entity.*;
 import com.aihulk.tech.core.resource.loader.ResourceLoader;
 import com.aihulk.tech.decision.component.MybatisService;
+import com.aihulk.tech.entity.entity.Chain;
+import com.aihulk.tech.entity.entity.Unit;
+import com.aihulk.tech.entity.entity.UnitGroup;
+import com.aihulk.tech.entity.mapper.ChainMapper;
+import com.aihulk.tech.entity.mapper.FactMapper;
+import com.aihulk.tech.entity.mapper.UnitGroupMapper;
+import com.aihulk.tech.entity.mapper.UnitMapper;
 import com.google.common.collect.Lists;
 import org.apache.ibatis.session.SqlSession;
 
@@ -65,7 +64,7 @@ public class MysqlResourceLoader implements ResourceLoader<Resource> {
                     coreExecuteUnit.setName(unit.getName());
                     coreExecuteUnit.setNameEn(unit.getNameEn());
                     coreExecuteUnit.setFacts(getFeatures(SQL_SESSION, unit.getId()));
-                    coreExecuteUnit.setLogic(LogicHelper.parse(unit.getEvalStr()));
+//                    coreExecuteUnit.setLogic(LogicHelper.parse(unit.getEvalStr()));
 //                    coreExecuteUnit.setAction();
                     coreExecuteUnits.add(coreExecuteUnit);
                 }
@@ -85,9 +84,9 @@ public class MysqlResourceLoader implements ResourceLoader<Resource> {
 
     private List<Fact> getFeatures(SqlSession sqlSession, Integer ruleId) {
         FactMapper factMapper = sqlSession.getMapper(FactMapper.class);
-        List<com.aihulk.tech.common.entity.Fact> facts = factMapper.selectByUnitId(ruleId);
+        List<com.aihulk.tech.entity.entity.Fact> facts = factMapper.selectByUnitId(ruleId);
         List<Fact> coreFacts = Lists.newArrayListWithCapacity(facts.size());
-        for (com.aihulk.tech.common.entity.Fact fact : facts) {
+        for (com.aihulk.tech.entity.entity.Fact fact : facts) {
             Fact coreFact = new Fact();
             coreFact.setId(fact.getId());
             coreFact.setName(fact.getName());

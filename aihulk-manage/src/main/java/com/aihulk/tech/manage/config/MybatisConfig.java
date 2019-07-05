@@ -1,6 +1,6 @@
 package com.aihulk.tech.manage.config;
 
-import com.aihulk.tech.common.component.SysFieldAutoSetHandler;
+import com.aihulk.tech.entity.component.SysFieldAutoSetHandler;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import org.springframework.context.annotation.Bean;

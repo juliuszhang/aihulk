@@ -1,13 +1,14 @@
 package com.aihulk.tech.decision.resource.loader;
 
-import com.aihulk.tech.common.entity.Chain;
-import com.aihulk.tech.common.mapper.ChainMapper;
+import com.aihulk.tech.common.constant.UnitType;
 import com.aihulk.tech.core.resource.entity.BasicUnit;
 import com.aihulk.tech.core.resource.entity.DecisionChain;
 import com.aihulk.tech.core.resource.entity.ExecuteUnit;
 import com.aihulk.tech.core.resource.entity.ExecuteUnitGroup;
 import com.aihulk.tech.core.resource.loader.ResourceLoader;
 import com.aihulk.tech.decision.component.MybatisService;
+import com.aihulk.tech.entity.entity.Chain;
+import com.aihulk.tech.entity.mapper.ChainMapper;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Maps;
@@ -27,8 +28,8 @@ import java.util.stream.Collectors;
  */
 public class ChainResourceLoader implements ResourceLoader<List<DecisionChain>> {
 
-    private static final int CHAIN_UNIT_RELATION_TYPE_UNIT = BasicUnit.UnitType.EXECUTE_UNIT.getVal();
-    private static final int CHAIN_UNIT_RELATION_TYPE_UNIT_GROUP = BasicUnit.UnitType.EXECUTE_UNIT_GROUP.getVal();
+    private static final int CHAIN_UNIT_RELATION_TYPE_UNIT = UnitType.EXECUTE_UNIT.getVal();
+    private static final int CHAIN_UNIT_RELATION_TYPE_UNIT_GROUP = UnitType.EXECUTE_UNIT_GROUP.getVal();
 
     private UnitResourceLoader unitResourceLoader = new UnitResourceLoader();
 

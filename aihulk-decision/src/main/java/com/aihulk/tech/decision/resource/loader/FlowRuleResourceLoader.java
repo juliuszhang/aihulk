@@ -1,15 +1,15 @@
 package com.aihulk.tech.decision.resource.loader;
 
-import com.aihulk.tech.common.entity.FlowRule;
-import com.aihulk.tech.common.mapper.FlowRuleMapper;
+import com.aihulk.tech.common.constant.UnitType;
 import com.aihulk.tech.core.exception.EngineInitException;
-import com.aihulk.tech.core.logic.LogicHelper;
 import com.aihulk.tech.core.resource.entity.BasicUnit;
 import com.aihulk.tech.core.resource.entity.DecisionChain;
 import com.aihulk.tech.core.resource.entity.ExecuteUnit;
 import com.aihulk.tech.core.resource.entity.ExecuteUnitGroup;
 import com.aihulk.tech.core.resource.loader.ResourceLoader;
 import com.aihulk.tech.decision.component.MybatisService;
+import com.aihulk.tech.entity.entity.FlowRule;
+import com.aihulk.tech.entity.mapper.FlowRuleMapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Maps;
 import org.apache.ibatis.session.SqlSession;
@@ -58,22 +58,23 @@ public class FlowRuleResourceLoader implements ResourceLoader<Map<Integer, List<
         Map<Integer, List<DecisionChain.ConditionEdge>> resultMap = Maps.newHashMap();
         for (FlowRule flowRule : flowRules) {
             DecisionChain.ConditionEdge conditionEdge = new DecisionChain().new ConditionEdge();
-            conditionEdge.setLogic(LogicHelper.parse(flowRule.getExpress()));
+            //TODO query from logic table
+//            conditionEdge.setLogic(LogicHelper.parse(flowRule.getExpress()));
             Integer srcId = flowRule.getSrcId();
             Integer destId = flowRule.getDestId();
             BasicUnit src;
             BasicUnit dest;
-            if (flowRule.getSrcType() == BasicUnit.UnitType.EXECUTE_UNIT.getVal()) {
+            if (flowRule.getSrcType() == UnitType.EXECUTE_UNIT.getVal()) {
                 src = unitMap.get(srcId);
-            } else if (flowRule.getSrcType() == BasicUnit.UnitType.EXECUTE_UNIT_GROUP.getVal()) {
+            } else if (flowRule.getSrcType() == UnitType.EXECUTE_UNIT_GROUP.getVal()) {
                 src = unitGroupMap.get(srcId);
             } else {
                 throw new EngineInitException("未知的执行单元类型srcType = " + flowRule.getSrcType());
             }
 
-            if (flowRule.getDestType() == BasicUnit.UnitType.EXECUTE_UNIT.getVal()) {
+            if (flowRule.getDestType() == UnitType.EXECUTE_UNIT.getVal()) {
                 dest = unitMap.get(destId);
-            } else if (flowRule.getDestType() == BasicUnit.UnitType.EXECUTE_UNIT_GROUP.getVal()) {
+            } else if (flowRule.getDestType() == UnitType.EXECUTE_UNIT_GROUP.getVal()) {
                 dest = unitGroupMap.get(destId);
             } else {
                 throw new EngineInitException("未知的执行单元类型destType = " + flowRule.getDestType());

@@ -1,9 +1,9 @@
 package com.aihulk.tech.decision.resource.loader;
 
-import com.aihulk.tech.common.entity.Fact;
-import com.aihulk.tech.common.mapper.FactMapper;
 import com.aihulk.tech.core.resource.loader.ResourceLoader;
 import com.aihulk.tech.decision.component.MybatisService;
+import com.aihulk.tech.entity.entity.Fact;
+import com.aihulk.tech.entity.mapper.FactMapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.apache.ibatis.session.SqlSession;
 

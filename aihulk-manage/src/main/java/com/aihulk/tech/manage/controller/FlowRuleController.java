@@ -1,6 +1,6 @@
 package com.aihulk.tech.manage.controller;
 
-import com.aihulk.tech.common.entity.FlowRule;
+import com.aihulk.tech.entity.entity.FlowRule;
 import com.aihulk.tech.manage.service.FlowRuleService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

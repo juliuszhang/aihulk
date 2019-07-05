@@ -21,6 +21,8 @@ spring:
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
+  global-config:
+    banner: false
 
 sys-config:
   enable_email_url: 'localhost:8080/user/enableEmail'

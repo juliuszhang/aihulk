@@ -4,7 +4,7 @@ import org.yaml.snakeyaml.Yaml;
 
 /**
  * @ClassName DecisionConfig
- * @Description TODO
+ * @Description DecisionConfig
  * @Author yibozhang
  * @Date 2019/5/1 20:18
  * @Version 1.0

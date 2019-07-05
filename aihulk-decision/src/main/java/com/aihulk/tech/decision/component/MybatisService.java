@@ -5,7 +5,6 @@ import com.aihulk.tech.decision.config.DecisionConfigEntity;
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import org.apache.ibatis.datasource.pooled.PooledDataSource;
 import org.apache.ibatis.mapping.Environment;
-import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -36,7 +35,7 @@ public class MybatisService {
 
     private static final String DEFAULT_ENV_ID = "default";
 
-    private static final String BASE_SCAN_PACKAGE = "com.aihulk.tech.common.mapper";
+    private static final String BASE_SCAN_PACKAGE = "com.aihulk.tech.entity.mapper";
 
     private static volatile MybatisService INSTANCE;
 
@@ -61,7 +60,8 @@ public class MybatisService {
         Environment env = new Environment(DEFAULT_ENV_ID, transactionFactory, dataSource);
 
         //set env
-        Configuration configuration = new MybatisConfiguration();
+        MybatisConfiguration configuration = new MybatisConfiguration();
+        configuration.setMapUnderscoreToCamelCase(true);
         configuration.setEnvironment(env);
         configuration.addMappers(BASE_SCAN_PACKAGE);
         sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
