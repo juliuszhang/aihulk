@@ -15,7 +15,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class OutPut implements Action {
+public class OutPut extends Action {
 
     private String key;
 

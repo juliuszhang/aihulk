@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public interface VariableMapper extends BaseMapper<Variable> {
 
-    @Select(value = "SELECT v.*,avr.value FROM action_variable_relation avr,variable v" +
+    @Select(value = "SELECT v.*,avr.value,avr.action_id FROM action_variable_relation avr,variable v" +
             " WHERE avr.variable_id = v.id")
     List<Map<String, Object>> selectAll();
 

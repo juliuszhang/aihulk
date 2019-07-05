@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
  * @description: 调用本地方法
  * @date 2019-07-0515:59
  */
-public class InvokeMethod implements Action {
+public class InvokeMethod extends Action {
 
     private Class<?> clazz;
 

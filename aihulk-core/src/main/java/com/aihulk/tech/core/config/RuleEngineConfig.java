@@ -9,7 +9,7 @@ import org.yaml.snakeyaml.Yaml;
 
 /**
  * @ClassName RuleEngineConfig
- * @Description TODO
+ * @Description RuleEngineConfig
  * @Author yibozhang
  * @Date 2019/5/1 12:48
  * @Version 1.0

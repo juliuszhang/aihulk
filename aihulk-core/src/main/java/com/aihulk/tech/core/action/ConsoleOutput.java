@@ -12,7 +12,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class ConsoleOutput implements Action {
+public class ConsoleOutput extends Action {
 
     private Object outPutValue;
 

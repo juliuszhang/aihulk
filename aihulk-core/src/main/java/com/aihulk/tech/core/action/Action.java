@@ -1,9 +1,12 @@
 package com.aihulk.tech.core.action;
 
-public interface Action {
+import lombok.Getter;
+import lombok.Setter;
 
-    default String getActionName() {
-        return this.getClass().getSimpleName();
-    }
+@Getter
+@Setter
+public abstract class Action {
+
+    private Integer id;
 
 }

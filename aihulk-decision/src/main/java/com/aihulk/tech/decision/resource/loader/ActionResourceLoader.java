@@ -34,7 +34,7 @@ public class ActionResourceLoader implements ResourceLoader<List<Action>> {
 
         List<Map<String, Object>> variables = variableMapper.selectAll();
         //以actionId作为key
-        Map<Object, Map<String, Object>> variableMap = variables.stream().collect(Collectors.toMap(map -> map.get("actionId"), Function.identity()));
+        Map<Integer, Map<String, Object>> variableMap = variables.stream().collect(Collectors.toMap(map -> (Integer) map.get("actionId"), Function.identity()));
 
         List<Action> results = Lists.newArrayListWithExpectedSize(dbActions.size());
         for (com.aihulk.tech.entity.entity.Action dbAction : dbActions) {
@@ -45,6 +45,7 @@ public class ActionResourceLoader implements ResourceLoader<List<Action>> {
                 Object value = variable.get("value");
                 Integer mergeStrategy = (Integer) variable.get("mergeStrategy");
                 Action action = new OutPut(nameEn, value, mergeStrategy);
+                action.setId(dbAction.getId());
                 results.add(action);
             }
         }

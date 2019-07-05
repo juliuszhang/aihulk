@@ -186,10 +186,10 @@ create table action_variable_relation
 		primary key comment '主键',
 	action_id int(11) null comment '动作id',
 	variable_id int(11) null comment '变量id',
-	value int(11) null comment '变量值',
+	value varchar(32) null comment '变量值',
 	create_time varchar(19) null comment '创建时间',
 	update_time varchar(19) null comment '更新时间',
-	deleted tinyint(1) null DEFAULT 0 comment '逻辑删除字段',
+	deleted tinyint(1) null DEFAULT 0 comment '逻辑删除字段'
 ) comment '决策链执行单元关联表';
 
 create table `user`

@@ -13,7 +13,6 @@ import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 
 public class MybatisService {
 
@@ -72,19 +71,23 @@ public class MybatisService {
     }
 
 
-    private SqlSession getSqlSession() {
-        SqlSession sqlSessionProxy = SQL_SESSIONS.get();
-        if (sqlSessionProxy == null) {
-            SqlSession sqlSession = sqlSessionFactory.openSession(true);
-            sqlSessionProxy = (SqlSession) Proxy.newProxyInstance(MybatisService.class.getClassLoader(), new Class<?>[]{SqlSession.class}, new SqlSessionProxy(sqlSession));
-            SQL_SESSIONS.set(sqlSessionProxy);
+    public SqlSession getSqlSession() {
+        SqlSession sqlSession = SQL_SESSIONS.get();
+        if (sqlSession == null) {
+            sqlSession = sqlSessionFactory.openSession(true);
+//            sqlSessionProxy = (SqlSession) Proxy.newProxyInstance(MybatisService.class.getClassLoader(), new Class<?>[]{SqlSession.class}, new SqlSessionProxy(sqlSession));
+            SQL_SESSIONS.set(sqlSession);
         }
-        return sqlSessionProxy;
+        return sqlSession;
     }
 
 
     public static <T> T getMapper(Class<T> mapperClass) {
         return getInstance().getSqlSession().getMapper(mapperClass);
+    }
+
+    public static <T> void addMapper(Class<T> mapperClass) {
+        getInstance().sqlSessionFactory.getConfiguration().addMapper(mapperClass);
     }
 
     /**
