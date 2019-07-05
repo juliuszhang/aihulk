@@ -1,5 +1,6 @@
 package com.aihulk.tech.core.resource.loader;
 
+import com.aihulk.tech.common.constant.MergeStrategy;
 import com.aihulk.tech.common.util.DateUtil;
 import com.aihulk.tech.core.action.OutPut;
 import com.aihulk.tech.core.logic.Express;
@@ -82,7 +83,7 @@ public class LocalTestResourceLoader implements ResourceLoader {
         express.setTarget(subExpress2);
         express.setOp(Operation.AND);
         executeUnit.setLogic(express);
-        OutPut action = new OutPut("a", 23891, OutPut.MergeStrategy.NOTOVERWRITE);
+        OutPut action = new OutPut("a", 23891, MergeStrategy.NOTOVERWRITE.getVal());
         executeUnit.setActions(Arrays.asList(action));
 
         //决策表
@@ -102,7 +103,7 @@ public class LocalTestResourceLoader implements ResourceLoader {
         cell2.setRow(1);
         cell2.setCol(2);
         cell2.setRowSpan(1);
-        cell2.setValue(new OutPut("var_1", 30, OutPut.MergeStrategy.NOTOVERWRITE));
+        cell2.setValue(new OutPut("var_1", 30, MergeStrategy.NOTOVERWRITE.getVal()));
         cellMap.put("1,2", cell2);
 
         DecisionTable.Cell cell3 = new DecisionTable.Cell();
@@ -116,7 +117,7 @@ public class LocalTestResourceLoader implements ResourceLoader {
         cell4.setRow(2);
         cell4.setCol(2);
         cell4.setRowSpan(1);
-        cell4.setValue(new OutPut("var_2", 50, OutPut.MergeStrategy.NOTOVERWRITE));
+        cell4.setValue(new OutPut("var_2", 50, MergeStrategy.NOTOVERWRITE.getVal()));
         cellMap.put("2,2", cell4);
 
         decisionTable.setCellMap(cellMap);

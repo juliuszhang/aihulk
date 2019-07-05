@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
  * @author zhangyibo
  * @title: RegexUtil
  * @projectName aihulk
- * @description: TODO
+ * @description: RegexUtil
  * @date 2019-06-2811:29
  */
 public class RegexUtil {

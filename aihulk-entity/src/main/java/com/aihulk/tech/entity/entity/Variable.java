@@ -58,4 +58,5 @@ public class Variable extends BaseEntity {
     public Integer getChainStrategy() {
         return this.mergeStrategy & MERGE_STRATEGY_CHAIN_MASK;
     }
+
 }

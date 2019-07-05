@@ -1,12 +1,9 @@
 package com.aihulk.tech.core.action;
 
-import com.google.common.collect.Lists;
-import lombok.AllArgsConstructor;
+import com.aihulk.tech.common.constant.MergeStrategy;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.List;
 
 /**
  * @ClassName OutPut
@@ -18,49 +15,35 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-@AllArgsConstructor
 public class OutPut implements Action {
 
     private String key;
 
     private Object obj;
 
-    private MergeStrategy mergeStrategy;
+    private MergeStrategy unitMergeStrategy;
+
+    private MergeStrategy chainMergeStrategy;
+
+    //高位表示决策链合并逻辑
+    public static final Integer MERGE_STRATEGY_CHAIN_MASK = 1 << 1;
+    //低位表示执行单元合并逻辑
+    public static final Integer MERGE_STRATEGY_UNIT_MASK = 1 << 0;
 
 
-    /**
-     * merge 策略
-     */
-    public enum MergeStrategy {
-
-        OVERWRITE {
-            @Override
-            public Object merge(Object obj1, Object obj2) {
-                return obj2;
+    public OutPut(String key, Object obj, Integer allMergeStrategy) {
+        this.key = key;
+        this.obj = obj;
+        Integer unitStrategy = allMergeStrategy & MERGE_STRATEGY_UNIT_MASK;
+        Integer chainStrategy = allMergeStrategy & MERGE_STRATEGY_CHAIN_MASK;
+        for (MergeStrategy value : MergeStrategy.values()) {
+            if (value.getVal() == unitStrategy) {
+                this.unitMergeStrategy = value;
             }
-        },
-        ALL {
-            @Override
-            public Object merge(Object obj1, Object obj2) {
-                if (obj1 instanceof List) {
-                    ((List) obj1).add(obj2);
-                    return obj1;
-                } else {
-                    List<Object> list = Lists.newArrayList();
-                    list.add(obj1);
-                    list.add(obj2);
-                    return list;
-                }
+            if (value.getVal() == (chainStrategy >> 1)) {
+                this.chainMergeStrategy = value;
             }
-        },
-        NOTOVERWRITE {
-            @Override
-            public Object merge(Object obj1, Object obj2) {
-                return obj1;
-            }
-        };
-
-        public abstract Object merge(Object obj1, Object obj2);
-
+        }
     }
+
 }

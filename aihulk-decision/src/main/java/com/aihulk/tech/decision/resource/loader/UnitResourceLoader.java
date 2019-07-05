@@ -1,13 +1,16 @@
 package com.aihulk.tech.decision.resource.loader;
 
+import com.aihulk.tech.core.logic.LogicHelper;
 import com.aihulk.tech.core.resource.entity.DecisionFlow;
 import com.aihulk.tech.core.resource.entity.DecisionTable;
 import com.aihulk.tech.core.resource.entity.ExecuteUnit;
 import com.aihulk.tech.core.resource.entity.Fact;
 import com.aihulk.tech.core.resource.loader.ResourceLoader;
 import com.aihulk.tech.decision.component.MybatisService;
+import com.aihulk.tech.entity.entity.Logic;
 import com.aihulk.tech.entity.entity.Unit;
 import com.aihulk.tech.entity.mapper.FactMapper;
+import com.aihulk.tech.entity.mapper.LogicMapper;
 import com.aihulk.tech.entity.mapper.UnitMapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Maps;
@@ -22,7 +25,7 @@ import java.util.stream.Collectors;
  * @author zhangyibo
  * @title: UnitResourceLoader
  * @projectName aihulk
- * @description: TODO
+ * @description: UnitResourceLoader
  * @date 2019-06-2819:01
  */
 public class UnitResourceLoader implements ResourceLoader<Map<Integer, ExecuteUnit>> {
@@ -52,15 +55,18 @@ public class UnitResourceLoader implements ResourceLoader<Map<Integer, ExecuteUn
             DecisionFlow executeUnit = new DecisionFlow();
             executeUnit.setName(unit.getName());
             executeUnit.setNameEn(unit.getNameEn());
-            //TODO query from logic table
-//            executeUnit.setLogic(LogicHelper.parse(unit.()));
+            SqlSession sqlSession = MybatisService.getInstance().getSqlSession();
+            LogicMapper logicMapper = sqlSession.getMapper(LogicMapper.class);
+            List<Logic> logics = logicMapper.selectList(new QueryWrapper<>());
+            Logic logic = this.selectLogicById(logics, unit.getId());
+            executeUnit.setLogic(LogicHelper.parse(logic.getLogicExp()));
             List<Fact> runtimeFacts = this.selectByUnitId(facts, unit.getId());
             Map<Integer, List<Fact>> relations = Maps.newHashMap();
             this.queryAllFactRelations(runtimeFacts, relations, facts);
             executeUnit.setFactsWithSort(runtimeFacts, relations);
             //变量输出
 //            if ("output".equals(unit.getAction())) {
-                //TODO
+            //TODO
 //            }
             return executeUnit;
         } else if (Unit.TYPE_DECISION_TABLE == unit.getType()) {
@@ -95,6 +101,12 @@ public class UnitResourceLoader implements ResourceLoader<Map<Integer, ExecuteUn
 
     private List<Fact> selectByIds(List<Fact> facts, List<Integer> ids) {
         return facts.stream().filter(fact -> ids.contains(fact.getId())).collect(Collectors.toList());
+    }
+
+    public Logic selectLogicById(List<Logic> logics, Integer id) {
+        List<Logic> logicList = logics.stream().filter(logic -> logic.getRelationId() == id).collect(Collectors.toList());
+        if (!logicList.isEmpty()) return logicList.get(0);
+        else return null;
     }
 
 }

@@ -1,5 +1,6 @@
 package com.aihulk.tech.core.engine;
 
+import com.aihulk.tech.common.constant.MergeStrategy;
 import com.aihulk.tech.common.constant.UnitType;
 import com.aihulk.tech.core.action.Action;
 import com.aihulk.tech.core.action.OutPut;
@@ -66,6 +67,7 @@ public class DefaultEngine implements Engine {
             } else {
                 throw new UnsupportedOperationException("unknown basic unit type");
             }
+            //TODO chain范围内的变量merge
         }
 
         response.setStatus(0);
@@ -93,7 +95,7 @@ public class DefaultEngine implements Engine {
                         Object obj = outPut.getObj();
                         if (variables.containsKey(key)) {
                             //变量合并逻辑
-                            OutPut.MergeStrategy mergeStrategy = outPut.getMergeStrategy();
+                            MergeStrategy mergeStrategy = outPut.getUnitMergeStrategy();
                             Object mergeResult = mergeStrategy.merge(variables.get(key), obj);
                             variables.put(key, mergeResult);
                         } else {

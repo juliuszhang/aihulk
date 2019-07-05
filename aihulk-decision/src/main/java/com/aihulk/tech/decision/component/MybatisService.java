@@ -11,6 +11,10 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+
 public class MybatisService {
 
     private ThreadLocal<SqlSession> SQL_SESSIONS = new ThreadLocal<>();
@@ -67,13 +71,41 @@ public class MybatisService {
         sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
     }
 
-    public SqlSession getSqlSession() {
-        SqlSession session = SQL_SESSIONS.get();
-        if (session == null) {
-            session = sqlSessionFactory.openSession(true);
-            SQL_SESSIONS.set(session);
+
+    private SqlSession getSqlSession() {
+        SqlSession sqlSessionProxy = SQL_SESSIONS.get();
+        if (sqlSessionProxy == null) {
+            SqlSession sqlSession = sqlSessionFactory.openSession(true);
+            sqlSessionProxy = (SqlSession) Proxy.newProxyInstance(MybatisService.class.getClassLoader(), new Class<?>[]{SqlSession.class}, new SqlSessionProxy(sqlSession));
+            SQL_SESSIONS.set(sqlSessionProxy);
         }
-        return session;
+        return sqlSessionProxy;
+    }
+
+
+    public static <T> T getMapper(Class<T> mapperClass) {
+        return getInstance().getSqlSession().getMapper(mapperClass);
+    }
+
+    /**
+     * 做一层代理自动close
+     */
+    private class SqlSessionProxy implements InvocationHandler {
+
+        private SqlSession sqlSession;
+
+        public SqlSessionProxy(SqlSession sqlSession) {
+            this.sqlSession = sqlSession;
+        }
+
+        @Override
+        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+            try {
+                return method.invoke(sqlSession, args);
+            } finally {
+                sqlSession.close();
+            }
+        }
     }
 
 

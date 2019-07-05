@@ -76,6 +76,8 @@ create table action
 	name_en varchar(32) null comment '英文名',
 	business_id int(11) null comment '所属业务id',
 	type tinyint(1) null comment '动作类型（输出变量|控制台输出|调用远程代码...）',
+	unit_id int(11) null comment '执行单元id',
+	relation_id int(11) null comment '作出该动作时需要额外查询的数据id',
 	create_time varchar(19) null comment '创建时间',
 	update_time varchar(19) null comment '更新时间',
 	deleted tinyint(1) null DEFAULT 0 comment '逻辑删除字段',
@@ -179,15 +181,16 @@ create table chain_unit_relation
 ) comment '决策链执行单元关联表';
 
 create table action_variable_relation
-{
-    id int auto_increment
+(
+	id int auto_increment
 		primary key comment '主键',
 	action_id int(11) null comment '动作id',
 	variable_id int(11) null comment '变量id',
+	value int(11) null comment '变量值',
 	create_time varchar(19) null comment '创建时间',
 	update_time varchar(19) null comment '更新时间',
 	deleted tinyint(1) null DEFAULT 0 comment '逻辑删除字段',
-}
+) comment '决策链执行单元关联表';
 
 create table `user`
 (
