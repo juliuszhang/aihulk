@@ -1,5 +1,6 @@
 package com.aihulk.tech.decision.resource.loader;
 
+import com.aihulk.tech.core.action.Action;
 import com.aihulk.tech.core.logic.LogicHelper;
 import com.aihulk.tech.core.resource.entity.DecisionFlow;
 import com.aihulk.tech.core.resource.entity.DecisionTable;
@@ -32,6 +33,8 @@ public class UnitResourceLoader implements ResourceLoader<Map<Integer, ExecuteUn
 
     private FactResourceLoader factResourceLoader = new FactResourceLoader();
 
+    private ActionResourceLoader actionResourceLoader = new ActionResourceLoader();
+
     @Override
     public Map<Integer, ExecuteUnit> loadResource(Integer bizId, String version) {
         SqlSession sqlSession = MybatisService.getInstance().getSqlSession();
@@ -41,6 +44,7 @@ public class UnitResourceLoader implements ResourceLoader<Map<Integer, ExecuteUn
         QueryWrapper wrapper = new QueryWrapper(queryParam);
         List<Unit> units = mapper.selectList(wrapper);
         final List<Fact> allFacts = factResourceLoader.loadResource(bizId, version);
+        final List<Action> actions = actionResourceLoader.loadResource(bizId, version);
         List<ExecuteUnit> executeUnits = units.stream().map(unit -> this.mapExecuteUnit(unit, allFacts)).collect(Collectors.toList());
         return executeUnits.stream().collect(Collectors.toMap(ExecuteUnit::getId, Function.identity()));
     }

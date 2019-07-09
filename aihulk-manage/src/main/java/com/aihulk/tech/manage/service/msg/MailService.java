@@ -1,4 +1,4 @@
-package com.aihulk.tech.manage.service;
+package com.aihulk.tech.manage.service.msg;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

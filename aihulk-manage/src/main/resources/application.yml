@@ -26,3 +26,8 @@ mybatis-plus:
 
 sys-config:
   enable_email_url: 'localhost:8080/user/enableEmail'
+
+ali_msg:
+  url: dysmsapi.aliyuncs.com
+  access_key: LTAInEIPW2SxgazE
+  secret: xYoAyW394TgD43tvAfrm2Q8bsPZZ0R
