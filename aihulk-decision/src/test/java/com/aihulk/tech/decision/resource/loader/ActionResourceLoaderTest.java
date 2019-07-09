@@ -125,8 +125,8 @@ public class ActionResourceLoaderTest {
         OutPut outPut1 = (OutPut) action1;
         OutPut outPut2 = (OutPut) action2;
 
-        assertTrue(outPut1.getKey().equals("测试变量1"));
-        assertTrue(outPut2.getKey().equals("测试变量2"));
+        assertTrue(outPut1.getKey().equals("test variable 1"));
+        assertTrue(outPut2.getKey().equals("test variable 2"));
 
         assertTrue(outPut1.getObj().equals(1));
         assertTrue(outPut2.getObj().equals("aaa"));
