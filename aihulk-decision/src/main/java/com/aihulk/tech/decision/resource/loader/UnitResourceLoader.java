@@ -44,8 +44,8 @@ public class UnitResourceLoader implements ResourceLoader<Map<Integer, ExecuteUn
         QueryWrapper wrapper = new QueryWrapper(queryParam);
         List<Unit> units = mapper.selectList(wrapper);
         final List<Fact> allFacts = factResourceLoader.loadResource(bizId, version);
-        final List<Action> actions = actionResourceLoader.loadResource(bizId, version);
-        List<ExecuteUnit> executeUnits = units.stream().map(unit -> this.mapExecuteUnit(unit, allFacts)).collect(Collectors.toList());
+        Map<Integer, List<Action>> actionMap = actionResourceLoader.loadResource(bizId, version);
+        List<ExecuteUnit> executeUnits = units.stream().map(unit -> this.mapExecuteUnit(unit, allFacts, actionMap)).collect(Collectors.toList());
         return executeUnits.stream().collect(Collectors.toMap(ExecuteUnit::getId, Function.identity()));
     }
 
@@ -54,7 +54,7 @@ public class UnitResourceLoader implements ResourceLoader<Map<Integer, ExecuteUn
         return null;
     }
 
-    private ExecuteUnit mapExecuteUnit(Unit unit, List<Fact> facts) {
+    private ExecuteUnit mapExecuteUnit(Unit unit, List<Fact> facts, Map<Integer, List<Action>> actionMap) {
         if (Unit.TYPE_DECISION_FLOW == unit.getType()) {
             DecisionFlow executeUnit = new DecisionFlow();
             executeUnit.setName(unit.getName());
@@ -68,10 +68,8 @@ public class UnitResourceLoader implements ResourceLoader<Map<Integer, ExecuteUn
             Map<Integer, List<Fact>> relations = Maps.newHashMap();
             this.queryAllFactRelations(runtimeFacts, relations, facts);
             executeUnit.setFactsWithSort(runtimeFacts, relations);
-            //变量输出
-//            if ("output".equals(unit.getAction())) {
-            //TODO
-//            }
+            List<Action> actions = actionMap.get(unit.getId());
+            executeUnit.setActions(actions);
             return executeUnit;
         } else if (Unit.TYPE_DECISION_TABLE == unit.getType()) {
             DecisionTable decisionTable = new DecisionTable();

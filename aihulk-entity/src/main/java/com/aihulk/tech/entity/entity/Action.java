@@ -32,4 +32,7 @@ public class Action extends BaseEntity {
     @TableField(value = "type")
     private Integer type;
 
+    @TableField(value = "unitId")
+    private Integer unitId;
+
 }
