@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
  * @author zhangyibo
  * @title: RedisTemplateTest
  * @projectName aihulk
- * @description: TODO
+ * @description: RedisTemplateTest
  * @date 2019-07-1515:54
  */
 @SpringBootTest
