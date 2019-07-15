@@ -75,6 +75,18 @@ public abstract class BaseResponseVo<R> {
         public static final ManageBusinessErrorCode USER_EMAIL_UNCHECKED = new ManageBusinessErrorCode(203);
 
         public static final ManageBusinessErrorCode USER_TOKEN_ERROR = new ManageBusinessErrorCode(204);
+
+        //用户已存在
+        public static final ManageBusinessErrorCode USER_EXIST = new ManageBusinessErrorCode(205);
+
+        //图片验证码错误
+        public static final ManageBusinessErrorCode KAPTCHA_ERROR = new ManageBusinessErrorCode(206);
+
+        //验证码获取太频繁
+        public static final ManageBusinessErrorCode CHECK_CODE_FETCH_TIMES_FREQUENCY = new ManageBusinessErrorCode(207);
+
+        //短信验证码错误
+        public static final ManageBusinessErrorCode CHECK_CODE_ERROR = new ManageBusinessErrorCode(208);
     }
 
 }

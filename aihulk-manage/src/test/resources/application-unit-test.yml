@@ -15,8 +15,12 @@ spring:
           auth: true
           socketFactory:
             class: javax.net.ssl.SSLSocketFactory
+  main:
+    banner-mode: off
+
 
 #mybatis config
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
+
