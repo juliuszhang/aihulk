@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -34,6 +35,7 @@ public class KaptchaController {
     @Autowired
     private HttpServletRequest request;
 
+    @ResponseBody
     @GetMapping(value = "")
     public void getKaptcha() throws IOException {
         String text = defaultKaptcha.createText();

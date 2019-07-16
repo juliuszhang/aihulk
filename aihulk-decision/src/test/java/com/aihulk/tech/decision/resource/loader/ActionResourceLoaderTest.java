@@ -16,6 +16,7 @@ import org.junit.Test;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertTrue;
 
@@ -113,7 +114,8 @@ public class ActionResourceLoaderTest {
 
     @Test
     public void loadResource() {
-        List<Action> actions = actionResourceLoader.loadResource(1, "");
+        Map<Integer, List<Action>> actionMap = actionResourceLoader.loadResource(1, "");
+        List<Action> actions = actionMap.entrySet().stream().flatMap(entry -> entry.getValue().stream()).collect(Collectors.toList());
         assertTrue(actions.size() == 2);
         actions.sort(Comparator.comparing(Action::getId));
         Action action1 = actions.get(0);

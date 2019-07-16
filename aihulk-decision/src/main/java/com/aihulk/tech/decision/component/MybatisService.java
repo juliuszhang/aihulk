@@ -11,9 +11,6 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-
 public class MybatisService {
 
     private ThreadLocal<SqlSession> SQL_SESSIONS = new ThreadLocal<>();
@@ -75,7 +72,6 @@ public class MybatisService {
         SqlSession sqlSession = SQL_SESSIONS.get();
         if (sqlSession == null) {
             sqlSession = sqlSessionFactory.openSession(true);
-//            sqlSessionProxy = (SqlSession) Proxy.newProxyInstance(MybatisService.class.getClassLoader(), new Class<?>[]{SqlSession.class}, new SqlSessionProxy(sqlSession));
             SQL_SESSIONS.set(sqlSession);
         }
         return sqlSession;
@@ -89,27 +85,5 @@ public class MybatisService {
     public static <T> void addMapper(Class<T> mapperClass) {
         getInstance().sqlSessionFactory.getConfiguration().addMapper(mapperClass);
     }
-
-    /**
-     * 做一层代理自动close
-     */
-    private class SqlSessionProxy implements InvocationHandler {
-
-        private SqlSession sqlSession;
-
-        public SqlSessionProxy(SqlSession sqlSession) {
-            this.sqlSession = sqlSession;
-        }
-
-        @Override
-        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            try {
-                return method.invoke(sqlSession, args);
-            } finally {
-                sqlSession.close();
-            }
-        }
-    }
-
 
 }

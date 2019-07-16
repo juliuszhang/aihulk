@@ -22,9 +22,9 @@ public class KaptchaConfig {
         DefaultKaptcha defaultKaptcha = new DefaultKaptcha();
         Properties properties = new Properties();
         properties.setProperty("kaptcha.border", "no");
-        properties.setProperty("kaptcha.image.width", "250");
-        properties.setProperty("kaptcha.textproducer.font.size", "80");
-        properties.setProperty("kaptcha.image.height", "90");
+        properties.setProperty("kaptcha.image.width", "120");
+        properties.setProperty("kaptcha.textproducer.font.size", "30");
+        properties.setProperty("kaptcha.image.height", "35");
         properties.setProperty("kaptcha.session.key", "code");
         properties.setProperty("kaptcha.textproducer.char.length", "4");
         Config config = new Config(properties);
