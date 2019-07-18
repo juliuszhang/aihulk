@@ -8,14 +8,13 @@ import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.apache.ibatis.session.SqlSessionManager;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 
 public class MybatisService {
 
-    private ThreadLocal<SqlSession> SQL_SESSIONS = new ThreadLocal<>();
-
-    private final SqlSessionFactory sqlSessionFactory;
+    private final SqlSessionManager sqlSessionManager;
 
     private DecisionConfigEntity.MysqlConfig mysqlConfig = DecisionConfig.getMysqlConfig();
 
@@ -64,26 +63,21 @@ public class MybatisService {
         configuration.setMapUnderscoreToCamelCase(true);
         configuration.setEnvironment(env);
         configuration.addMappers(BASE_SCAN_PACKAGE);
-        sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
+        sqlSessionManager = SqlSessionManager.newInstance(sqlSessionFactory);
     }
 
 
     public SqlSession getSqlSession() {
-        SqlSession sqlSession = SQL_SESSIONS.get();
-        if (sqlSession == null) {
-            sqlSession = sqlSessionFactory.openSession(true);
-            SQL_SESSIONS.set(sqlSession);
-        }
-        return sqlSession;
+        return sqlSessionManager;
     }
 
-
     public static <T> T getMapper(Class<T> mapperClass) {
-        return getInstance().getSqlSession().getMapper(mapperClass);
+        return getInstance().sqlSessionManager.getMapper(mapperClass);
     }
 
     public static <T> void addMapper(Class<T> mapperClass) {
-        getInstance().sqlSessionFactory.getConfiguration().addMapper(mapperClass);
+        getInstance().sqlSessionManager.getConfiguration().addMapper(mapperClass);
     }
 
 }

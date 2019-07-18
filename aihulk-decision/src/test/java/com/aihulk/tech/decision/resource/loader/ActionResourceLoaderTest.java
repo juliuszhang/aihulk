@@ -9,7 +9,6 @@ import com.aihulk.tech.entity.mapper.ActionMapper;
 import com.aihulk.tech.entity.mapper.VariableMapper;
 import com.google.common.collect.Maps;
 import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.session.SqlSession;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,8 +33,6 @@ public class ActionResourceLoaderTest {
     private ActionMapper actionMapper = MybatisService.getMapper(ActionMapper.class);
 
     private VariableMapper variableMapper = MybatisService.getMapper(VariableMapper.class);
-
-    private SqlSession sqlSession = MybatisService.getInstance().getSqlSession();
 
     private Integer var1Id;
 
