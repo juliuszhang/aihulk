@@ -13,13 +13,13 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum LogicStructure {
     //普通决策流
-    DECISION_FLOW(0),
+    DECISION_FLOW(1),
     //决策表
-    DECISION_TABLE(1),
+    DECISION_TABLE(2),
     //决策树
-    DECISION_TREE(2),
+    DECISION_TREE(3),
     //流程规则
-    RULE_FLOW(3);
+    RULE_FLOW(4);
 
     @Getter
     private Integer val;

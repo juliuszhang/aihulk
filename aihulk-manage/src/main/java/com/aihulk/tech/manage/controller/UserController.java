@@ -12,6 +12,7 @@ import com.aihulk.tech.manage.service.msg.MessageService;
 import com.aihulk.tech.manage.vo.BaseResponseVo;
 import com.aihulk.tech.manage.vo.ResponseVo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
@@ -20,8 +21,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import javax.imageio.ImageIO;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -53,18 +59,45 @@ public class UserController {
     private HttpServletRequest request;
 
     @Autowired
+    private DefaultKaptcha defaultKaptcha;
+
+    @Autowired
+    private HttpServletResponse response;
+
+    @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
     private static final String REDIS_CHECK_CODE_KEY_PREFIX = "mobile_";
 
     //验证码过期时间 1min
-    private static final int CHECK_CODE_EXPIRE = 2;
+    private static final int CHECK_CODE_EXPIRE = 1;
 
     @Value("${sys-config.enable_email_url}")
     private String enableEmailUrl;
 
     private static final String SESSION_KEY_USERNAME = "username";
     private static final String SESSION_KEY_TOKEN = "token";
+
+    private static final String SIGN_NAME = "爱浩克";
+
+    private static final String TEMPLATE_CODE = "check_code";
+
+
+    @GetMapping(value = "/captcha")
+    public void getCaptcha() throws IOException {
+        String text = defaultKaptcha.createText();
+        HttpSession session = request.getSession();
+        //将验证码存储在session上下文
+        session.setAttribute("captcha", text);
+        BufferedImage image = defaultKaptcha.createImage(text);
+        ServletOutputStream sos = response.getOutputStream();
+        ImageIO.write(image, "jpg", sos);
+        try {
+            sos.flush();
+        } finally {
+            sos.close();
+        }
+    }
 
 
     @PostMapping(value = "/regist/{checkCode}")
@@ -110,12 +143,12 @@ public class UserController {
      * 获取验证码
      *
      * @param mobile  手机号
-     * @param kaptcha 图片验证码
+     * @param captcha 图片验证码
      * @return
      */
     @GetMapping("/checkCode")
-    public ResponseVo<Void> getCheckCode(@RequestParam(value = "mobile") String mobile, @RequestParam(value = "kaptcha") String kaptcha) {
-        checkArgument(!Strings.isNullOrEmpty(kaptcha), "验证码不能为空");
+    public ResponseVo<Void> getCheckCode(@RequestParam(value = "mobile") String mobile, @RequestParam(value = "captcha") String captcha) {
+        checkArgument(!Strings.isNullOrEmpty(captcha), "验证码不能为空");
         checkArgument(!Strings.isNullOrEmpty(mobile), "手机号不能为空");
         checkArgument(RegexUtil.isMobile(mobile), "手机号格式不合法");
         User user = userService.selectOne(new QueryWrapper<User>().lambda().eq(User::getMobile, mobile));
@@ -123,9 +156,9 @@ public class UserController {
             throw new ManageException(BaseResponseVo.ManageBusinessErrorCode.USER_EXIST, "该手机号已注册");
         }
         HttpSession session = request.getSession();
-        String text = (String) session.getAttribute("kaptcha");
-        if (!kaptcha.equals(text)) {
-            log.warn("text = {},input kaptcha = {}", text, kaptcha);
+        String text = (String) session.getAttribute("captcha");
+        if (!captcha.equals(text)) {
+            log.warn("text = {},input captcha = {}", text, captcha);
             throw new ManageException(BaseResponseVo.ManageBusinessErrorCode.KAPTCHA_ERROR, "验证码输入有误");
         }
         if (redisTemplate.hasKey(REDIS_CHECK_CODE_KEY_PREFIX + mobile)) {
@@ -138,7 +171,7 @@ public class UserController {
         log.info("mobile = {},checkCode = {}", mobile, checkCode);
         paramMap.put("check_code", checkCode);
         //手机号注册
-        messageService.send(mobile, "爱浩克", "check_code", paramMap);
+        messageService.send(mobile, SIGN_NAME, TEMPLATE_CODE, paramMap);
         return new ResponseVo<Void>().buildSuccess("获取短信验证码成功");
     }
 
