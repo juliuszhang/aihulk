@@ -23,12 +23,15 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -68,6 +71,8 @@ public class UserController {
     private RedisTemplate<String, String> redisTemplate;
 
     private static final String REDIS_CHECK_CODE_KEY_PREFIX = "mobile_";
+    private static final String COOKIE_NAME_CLIENT_ID = "clientId";
+    private static final String REDIS_KEY_PIC_CAPTCHA_PREFIX = "PIC_CAPTCHA_";
 
     //验证码过期时间 1min
     private static final int CHECK_CODE_EXPIRE = 1;
@@ -80,15 +85,16 @@ public class UserController {
 
     private static final String SIGN_NAME = "爱浩克";
 
-    private static final String TEMPLATE_CODE = "check_code";
-
+    private static final String TEMPLATE_CODE = "SMS_170110820";
 
     @GetMapping(value = "/captcha")
     public void getCaptcha() throws IOException {
         String text = defaultKaptcha.createText();
-        HttpSession session = request.getSession();
-        //将验证码存储在session上下文
-        session.setAttribute("captcha", text);
+        //将验证码存储在redis中 过期时间为1分钟
+        String clientId = UUID.randomUUID().toString();
+        redisTemplate.opsForValue().set(REDIS_KEY_PIC_CAPTCHA_PREFIX + clientId, text, Duration.ofMinutes(1));
+        //将clientId写回cookie 校验图片验证码的时候传回
+        writeCookie(COOKIE_NAME_CLIENT_ID, clientId);
         BufferedImage image = defaultKaptcha.createImage(text);
         ServletOutputStream sos = response.getOutputStream();
         ImageIO.write(image, "jpg", sos);
@@ -99,12 +105,18 @@ public class UserController {
         }
     }
 
+    private void writeCookie(String key, String value) {
+        Cookie cookie = new Cookie(key, value);
+        cookie.setMaxAge(2 * 60);
+        cookie.setPath("/");//设置作用域
+        response.addCookie(cookie);
+    }
+
 
     @PostMapping(value = "/regist/{checkCode}")
     public ResponseVo<User> regist(@RequestBody User user, @PathVariable(value = "checkCode") String checkCode) {
         //1.param check
         checkNotNull(user, "user参数不能为空");
-        checkArgument(!Strings.isNullOrEmpty(user.getUsername()), "用户名不能为空");
         String email = user.getEmail();
         String mobile = user.getMobile();
         boolean emailIsEmpty = Strings.isNullOrEmpty(email);
@@ -147,16 +159,23 @@ public class UserController {
      * @return
      */
     @GetMapping("/checkCode")
-    public ResponseVo<Void> getCheckCode(@RequestParam(value = "mobile") String mobile, @RequestParam(value = "captcha") String captcha) {
+    public ResponseVo<Void> getCheckCode(@RequestParam(value = "mobile") String mobile, @RequestParam(value = "captcha") String captcha, @CookieValue(name = COOKIE_NAME_CLIENT_ID, required = false) String clientId) {
         checkArgument(!Strings.isNullOrEmpty(captcha), "验证码不能为空");
         checkArgument(!Strings.isNullOrEmpty(mobile), "手机号不能为空");
         checkArgument(RegexUtil.isMobile(mobile), "手机号格式不合法");
+
+        if (Strings.isNullOrEmpty(clientId)) {
+            throw new ManageException(BaseResponseVo.ManageBusinessErrorCode.PIC_CAPTCHA_EXPIRED, "图片验证码过期");
+        }
+
         User user = userService.selectOne(new QueryWrapper<User>().lambda().eq(User::getMobile, mobile));
         if (user != null) {
             throw new ManageException(BaseResponseVo.ManageBusinessErrorCode.USER_EXIST, "该手机号已注册");
         }
-        HttpSession session = request.getSession();
-        String text = (String) session.getAttribute("captcha");
+        String text = redisTemplate.opsForValue().get(REDIS_KEY_PIC_CAPTCHA_PREFIX + clientId);
+        if (Strings.isNullOrEmpty(text)) {
+            throw new ManageException(BaseResponseVo.ManageBusinessErrorCode.PIC_CAPTCHA_EXPIRED, "图片验证码过期");
+        }
         if (!captcha.equals(text)) {
             log.warn("text = {},input captcha = {}", text, captcha);
             throw new ManageException(BaseResponseVo.ManageBusinessErrorCode.KAPTCHA_ERROR, "验证码输入有误");
@@ -171,7 +190,7 @@ public class UserController {
         log.info("mobile = {},checkCode = {}", mobile, checkCode);
         paramMap.put("check_code", checkCode);
         //手机号注册
-        messageService.send(mobile, SIGN_NAME, TEMPLATE_CODE, paramMap);
+//        messageService.send(mobile, SIGN_NAME, TEMPLATE_CODE, paramMap);
         return new ResponseVo<Void>().buildSuccess("获取短信验证码成功");
     }
 

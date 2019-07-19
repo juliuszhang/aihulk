@@ -6,7 +6,7 @@ import lombok.Getter;
  * @author zhangyibo
  * @title: BaseResponseVo
  * @projectName aihulk
- * @description: TODO
+ * @description: BaseResponseVo
  * @date 2019-06-2716:34
  */
 @Getter
@@ -87,6 +87,9 @@ public abstract class BaseResponseVo<R> {
 
         //短信验证码错误
         public static final ManageBusinessErrorCode CHECK_CODE_ERROR = new ManageBusinessErrorCode(208);
+
+        //图片验证码过期
+        public static final ManageBusinessErrorCode PIC_CAPTCHA_EXPIRED = new ManageBusinessErrorCode(209);
     }
 
 }
