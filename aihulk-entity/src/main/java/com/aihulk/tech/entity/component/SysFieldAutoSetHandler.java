@@ -17,6 +17,7 @@ public class SysFieldAutoSetHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         this.setFieldValByName("createTime", DateUtil.getCurDateTime(), metaObject);
+        this.setFieldValByName("updateTime", DateUtil.getCurDateTime(), metaObject);
         this.setOperator(metaObject);
     }
 
@@ -28,7 +29,7 @@ public class SysFieldAutoSetHandler implements MetaObjectHandler {
 
     private void setOperator(MetaObject metaObject) {
         if (!Strings.isNullOrEmpty(OperatorHolder.getOperator())) {
-            this.setFieldValByName("operator", "Jerry", metaObject);//版本号3.0.6以及之前的版本
+            this.setFieldValByName("operator", OperatorHolder.getOperator(), metaObject);
         }
     }
 }
