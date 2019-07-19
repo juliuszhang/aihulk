@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  * @author zhangyibo
  * @title: UnitGroupResourceLoader
  * @projectName aihulk
- * @description: TODO
+ * @description: UnitGroupResourceLoader
  * @date 2019-07-0114:42
  */
 public class UnitGroupResourceLoader implements ResourceLoader<Map<Integer, ExecuteUnitGroup>> {

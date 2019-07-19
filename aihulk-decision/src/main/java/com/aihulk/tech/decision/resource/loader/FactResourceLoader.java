@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  * @author zhangyibo
  * @title: FactResourceLoader
  * @projectName aihulk
- * @description: TODO
+ * @description: FactResourceLoader
  * @date 2019-07-0110:29
  */
 public class FactResourceLoader implements ResourceLoader<List<com.aihulk.tech.core.resource.entity.Fact>> {

@@ -22,7 +22,7 @@ import java.util.Map;
  * @author zhangyibo
  * @title: FlowRuleResourceLoader
  * @projectName aihulk
- * @description: TODO
+ * @description: FlowRuleResourceLoader
  * @date 2019-07-0115:26
  */
 public class FlowRuleResourceLoader implements ResourceLoader<Map<Integer, List<DecisionChain.ConditionEdge>>> {

@@ -6,7 +6,7 @@ import lombok.ToString;
 
 /**
  * @ClassName BaseResource
- * @Description TODO
+ * @Description BaseResource
  * @Author yibozhang
  * @Date 2019/5/1 12:26
  * @Version 1.0

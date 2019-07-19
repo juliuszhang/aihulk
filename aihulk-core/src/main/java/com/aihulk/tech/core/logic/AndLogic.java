@@ -6,7 +6,7 @@ import java.util.List;
  * @author zhangyibo
  * @title: AndLogic
  * @projectName aihulk
- * @description: TODO
+ * @description: AndLogic
  * @date 2019-07-0118:43
  */
 public class AndLogic implements Logic {

@@ -20,7 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @author zhangyibo
  * @title: BaseController
  * @projectName aihulk
- * @description: TODO
+ * @description: BaseController
  * @date 2019-07-0316:04
  */
 public abstract class BaseController<T extends BaseEntity, S extends BaseService<T>> {

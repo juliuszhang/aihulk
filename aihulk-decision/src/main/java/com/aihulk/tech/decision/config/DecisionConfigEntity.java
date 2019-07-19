@@ -5,7 +5,7 @@ import lombok.Setter;
 
 /**
  * @ClassName DecisionConfigEntity
- * @Description TODO
+ * @Description DecisionConfigEntity
  * @Author yibozhang
  * @Date 2019/5/1 20:16
  * @Version 1.0

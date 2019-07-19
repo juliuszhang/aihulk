@@ -6,7 +6,7 @@ import java.util.List;
  * @author zhangyibo
  * @title: OrLogic
  * @projectName aihulk
- * @description: TODO
+ * @description: OrLogic
  * @date 2019-07-0118:46
  */
 public class OrLogic implements Logic {

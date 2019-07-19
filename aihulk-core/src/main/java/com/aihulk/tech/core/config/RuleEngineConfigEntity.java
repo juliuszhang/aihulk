@@ -5,7 +5,7 @@ import lombok.Setter;
 
 /**
  * @ClassName RuleEngineConfigEntity
- * @Description TODO
+ * @Description RuleEngineConfigEntity
  * @Author yibozhang
  * @Date 2019/5/1 12:50
  * @Version 1.0

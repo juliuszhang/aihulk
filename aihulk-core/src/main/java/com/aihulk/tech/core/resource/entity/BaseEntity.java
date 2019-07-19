@@ -4,7 +4,7 @@ import lombok.Data;
 
 /**
  * @ClassName BaseEntity
- * @Description TODO
+ * @Description BaseEntity
  * @Author yibozhang
  * @Date 2019/5/1 11:51
  * @Version 1.0

@@ -20,7 +20,7 @@ import java.util.Map;
  * @author zhangyibo
  * @title: MysqlResourceLoader
  * @projectName aihulk
- * @description: TODO
+ * @description: MysqlResourceLoader
  * @date 2019-06-0414:52
  */
 public class MysqlResourceLoader implements ResourceLoader<Resource> {

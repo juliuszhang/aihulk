@@ -8,7 +8,7 @@ import java.util.List;
  * @author zhangyibo
  * @title: ResponsePageVo
  * @projectName aihulk
- * @description: TODO
+ * @description: ResponsePageVo
  * @date 2019-06-2716:35
  */
 @Getter

@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  * @author zhangyibo
  * @title: ChainResourceLoader
  * @projectName aihulk
- * @description: TODO
+ * @description: ChainResourceLoader
  * @date 2019-06-2818:41
  */
 public class ChainResourceLoader implements ResourceLoader<List<DecisionChain>> {

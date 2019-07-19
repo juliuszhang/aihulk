@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
  * @author zhangyibo
  * @title: UnitGroupMapper
  * @projectName aihulk
- * @description: TODO
+ * @description: UnitGroup
  * @date 2019-06-0314:11
  */
 @TableName(value = "unit_group")
