@@ -26,10 +26,10 @@ public class FactController extends BaseController<Fact, FactService> {
     public ResponseVo<Void> add(@RequestBody Fact fact) {
         checkArgument(!Strings.isNullOrEmpty(fact.getName()), "fact.name 不能为空");
         checkArgument(!Strings.isNullOrEmpty(fact.getNameEn()), "fact.nameEn 不能为空");
-        checkArgument(!Strings.isNullOrEmpty(fact.getCode()), "fact.code 不能为空");
+//        checkArgument(!Strings.isNullOrEmpty(fact.getCode()), "fact.code 不能为空");
         checkArgument(!Strings.isNullOrEmpty(fact.getCodeType()), "fact.codeType 不能为空");
         checkArgument(!Strings.isNullOrEmpty(fact.getResultType()), "fact.resultType 不能为空");
-        checkNotNull(fact.getBusinessId(), "fact.businessId 不能为空");
+//        checkNotNull(fact.getBusinessId(), "fact.businessId 不能为空");
         return super.add(fact);
     }
 
