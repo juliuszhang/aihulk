@@ -1,4 +1,4 @@
-package com.aihulk.tech.manage.controller;
+package com.aihulk.tech.manage.controller.base;
 
 import com.aihulk.tech.entity.entity.BaseEntity;
 import com.aihulk.tech.manage.service.BaseService;
@@ -23,21 +23,21 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @description: BaseController
  * @date 2019-07-0316:04
  */
-public abstract class BaseController<T extends BaseEntity, S extends BaseService> {
+public abstract class BaseController<T extends BaseEntity, R, S extends BaseService> {
 
     @Autowired
     protected S baseService;
 
     @GetMapping(value = "")
-    public BaseResponseVo<List<T>> select(@RequestParam(required = false) Integer start,
+    public BaseResponseVo<List<R>> select(@RequestParam(required = false) Integer start,
                                           @RequestParam(required = false) Integer pageSize,
                                           T t) {
         if (start != null && start > 0 && pageSize != null && pageSize > 0) {
-            IPage<T> iPage = baseService.selectPage(t, new Page<>(start, pageSize));
-            return new ResponsePageVo<T>().buildSuccess(iPage.getRecords(), "ok", iPage.getCurrent(), iPage.getSize());
+            IPage<R> iPage = baseService.selectPage(t, new Page<>(start, pageSize));
+            return new ResponsePageVo<R>().buildSuccess(iPage.getRecords(), "ok", iPage.getCurrent(), iPage.getSize());
         } else {
-            List<T> list = baseService.select(t);
-            return new ResponseVo<List<T>>().buildSuccess(list, "ok");
+            List<R> list = baseService.select(t);
+            return new ResponseVo<List<R>>().buildSuccess(list, "ok");
         }
     }
 

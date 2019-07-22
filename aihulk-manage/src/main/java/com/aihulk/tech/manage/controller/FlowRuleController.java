@@ -1,6 +1,7 @@
 package com.aihulk.tech.manage.controller;
 
 import com.aihulk.tech.entity.entity.FlowRule;
+import com.aihulk.tech.manage.controller.base.BaseControllerAdaptor;
 import com.aihulk.tech.manage.service.FlowRuleService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,5 +15,5 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/flowRule")
-public class FlowRuleController extends BaseController<FlowRule, FlowRuleService> {
+public class FlowRuleController extends BaseControllerAdaptor<FlowRule, FlowRuleService> {
 }

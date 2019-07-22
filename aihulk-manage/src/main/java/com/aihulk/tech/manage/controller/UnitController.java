@@ -3,6 +3,7 @@ package com.aihulk.tech.manage.controller;
 import com.aihulk.tech.entity.entity.Action;
 import com.aihulk.tech.entity.entity.Logic;
 import com.aihulk.tech.entity.entity.Unit;
+import com.aihulk.tech.manage.controller.base.BaseController;
 import com.aihulk.tech.manage.service.ActionService;
 import com.aihulk.tech.manage.service.LogicService;
 import com.aihulk.tech.manage.service.UnitService;
@@ -29,7 +30,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping(value = "/unit")
-public class UnitController {
+public class UnitController extends BaseController<Unit, UnitVo, UnitService> {
 
     @Autowired
     private UnitService unitService;
@@ -46,7 +47,7 @@ public class UnitController {
         return new ResponseVo<Void>().buildSuccess("添加成功");
     }
 
-    @GetMapping(value = "")
+    @Override
     public BaseResponseVo<List<UnitVo>> select(@RequestParam(required = false) Integer start,
                                                @RequestParam(required = false) Integer pageSize,
                                                Unit unit) {

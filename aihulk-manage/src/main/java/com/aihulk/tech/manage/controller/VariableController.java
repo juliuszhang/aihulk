@@ -1,6 +1,7 @@
 package com.aihulk.tech.manage.controller;
 
 import com.aihulk.tech.entity.entity.Variable;
+import com.aihulk.tech.manage.controller.base.BaseControllerAdaptor;
 import com.aihulk.tech.manage.service.VariableService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/variable")
-public class VariableController extends BaseController<Variable, VariableService> {
+public class VariableController extends BaseControllerAdaptor<Variable, VariableService> {
 
 }

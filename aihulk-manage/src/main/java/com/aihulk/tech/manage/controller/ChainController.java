@@ -1,6 +1,7 @@
 package com.aihulk.tech.manage.controller;
 
 import com.aihulk.tech.entity.entity.Chain;
+import com.aihulk.tech.manage.controller.base.BaseControllerAdaptor;
 import com.aihulk.tech.manage.service.ChainService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,5 +15,5 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/chain")
-public class ChainController extends BaseController<Chain, ChainService> {
+public class ChainController extends BaseControllerAdaptor<Chain, ChainService> {
 }

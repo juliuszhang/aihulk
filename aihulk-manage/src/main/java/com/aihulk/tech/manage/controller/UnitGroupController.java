@@ -1,6 +1,7 @@
 package com.aihulk.tech.manage.controller;
 
 import com.aihulk.tech.entity.entity.UnitGroup;
+import com.aihulk.tech.manage.controller.base.BaseControllerAdaptor;
 import com.aihulk.tech.manage.service.UnitGroupService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,5 +15,5 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/unitGroup")
-public class UnitGroupController extends BaseController<UnitGroup, UnitGroupService> {
+public class UnitGroupController extends BaseControllerAdaptor<UnitGroup, UnitGroupService> {
 }

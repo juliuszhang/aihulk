@@ -1,6 +1,7 @@
 package com.aihulk.tech.manage.controller;
 
 import com.aihulk.tech.entity.entity.Fact;
+import com.aihulk.tech.manage.controller.base.BaseControllerAdaptor;
 import com.aihulk.tech.manage.service.FactService;
 import com.aihulk.tech.manage.vo.base.ResponseVo;
 import com.google.common.base.Strings;
@@ -19,7 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
  */
 @RestController
 @RequestMapping(value = "/fact")
-public class FactController extends BaseController<Fact, FactService> {
+public class FactController extends BaseControllerAdaptor<Fact, FactService> {
 
     @Override
     public ResponseVo<Void> add(@RequestBody Fact fact) {
