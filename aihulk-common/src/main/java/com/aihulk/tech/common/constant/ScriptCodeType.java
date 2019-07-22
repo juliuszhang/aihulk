@@ -13,7 +13,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ScriptCodeType {
     JS("js"),
-    PY("py");
+    PY("py"),
+    BASIC("basic");
 
     @Getter
     private String name;
