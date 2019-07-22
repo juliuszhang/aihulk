@@ -17,8 +17,9 @@ import java.util.List;
 public interface UnitMapper extends BaseMapper<Unit> {
 
     @Select(value = "SELECT unit.* FROM unit,chain_unit_relation" +
-            " WHERE chain_unit_relation.type = 0 AND" +
-            " AND unit.id = chain_unit_relation.unit_id AND chain_unit_relation.chain_id = #{chainId}")
+            " WHERE chain_unit_relation.type = 0" +
+            " AND unit.id = chain_unit_relation.unit_id" +
+            " AND chain_unit_relation.chain_id = #{chainId}")
     List<Unit> selectByChainId(@Param(value = "chainId") Integer chainId);
 
 }

@@ -24,8 +24,8 @@ public class Unit extends BaseEntity {
 
     public static final Integer TYPE_DECISION_TREE = ExecuteUnitType.DECISION_TREE.getVal();
 
-    @TableField(value = "biz_id")
-    private Integer bizId;
+    @TableField(value = "business_id")
+    private Integer businessId;
 
     @TableField(value = "name")
     private String name;

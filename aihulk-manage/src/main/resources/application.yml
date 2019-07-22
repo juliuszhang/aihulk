@@ -40,7 +40,7 @@ mybatis-plus:
 
 sys_config:
   enable_email_url: 'localhost:8080/user/enableEmail'
-  login_filter_enable: true
+  login_filter_enable: false
 
 ali_msg:
   url: dysmsapi.aliyuncs.com
