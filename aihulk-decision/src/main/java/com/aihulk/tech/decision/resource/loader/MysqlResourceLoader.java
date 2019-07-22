@@ -60,7 +60,7 @@ public class MysqlResourceLoader implements ResourceLoader<Resource> {
                 List<Unit> units = unitMapper.selectByChainId(unitGroup.getId());
                 List<ExecuteUnit> coreExecuteUnits = Lists.newArrayListWithCapacity(units.size());
                 for (Unit unit : units) {
-                    DecisionFlow coreExecuteUnit = new DecisionFlow();
+                    DecisionBlock coreExecuteUnit = new DecisionBlock();
                     coreExecuteUnit.setName(unit.getName());
                     coreExecuteUnit.setNameEn(unit.getNameEn());
                     coreExecuteUnit.setFacts(getFeatures(SQL_SESSION, unit.getId()));

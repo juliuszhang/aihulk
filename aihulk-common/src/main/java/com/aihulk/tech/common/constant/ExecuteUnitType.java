@@ -13,7 +13,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ExecuteUnitType {
 
-    DECISION_FLOW(1),
+    DECISION_BLOCK(1),
     DECISION_TABLE(2),
     DECISION_TREE(3);
 

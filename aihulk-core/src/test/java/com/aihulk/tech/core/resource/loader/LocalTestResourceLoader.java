@@ -30,7 +30,7 @@ public class LocalTestResourceLoader implements ResourceLoader {
         chain.setCreateTime(DateUtil.getCurDateTime());
         chain.setUpdateTime(DateUtil.getCurDateTime());
         //executeUnit
-        DecisionFlow executeUnit1 = new DecisionFlow();
+        DecisionBlock executeUnit1 = new DecisionBlock();
         executeUnit1.setId(1);
         executeUnit1.setName("测试规则集");
         executeUnit1.setDesc("测试规则集desc");
@@ -52,7 +52,7 @@ public class LocalTestResourceLoader implements ResourceLoader {
         executeUnitGroup2.setUpdateTime(DateUtil.getCurDateTime());
 
         //rules
-        DecisionFlow executeUnit = new DecisionFlow();
+        DecisionBlock executeUnit = new DecisionBlock();
         executeUnit.setId(1);
         executeUnit.setName("测试规则");
         executeUnit.setDesc("测试规则desc");

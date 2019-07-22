@@ -2,7 +2,7 @@ package com.aihulk.tech.decision.resource.loader;
 
 import com.aihulk.tech.core.action.Action;
 import com.aihulk.tech.core.logic.LogicHelper;
-import com.aihulk.tech.core.resource.entity.DecisionFlow;
+import com.aihulk.tech.core.resource.entity.DecisionBlock;
 import com.aihulk.tech.core.resource.entity.DecisionTable;
 import com.aihulk.tech.core.resource.entity.ExecuteUnit;
 import com.aihulk.tech.core.resource.entity.Fact;
@@ -56,7 +56,7 @@ public class UnitResourceLoader implements ResourceLoader<Map<Integer, ExecuteUn
 
     private ExecuteUnit mapExecuteUnit(Unit unit, List<Fact> facts, Map<Integer, List<Action>> actionMap) {
         if (Unit.TYPE_DECISION_FLOW == unit.getType()) {
-            DecisionFlow executeUnit = new DecisionFlow();
+            DecisionBlock executeUnit = new DecisionBlock();
             executeUnit.setName(unit.getName());
             executeUnit.setNameEn(unit.getNameEn());
             SqlSession sqlSession = MybatisService.getInstance().getSqlSession();

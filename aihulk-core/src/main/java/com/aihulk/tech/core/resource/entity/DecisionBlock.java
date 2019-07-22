@@ -9,13 +9,13 @@ import java.util.List;
 
 /**
  * @author zhangyibo
- * @title: DecisionFlow
+ * @title: DecisionBlock
  * @projectName aihulk
  * @description: 普通决策流
  * @date 2019-07-0211:46
  */
 @Data
-public class DecisionFlow extends ExecuteUnit<ExecuteUnit.ExecuteUnitResponse> {
+public class DecisionBlock extends ExecuteUnit<ExecuteUnit.ExecuteUnitResponse> {
 
     private Logic logic;
 

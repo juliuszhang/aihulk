@@ -15,4 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/unit")
 public class UnitController extends BaseController<Unit, UnitService> {
+
+
 }
