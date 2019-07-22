@@ -38,8 +38,9 @@ mybatis-plus:
   global-config:
     banner: false
 
-sys-config:
+sys_config:
   enable_email_url: 'localhost:8080/user/enableEmail'
+  login_filter_enable: true
 
 ali_msg:
   url: dysmsapi.aliyuncs.com

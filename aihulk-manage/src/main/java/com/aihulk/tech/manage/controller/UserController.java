@@ -77,11 +77,11 @@ public class UserController {
     //验证码过期时间 1min
     private static final int CHECK_CODE_EXPIRE = 1;
 
-    @Value("${sys-config.enable_email_url}")
+    @Value("${sys_config.enable_email_url}")
     private String enableEmailUrl;
 
-    private static final String SESSION_KEY_USERNAME = "username";
-    private static final String SESSION_KEY_TOKEN = "token";
+    private static final String COOKEY_NAME_USERNAME = "username";
+    private static final String COOKIE_NAME_TOKEN = "token";
 
     private static final String SIGN_NAME = "爱浩克";
 
@@ -94,7 +94,7 @@ public class UserController {
         String clientId = UUID.randomUUID().toString();
         redisTemplate.opsForValue().set(REDIS_KEY_PIC_CAPTCHA_PREFIX + clientId, text, Duration.ofMinutes(1));
         //将clientId写回cookie 校验图片验证码的时候传回
-        writeCookie(COOKIE_NAME_CLIENT_ID, clientId);
+        writeCookie(COOKIE_NAME_CLIENT_ID, clientId, 60);
         BufferedImage image = defaultKaptcha.createImage(text);
         ServletOutputStream sos = response.getOutputStream();
         ImageIO.write(image, "jpg", sos);
@@ -105,9 +105,9 @@ public class UserController {
         }
     }
 
-    private void writeCookie(String key, String value) {
+    private void writeCookie(String key, String value, int expireSecond) {
         Cookie cookie = new Cookie(key, value);
-        cookie.setMaxAge(2 * 60);
+        cookie.setMaxAge(expireSecond);
         cookie.setPath("/");//设置作用域
         response.addCookie(cookie);
     }
@@ -251,11 +251,10 @@ public class UserController {
             throw new ManageException(ResponseVo.ManageBusinessErrorCode.USER_PASSWORD_WRONG, account + "账户输入密码错误");
         }
 
-        //5.set session attr
-        HttpSession session = request.getSession();
-        session.setAttribute(SESSION_KEY_USERNAME, user.getUsername());
+        //5.write cookie
+        writeCookie(COOKEY_NAME_USERNAME, user.getUsername(), 60 * 60 * 24);
         String token = refreshToken(user);
-        session.setAttribute(SESSION_KEY_TOKEN, token);
+        writeCookie(COOKIE_NAME_TOKEN, token, 60 * 60 * 24);
         return new ResponseVo<User>().buildSuccess(user, "登录成功");
     }
 
@@ -264,8 +263,8 @@ public class UserController {
         checkArgument(!Strings.isNullOrEmpty(username), "username不能为空");
         HttpSession session = request.getSession();
         //clear session
-        session.removeAttribute(SESSION_KEY_USERNAME);
-        session.removeAttribute(SESSION_KEY_TOKEN);
+        session.removeAttribute(COOKEY_NAME_USERNAME);
+        session.removeAttribute(COOKIE_NAME_TOKEN);
         return new ResponseVo<Void>().buildSuccess("退出登录成功");
     }
 

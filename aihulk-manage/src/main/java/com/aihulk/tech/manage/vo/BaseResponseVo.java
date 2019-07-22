@@ -90,6 +90,9 @@ public abstract class BaseResponseVo<R> {
 
         //图片验证码过期
         public static final ManageBusinessErrorCode PIC_CAPTCHA_EXPIRED = new ManageBusinessErrorCode(209);
+
+        //用户未登录
+        public static final ManageBusinessErrorCode USER_NOT_LOGIN = new ManageBusinessErrorCode(210);
     }
 
 }
