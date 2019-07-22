@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class Unit extends BaseEntity {
 
-    public static final Integer TYPE_DECISION_FLOW = ExecuteUnitType.DECISION_BLOCK.getVal();
+    public static final Integer TYPE_DECISION_BLOCK = ExecuteUnitType.DECISION_BLOCK.getVal();
 
     public static final Integer TYPE_DECISION_TABLE = ExecuteUnitType.DECISION_TABLE.getVal();
 

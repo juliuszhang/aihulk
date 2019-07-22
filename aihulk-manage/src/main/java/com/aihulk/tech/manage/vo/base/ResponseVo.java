@@ -1,4 +1,4 @@
-package com.aihulk.tech.manage.vo;
+package com.aihulk.tech.manage.vo.base;
 
 import lombok.Getter;
 

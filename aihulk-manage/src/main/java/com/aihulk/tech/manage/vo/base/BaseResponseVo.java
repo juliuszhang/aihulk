@@ -1,4 +1,4 @@
-package com.aihulk.tech.manage.vo;
+package com.aihulk.tech.manage.vo.base;
 
 import lombok.Getter;
 
@@ -93,6 +93,9 @@ public abstract class BaseResponseVo<R> {
 
         //用户未登录
         public static final ManageBusinessErrorCode USER_NOT_LOGIN = new ManageBusinessErrorCode(210);
+
+        //执行单元组不存在
+        public static final ManageBusinessErrorCode UNIT_GROUP_NOT_EXIST = new ManageBusinessErrorCode(211);
     }
 
 }

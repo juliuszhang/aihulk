@@ -2,7 +2,7 @@ package com.aihulk.tech.core.resource.entity;
 
 import com.aihulk.tech.core.action.Action;
 import com.aihulk.tech.core.exception.RuleEngineException;
-import com.aihulk.tech.core.logic.Logic;
+import com.aihulk.tech.core.logic.Express;
 import com.aihulk.tech.core.service.FactService;
 import com.google.common.collect.Lists;
 import lombok.Data;
@@ -42,7 +42,7 @@ public class DecisionTree extends ExecuteUnit<ExecuteUnit.ExecuteUnitResponse> {
 
         private Integer type;
 
-        private Logic logic;
+        private Express express;
 
         private Action action;
 
@@ -75,7 +75,7 @@ public class DecisionTree extends ExecuteUnit<ExecuteUnit.ExecuteUnitResponse> {
                 List<TreeNode> treeNodes = treeNode.getTreeNodes();
                 treeNodes.forEach(stack::push);
             } else if (TreeNode.TYPE_CONDITION.equals(treeNode.getType())) {
-                if (treeNode.logic.eval()) {
+                if (treeNode.express.eval()) {
                     List<TreeNode> treeNodes = treeNode.getTreeNodes();
                     for (TreeNode n : treeNodes) {
                         //该节点为结果节点

@@ -3,8 +3,6 @@ package com.aihulk.tech.entity.mapper;
 import com.aihulk.tech.entity.entity.Action;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
-import java.util.List;
-
 /**
  * @author zhangyibo
  * @title: ActionMapper
@@ -14,6 +12,5 @@ import java.util.List;
  */
 public interface ActionMapper extends BaseMapper<Action> {
 
-    List<Action> selectByUnitId(Integer unitId);
 
 }

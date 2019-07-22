@@ -81,7 +81,7 @@ public class DefaultEngine implements Engine {
         List<ExecuteUnit> execRules = response.getExecExecuteUnits();
         Map<String, Object> variables = response.getVariables();
         for (ExecuteUnit executeUnit : executeUnits) {
-            //run executeUnit logic
+            //run executeUnit express
             ExecuteUnit.ExecuteUnitResponse evalResult = executeUnit.exec();
             if (evalResult.isFired()) {
                 fireExecuteUnits.add(executeUnit);

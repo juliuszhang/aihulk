@@ -1,7 +1,7 @@
 package com.aihulk.tech.core.resource.entity;
 
 import com.aihulk.tech.core.exception.RuleEngineException;
-import com.aihulk.tech.core.logic.Logic;
+import com.aihulk.tech.core.logic.Express;
 import com.google.common.collect.Lists;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -92,7 +92,7 @@ public class DecisionChain extends BaseResource {
 
         //满足该条件才表示target可达
         //FIXME 多个表达式
-        private Logic logic;
+        private Express express;
 
         /**
          * 测试target是否连通
@@ -100,7 +100,7 @@ public class DecisionChain extends BaseResource {
          * @return
          */
         public boolean connected() {
-            return logic.eval();
+            return express.eval();
         }
 
         public BasicUnit getSrcBasicUnit() {

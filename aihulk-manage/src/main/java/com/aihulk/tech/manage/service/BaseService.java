@@ -1,5 +1,6 @@
 package com.aihulk.tech.manage.service;
 
+import com.aihulk.tech.entity.entity.BaseEntity;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -16,10 +17,10 @@ import java.util.List;
  * @description: baseService
  * @date 2019-06-2814:45
  */
-public abstract class BaseService<T> {
+public abstract class BaseService<T extends BaseEntity, M extends BaseMapper<T>> {
 
     @Autowired
-    protected BaseMapper<T> baseMapper;
+    protected M baseMapper;
 
     public List<T> select(T t) {
         QueryWrapper<T> wrapper = new QueryWrapper<>(t);

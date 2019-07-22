@@ -2,9 +2,9 @@ package com.aihulk.tech.manage.controller;
 
 import com.aihulk.tech.entity.entity.BaseEntity;
 import com.aihulk.tech.manage.service.BaseService;
-import com.aihulk.tech.manage.vo.BaseResponseVo;
-import com.aihulk.tech.manage.vo.ResponsePageVo;
-import com.aihulk.tech.manage.vo.ResponseVo;
+import com.aihulk.tech.manage.vo.base.BaseResponseVo;
+import com.aihulk.tech.manage.vo.base.ResponsePageVo;
+import com.aihulk.tech.manage.vo.base.ResponseVo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.NonNull;
@@ -23,7 +23,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @description: BaseController
  * @date 2019-07-0316:04
  */
-public abstract class BaseController<T extends BaseEntity, S extends BaseService<T>> {
+public abstract class BaseController<T extends BaseEntity, S extends BaseService> {
 
     @Autowired
     protected S baseService;
@@ -36,8 +36,8 @@ public abstract class BaseController<T extends BaseEntity, S extends BaseService
             IPage<T> iPage = baseService.selectPage(t, new Page<>(start, pageSize));
             return new ResponsePageVo<T>().buildSuccess(iPage.getRecords(), "ok", iPage.getCurrent(), iPage.getSize());
         } else {
-            List<T> facts = baseService.select(t);
-            return new ResponseVo<List<T>>().buildSuccess(facts, "ok");
+            List<T> list = baseService.select(t);
+            return new ResponseVo<List<T>>().buildSuccess(list, "ok");
         }
     }
 

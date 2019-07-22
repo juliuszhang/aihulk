@@ -1,7 +1,7 @@
 package com.aihulk.tech.core.resource.entity;
 
 import com.aihulk.tech.core.action.Action;
-import com.aihulk.tech.core.logic.Logic;
+import com.aihulk.tech.core.logic.Express;
 import com.aihulk.tech.core.service.FactService;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
@@ -39,7 +39,7 @@ public class DecisionTable extends ExecuteUnit<ExecuteUnit.ExecuteUnitResponse> 
             for (Col col : cols) {
                 Cell cell = getCell(row.getNum(), col.getNum());
                 if (Col.TYPE_CONDITION == col.getType()) {
-                    if (!cell.logic.eval()) {
+                    if (!cell.express.eval()) {
                         rowHit = false;
                         break;
                     }
@@ -76,7 +76,7 @@ public class DecisionTable extends ExecuteUnit<ExecuteUnit.ExecuteUnitResponse> 
 
         private int rowSpan;
 
-        private Logic logic;
+        private Express express;
 
         private Action value;
     }

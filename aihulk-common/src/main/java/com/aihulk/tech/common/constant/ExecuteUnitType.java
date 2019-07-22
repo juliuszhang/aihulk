@@ -15,7 +15,8 @@ public enum ExecuteUnitType {
 
     DECISION_BLOCK(1),
     DECISION_TABLE(2),
-    DECISION_TREE(3);
+    DECISION_TREE(3),
+    SCORE_TABLE(4);
 
     @Getter
     private Integer val;

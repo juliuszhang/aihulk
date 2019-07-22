@@ -58,8 +58,8 @@ public class FlowRuleResourceLoader implements ResourceLoader<Map<Integer, List<
         Map<Integer, List<DecisionChain.ConditionEdge>> resultMap = Maps.newHashMap();
         for (FlowRule flowRule : flowRules) {
             DecisionChain.ConditionEdge conditionEdge = new DecisionChain().new ConditionEdge();
-            //TODO query from logic table
-//            conditionEdge.setLogic(LogicHelper.parse(flowRule.getExpress()));
+            //TODO query from express table
+//            conditionEdge.setExpress(ExpressHelper.parse(flowRule.getExpress()));
             Integer srcId = flowRule.getSrcId();
             Integer destId = flowRule.getDestId();
             BasicUnit src;

@@ -2,14 +2,13 @@ package com.aihulk.tech.manage.controller;
 
 import com.aihulk.tech.entity.entity.Fact;
 import com.aihulk.tech.manage.service.FactService;
-import com.aihulk.tech.manage.vo.ResponseVo;
+import com.aihulk.tech.manage.vo.base.ResponseVo;
 import com.google.common.base.Strings;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author zhangyibo

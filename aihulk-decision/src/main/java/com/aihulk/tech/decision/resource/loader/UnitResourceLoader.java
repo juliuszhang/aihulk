@@ -1,7 +1,7 @@
 package com.aihulk.tech.decision.resource.loader;
 
 import com.aihulk.tech.core.action.Action;
-import com.aihulk.tech.core.logic.LogicHelper;
+import com.aihulk.tech.core.logic.ExpressHelper;
 import com.aihulk.tech.core.resource.entity.DecisionBlock;
 import com.aihulk.tech.core.resource.entity.DecisionTable;
 import com.aihulk.tech.core.resource.entity.ExecuteUnit;
@@ -55,7 +55,7 @@ public class UnitResourceLoader implements ResourceLoader<Map<Integer, ExecuteUn
     }
 
     private ExecuteUnit mapExecuteUnit(Unit unit, List<Fact> facts, Map<Integer, List<Action>> actionMap) {
-        if (Unit.TYPE_DECISION_FLOW == unit.getType()) {
+        if (Unit.TYPE_DECISION_BLOCK == unit.getType()) {
             DecisionBlock executeUnit = new DecisionBlock();
             executeUnit.setName(unit.getName());
             executeUnit.setNameEn(unit.getNameEn());
@@ -63,7 +63,7 @@ public class UnitResourceLoader implements ResourceLoader<Map<Integer, ExecuteUn
             LogicMapper logicMapper = sqlSession.getMapper(LogicMapper.class);
             List<Logic> logics = logicMapper.selectList(new QueryWrapper<>());
             Logic logic = this.selectLogicById(logics, unit.getId());
-            executeUnit.setLogic(LogicHelper.parse(logic.getLogicExp()));
+            executeUnit.setExpress(ExpressHelper.parse(logic.getLogicExp()));
             List<Fact> runtimeFacts = this.selectByUnitId(facts, unit.getId());
             Map<Integer, List<Fact>> relations = Maps.newHashMap();
             this.queryAllFactRelations(runtimeFacts, relations, facts);

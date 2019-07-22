@@ -64,7 +64,7 @@ public class MysqlResourceLoader implements ResourceLoader<Resource> {
                     coreExecuteUnit.setName(unit.getName());
                     coreExecuteUnit.setNameEn(unit.getNameEn());
                     coreExecuteUnit.setFacts(getFeatures(SQL_SESSION, unit.getId()));
-//                    coreExecuteUnit.setLogic(LogicHelper.parse(unit.getEvalStr()));
+//                    coreExecuteUnit.setExpress(ExpressHelper.parse(unit.getEvalStr()));
 //                    coreExecuteUnit.setAction();
                     coreExecuteUnits.add(coreExecuteUnit);
                 }

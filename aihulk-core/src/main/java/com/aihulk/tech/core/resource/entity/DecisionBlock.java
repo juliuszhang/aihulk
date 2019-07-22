@@ -1,7 +1,7 @@
 package com.aihulk.tech.core.resource.entity;
 
 import com.aihulk.tech.core.action.Action;
-import com.aihulk.tech.core.logic.Logic;
+import com.aihulk.tech.core.logic.Express;
 import com.aihulk.tech.core.service.FactService;
 import lombok.Data;
 
@@ -17,7 +17,7 @@ import java.util.List;
 @Data
 public class DecisionBlock extends ExecuteUnit<ExecuteUnit.ExecuteUnitResponse> {
 
-    private Logic logic;
+    private Express express;
 
     private List<Action> actions;
 
@@ -26,7 +26,7 @@ public class DecisionBlock extends ExecuteUnit<ExecuteUnit.ExecuteUnitResponse> 
         FactService factService = new FactService();
         factService.extractFeature(this.facts);
         ExecuteUnitResponse response = new ExecuteUnitResponse();
-        response.setFired(logic.eval());
+        response.setFired(express.eval());
         response.setActions(this.actions);
         return response;
     }

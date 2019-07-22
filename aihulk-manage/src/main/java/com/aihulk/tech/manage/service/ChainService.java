@@ -1,6 +1,7 @@
 package com.aihulk.tech.manage.service;
 
 import com.aihulk.tech.entity.entity.Chain;
+import com.aihulk.tech.entity.mapper.ChainMapper;
 import org.springframework.stereotype.Service;
 
 /**
@@ -11,5 +12,5 @@ import org.springframework.stereotype.Service;
  * @date 2019-06-2815:44
  */
 @Service
-public class ChainService extends BaseService<Chain> {
+public class ChainService extends BaseService<Chain, ChainMapper> {
 }

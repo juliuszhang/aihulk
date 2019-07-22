@@ -3,9 +3,9 @@ package com.aihulk.tech.core.resource.loader;
 import com.aihulk.tech.common.constant.MergeStrategy;
 import com.aihulk.tech.common.util.DateUtil;
 import com.aihulk.tech.core.action.OutPut;
-import com.aihulk.tech.core.logic.Express;
-import com.aihulk.tech.core.logic.LogicHelper;
+import com.aihulk.tech.core.logic.ExpressHelper;
 import com.aihulk.tech.core.logic.Operation;
+import com.aihulk.tech.core.logic.SimpleExpress;
 import com.aihulk.tech.core.resource.entity.*;
 import com.google.common.collect.Maps;
 
@@ -36,11 +36,11 @@ public class LocalTestResourceLoader implements ResourceLoader {
         executeUnit1.setDesc("测试规则集desc");
         executeUnit1.setCreateTime(DateUtil.getCurDateTime());
         executeUnit1.setUpdateTime(DateUtil.getCurDateTime());
-        Express executeUnitExpress = new Express();
-        executeUnitExpress.setSrc(3);
-        executeUnitExpress.setTarget(2);
-        executeUnitExpress.setOp(Operation.GT);
-        executeUnit1.setLogic(executeUnitExpress);
+        SimpleExpress executeUnitSimpleExpress = new SimpleExpress();
+        executeUnitSimpleExpress.setSrc(3);
+        executeUnitSimpleExpress.setTarget(2);
+        executeUnitSimpleExpress.setOp(Operation.GT);
+        executeUnit1.setExpress(executeUnitSimpleExpress);
 
 
         //ruleSets2
@@ -70,19 +70,19 @@ public class LocalTestResourceLoader implements ResourceLoader {
         Map<Integer, List<Fact>> relation = Maps.newHashMap();
         relation.put(1, Arrays.asList(refFact));
         executeUnit.setFactsWithSort(Arrays.asList(ageFact, refFact), relation);
-        //express
-        Express express = new Express();
-        Express subExpress1 = new Express();
-        subExpress1.setSrc("$feature_001");
-        subExpress1.setTarget(18);
-        subExpress1.setOp(Operation.GT);
-        Express subExpress2 = new Express();
-        subExpress2.setSrc("");
-        subExpress2.setOp(Operation.IS_EMPTY);
-        express.setSrc(subExpress1);
-        express.setTarget(subExpress2);
-        express.setOp(Operation.AND);
-        executeUnit.setLogic(express);
+        //simpleExpress
+        SimpleExpress simpleExpress = new SimpleExpress();
+        SimpleExpress subSimpleExpress1 = new SimpleExpress();
+        subSimpleExpress1.setSrc("$feature_001");
+        subSimpleExpress1.setTarget(18);
+        subSimpleExpress1.setOp(Operation.GT);
+        SimpleExpress subSimpleExpress2 = new SimpleExpress();
+        subSimpleExpress2.setSrc("");
+        subSimpleExpress2.setOp(Operation.IS_EMPTY);
+        simpleExpress.setSrc(subSimpleExpress1);
+        simpleExpress.setTarget(subSimpleExpress2);
+        simpleExpress.setOp(Operation.AND);
+        executeUnit.setExpress(simpleExpress);
         OutPut action = new OutPut("a", 23891, MergeStrategy.NOTOVERWRITE.getVal());
         executeUnit.setActions(Arrays.asList(action));
 
@@ -96,7 +96,7 @@ public class LocalTestResourceLoader implements ResourceLoader {
         cell1.setRow(1);
         cell1.setCol(1);
         cell1.setRowSpan(1);
-        cell1.setLogic(LogicHelper.parse("{\"src\":1,\"op\":\"GT\",\"dest\":2}"));
+        cell1.setExpress(ExpressHelper.parse("{\"src\":1,\"op\":\"GT\",\"dest\":2}"));
         cellMap.put("1,1", cell1);
 
         DecisionTable.Cell cell2 = new DecisionTable.Cell();
@@ -110,7 +110,7 @@ public class LocalTestResourceLoader implements ResourceLoader {
         cell3.setRow(2);
         cell3.setCol(1);
         cell3.setRowSpan(1);
-        cell3.setLogic(LogicHelper.parse("{\"src\":2,\"op\":\"GT\",\"dest\":1}"));
+        cell3.setExpress(ExpressHelper.parse("{\"src\":2,\"op\":\"GT\",\"dest\":1}"));
         cellMap.put("2,1", cell3);
 
         DecisionTable.Cell cell4 = new DecisionTable.Cell();
@@ -132,10 +132,10 @@ public class LocalTestResourceLoader implements ResourceLoader {
         DecisionChain.ConditionEdge conditionEdge = chain.new ConditionEdge();
         conditionEdge.setSrcBasicUnit(executeUnit1);
         conditionEdge.setDestBasicUnit(executeUnitGroup2);
-        Express flowExpress = new Express();
-        flowExpress.setSrc(true);
-        flowExpress.setOp(Operation.IS_TRUE);
-        conditionEdge.setLogic(flowExpress);
+        SimpleExpress flowSimpleExpress = new SimpleExpress();
+        flowSimpleExpress.setSrc(true);
+        flowSimpleExpress.setOp(Operation.IS_TRUE);
+        conditionEdge.setExpress(flowSimpleExpress);
         chain.add(conditionEdge);
         resource.setDecisionChains(Arrays.asList(chain));
         return resource;

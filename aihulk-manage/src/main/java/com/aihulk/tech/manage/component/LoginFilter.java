@@ -3,7 +3,7 @@ package com.aihulk.tech.manage.component;
 import com.aihulk.tech.entity.entity.User;
 import com.aihulk.tech.manage.exception.ManageException;
 import com.aihulk.tech.manage.service.UserService;
-import com.aihulk.tech.manage.vo.BaseResponseVo;
+import com.aihulk.tech.manage.vo.base.BaseResponseVo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.util.Strings;

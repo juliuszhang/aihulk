@@ -1,6 +1,6 @@
 package com.aihulk.tech.manage.exception;
 
-import com.aihulk.tech.manage.vo.ResponseVo;
+import com.aihulk.tech.manage.vo.base.ResponseVo;
 import lombok.Getter;
 
 /**

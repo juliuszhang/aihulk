@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName(value = "logic")
+@TableName(value = "express")
 public class Logic extends BaseEntity {
 
     public static final Integer STRUCTURE_DECISION_FLOW = LogicStructure.DECISION_FLOW.getVal();
