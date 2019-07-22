@@ -8,12 +8,8 @@ import com.aihulk.tech.manage.service.ActionService;
 import com.aihulk.tech.manage.service.LogicService;
 import com.aihulk.tech.manage.service.UnitService;
 import com.aihulk.tech.manage.vo.UnitVo;
-import com.aihulk.tech.manage.vo.base.BaseResponseVo;
-import com.aihulk.tech.manage.vo.base.ResponsePageVo;
 import com.aihulk.tech.manage.vo.base.ResponseVo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,22 +44,7 @@ public class UnitController extends BaseController<Unit, UnitVo, UnitService> {
     }
 
     @Override
-    public BaseResponseVo<List<UnitVo>> select(@RequestParam(required = false) Integer start,
-                                               @RequestParam(required = false) Integer pageSize,
-                                               Unit unit) {
-        if (start != null && start > 0 && pageSize != null && pageSize > 0) {
-            IPage<Unit> iPage = unitService.selectPage(unit, new Page<>(start, pageSize));
-            List<Unit> units = iPage.getRecords();
-            List<UnitVo> unitVos = this.map(units);
-            return new ResponsePageVo<UnitVo>().buildSuccess(unitVos, "ok", iPage.getCurrent(), iPage.getSize());
-        } else {
-            List<Unit> units = unitService.select(unit);
-            List<UnitVo> unitVos = this.map(units);
-            return new ResponseVo<List<UnitVo>>().buildSuccess(unitVos, "ok");
-        }
-    }
-
-    private List<UnitVo> map(List<Unit> units) {
+    protected List<UnitVo> map(List<Unit> units) {
         //1.select actions
         List<Integer> unitIds = units.stream().map(Unit::getId).collect(Collectors.toList());
         List<Action> actions = actionService.select(new QueryWrapper<Action>().lambda().in(Action::getUnitId, unitIds));

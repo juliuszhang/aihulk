@@ -23,7 +23,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @description: BaseController
  * @date 2019-07-0316:04
  */
-public abstract class BaseController<T extends BaseEntity, R, S extends BaseService> {
+public abstract class BaseController<T extends BaseEntity, R, S extends BaseService<T, ?>> {
 
     @Autowired
     protected S baseService;
@@ -33,13 +33,24 @@ public abstract class BaseController<T extends BaseEntity, R, S extends BaseServ
                                           @RequestParam(required = false) Integer pageSize,
                                           T t) {
         if (start != null && start > 0 && pageSize != null && pageSize > 0) {
-            IPage<R> iPage = baseService.selectPage(t, new Page<>(start, pageSize));
-            return new ResponsePageVo<R>().buildSuccess(iPage.getRecords(), "ok", iPage.getCurrent(), iPage.getSize());
+            IPage<T> iPage = baseService.selectPage(t, new Page<>(start, pageSize));
+            List<T> records = iPage.getRecords();
+            List<R> results = this.map(records);
+            return new ResponsePageVo<R>().buildSuccess(results, "ok", iPage.getCurrent(), iPage.getSize());
         } else {
-            List<R> list = baseService.select(t);
-            return new ResponseVo<List<R>>().buildSuccess(list, "ok");
+            List<T> list = baseService.select(t);
+            List<R> results = this.map(list);
+            return new ResponseVo<List<R>>().buildSuccess(results, "ok");
         }
     }
+
+    /**
+     * 将数据库查询的实体转换成要展示的Vo实体
+     *
+     * @param tList
+     * @return
+     */
+    protected abstract List<R> map(List<T> tList);
 
     @PostMapping(value = "")
     public ResponseVo<Void> add(@RequestBody @NonNull T t) {
