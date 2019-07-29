@@ -27,7 +27,6 @@ public interface ScriptEngine {
      */
     Map<Integer, Object> execute(List<ScriptInfo> scriptInfos);
 
-
     /**
      * 当执行一组脚本时 需要将结果与对应的脚本对应起来
      * 因此需要将id和脚本代码一同作为参数传入
