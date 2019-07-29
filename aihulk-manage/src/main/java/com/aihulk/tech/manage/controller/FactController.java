@@ -53,11 +53,11 @@ public class FactController extends BaseControllerAdaptor<Fact, FactService> {
         String codeType = execFactVo.getCodeType();
         checkArgument(!Strings.isNullOrEmpty(codeType), "codeType 不能为空");
         ScriptEngine scriptEngine;
-        if (Fact.CODE_TYPE_BASIC == codeType) {
+        if (Fact.CODE_TYPE_BASIC.equalsIgnoreCase(codeType)) {
             scriptEngine = new SimpleScriptEngine();
-        } else if (Fact.CODE_TYPE_JS == codeType) {
+        } else if (Fact.CODE_TYPE_JS.equalsIgnoreCase(codeType)) {
             scriptEngine = new JsScriptEngine();
-        } else if (Fact.CODE_TYPE_PY == codeType) {
+        } else if (Fact.CODE_TYPE_PY.equalsIgnoreCase(codeType)) {
             throw new UnsupportedOperationException();
             //TODO
         } else {

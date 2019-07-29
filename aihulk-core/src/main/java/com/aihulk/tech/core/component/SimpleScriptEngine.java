@@ -18,8 +18,8 @@ public class SimpleScriptEngine implements ScriptEngine {
     private static final String CODE_BODY_PLACEHOLDER = "#{codeBody}";
 
     private static final String JS_CODE_TEMPLATE =
-            "function" + FUNCTION_NAME_PLACEHOLDER + " (data){" +
-                    "return " + CODE_BODY_PLACEHOLDER + ";" +
+            "function" + FUNCTION_NAME_PLACEHOLDER + "(data){" +
+                    "return data." + CODE_BODY_PLACEHOLDER + ";" +
                     "}\n" +
                     //function invoke
                     FUNCTION_NAME_PLACEHOLDER + "(data);";
