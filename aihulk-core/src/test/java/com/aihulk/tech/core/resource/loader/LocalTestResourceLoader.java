@@ -66,7 +66,7 @@ public class LocalTestResourceLoader implements ResourceLoader {
         Fact refFact = new Fact();
         refFact.setId(2);
         refFact.setName("引用特征");
-        refFact.setCode("function $fact_002(data){ return data.age} \n $fact_002(data);");
+        refFact.setCode("function $fact_002(data){ return data.apply.age} \n $fact_002(data);");
         Map<Integer, List<Fact>> relation = Maps.newHashMap();
         relation.put(1, Arrays.asList(refFact));
         executeUnit.setFactsWithSort(Arrays.asList(ageFact, refFact), relation);

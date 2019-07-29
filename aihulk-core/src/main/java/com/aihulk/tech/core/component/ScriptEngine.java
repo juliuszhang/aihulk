@@ -1,5 +1,7 @@
 package com.aihulk.tech.core.component;
 
+import lombok.Getter;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -31,6 +33,7 @@ public interface ScriptEngine {
      * 当执行一组脚本时 需要将结果与对应的脚本对应起来
      * 因此需要将id和脚本代码一同作为参数传入
      */
+    @Getter
     class ScriptInfo {
         /**
          * 脚本Id
@@ -56,18 +59,6 @@ public interface ScriptEngine {
             this.scriptId = scriptId;
             this.script = script;
             this.params = params;
-        }
-
-        public Integer getScriptId() {
-            return scriptId;
-        }
-
-        public String getScript() {
-            return script;
-        }
-
-        public Map<String, Object> getParams() {
-            return params;
         }
 
         @Override

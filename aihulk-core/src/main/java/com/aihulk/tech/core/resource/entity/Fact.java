@@ -30,4 +30,5 @@ public class Fact extends BaseResource {
     private ScriptCodeType codeType;
 
     private DataType resultType;
+
 }

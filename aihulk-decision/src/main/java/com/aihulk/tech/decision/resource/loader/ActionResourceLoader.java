@@ -1,6 +1,7 @@
 package com.aihulk.tech.decision.resource.loader;
 
 import com.aihulk.tech.core.action.Action;
+import com.aihulk.tech.core.action.ConsoleOutput;
 import com.aihulk.tech.core.action.OutPut;
 import com.aihulk.tech.core.resource.loader.ResourceLoader;
 import com.aihulk.tech.decision.component.MybatisService;
@@ -49,6 +50,9 @@ public class ActionResourceLoader implements ResourceLoader<Map<Integer, List<Ac
                 Action action = new OutPut(nameEn, value, mergeStrategy);
                 action.setId(dbAction.getId());
                 resultMap.get(dbAction.getUnitId()).add(action);
+            } else if (com.aihulk.tech.entity.entity.Action.ACTION_TYPE_CONSOLE_OUTPUT.equals(dbAction.getType())) {
+                //TODO
+                Action action = new ConsoleOutput();
             }
         }
         return resultMap;

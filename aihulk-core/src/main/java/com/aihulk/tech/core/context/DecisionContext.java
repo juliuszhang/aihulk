@@ -1,6 +1,8 @@
 package com.aihulk.tech.core.context;
 
 
+import com.aihulk.tech.core.resource.decision.DecisionData;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,8 +16,7 @@ public class DecisionContext {
     private static final ThreadLocal<Map<Integer, Object>> FACT_MAP
             = ThreadLocal.withInitial(() -> new HashMap<>());
 
-    private static final ThreadLocal<String> DATA = new ThreadLocal<>();
-
+    private static final ThreadLocal<DecisionData> DATA = new ThreadLocal<>();
 
     public static void setFactMap(Map<Integer, Object> factMap) {
         if (factMap == null) return;
@@ -30,11 +31,11 @@ public class DecisionContext {
         FACT_MAP.get().put(factId, val);
     }
 
-    public static String getData() {
+    public static DecisionData getData() {
         return DATA.get();
     }
 
-    public static void setData(String data) {
+    public static void setData(DecisionData data) {
         DATA.set(data);
     }
 

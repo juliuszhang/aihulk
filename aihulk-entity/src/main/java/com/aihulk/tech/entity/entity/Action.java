@@ -20,6 +20,8 @@ public class Action extends BaseEntity {
 
     public static final Integer ACTION_TYPE_OUTPUT = ActionType.OUTPUT.getVal();
 
+    public static final Integer ACTION_TYPE_CONSOLE_OUTPUT = ActionType.CONSOLE_OUTPUT.getVal();
+
     @TableField(value = "name")
     private String name;
 
