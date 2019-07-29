@@ -4,8 +4,10 @@ import com.aihulk.tech.common.util.MD5Util;
 import com.aihulk.tech.common.util.RandomUtil;
 import com.aihulk.tech.common.util.RegexUtil;
 import com.aihulk.tech.entity.entity.User;
+import com.aihulk.tech.entity.entity.UserInfo;
 import com.aihulk.tech.manage.constant.LoginType;
 import com.aihulk.tech.manage.exception.ManageException;
+import com.aihulk.tech.manage.service.UserInfoService;
 import com.aihulk.tech.manage.service.UserService;
 import com.aihulk.tech.manage.service.msg.MailService;
 import com.aihulk.tech.manage.service.msg.MessageService;
@@ -58,6 +60,8 @@ public class UserController {
     @Autowired
     private MessageService messageService;
 
+    @Autowired
+    private UserInfoService userInfoService;
     @Autowired
     private HttpServletRequest request;
 
@@ -227,12 +231,12 @@ public class UserController {
     }
 
     @PostMapping(value = "/login")
-    public ResponseVo<User> login(@RequestBody Map<String, Object> requestMap) {
+    public ResponseVo<User> login(@RequestBody User login) {
         //1.param check
-        checkNotNull(requestMap, "请求/user/login的参数不能为空");
-        String account = (String) requestMap.get("account");
+        checkNotNull(login, "请求/user/login的参数不能为空");
+        String account = login.getUsername();
         checkArgument(!Strings.isNullOrEmpty(account), "用户名不能为空");
-        String password = (String) requestMap.get("password");
+        String password = login.getPassword();
         checkArgument(!Strings.isNullOrEmpty(password), "密码不能为空");
         //2.query user
         LoginType loginType = LoginType.parse(account);
@@ -284,6 +288,13 @@ public class UserController {
             queryParam.setUsername(account);
         }
         return userService.selectOne(queryParam);
+    }
+
+    @GetMapping(value = "info/{userId}")
+    public ResponseVo<UserInfo> getPersonInfo(@PathVariable(value = "userId") int userId) {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUserId(userId);
+        return new ResponseVo<UserInfo>().buildSuccess(userInfoService.selectOne(userInfo), "获取用户个人信息");
     }
 
 

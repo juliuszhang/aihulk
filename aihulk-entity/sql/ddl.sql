@@ -206,3 +206,24 @@ create table `user`
 	deleted tinyint(1) null DEFAULT 0 comment '逻辑删除字段',
 	operator varchar(32) null comment '操作人'
 ) comment '用户';
+
+create table `user_info`
+(
+	id int auto_increment
+		primary key comment '主键',
+	user_id int(11) comment 'user表主键',
+	name varchar(32) null comment '名字',
+	nickname varchar(32) null comment '昵称',
+	avatar varchar(128) null comment '头像地址',
+	signature varchar(64) null comment '签名',
+	title varchar(32) null comment '职位',
+	team varchar(128) null comment '团队',
+	country varchar (16) null comment '国家',
+	province varchar (32) null comment '省',
+	city varchar (32) null comment '市',
+	address varchar (128) null comment '地址',
+	create_time varchar(19) null comment '创建时间',
+	update_time varchar(19) null comment '更新时间',
+	deleted tinyint(1) null DEFAULT 0 comment '逻辑删除字段',
+	operator varchar(32) null comment '操作人'
+) comment '用户个人信息';
