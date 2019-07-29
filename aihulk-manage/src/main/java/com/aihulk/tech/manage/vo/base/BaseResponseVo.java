@@ -96,6 +96,9 @@ public abstract class BaseResponseVo<R> {
 
         //执行单元组不存在
         public static final ManageBusinessErrorCode UNIT_GROUP_NOT_EXIST = new ManageBusinessErrorCode(211);
+
+        //未知的执行单元引擎
+        public static final ManageBusinessErrorCode UNKNOWN_SCRIPT_ENGING = new ManageBusinessErrorCode(212);
     }
 
 }
