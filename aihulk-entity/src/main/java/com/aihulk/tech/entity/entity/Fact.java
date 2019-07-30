@@ -42,11 +42,14 @@ public class Fact extends BaseEntity {
     @TableField(value = "business_id")
     private Integer businessId;
 
-    @TableField(value = "code")
-    private String code;
+    @TableField(value = "script")
+    private String script;
 
-    @TableField(value = "code_type")
-    private String codeType;
+    @TableField(value = "format_script")
+    private String formatScript;
+
+    @TableField(value = "script_type")
+    private String scriptType;
 
     @TableField(value = "result_type")
     private String resultType;

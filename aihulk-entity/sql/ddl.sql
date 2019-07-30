@@ -25,18 +25,19 @@ create table chain
 
 create table fact
 (
-	id int auto_increment
+    id            int auto_increment
 		primary key comment '主键',
-	name varchar(32) null comment '名称',
-	name_en varchar(32) null comment '英文名',
-	business_id int(11) null comment '所属业务id',
-	code text null comment '事实代码',
-	code_type varchar(32) null comment '事实代码类型',
-	result_type varchar(10) null comment '返回值类型',
-	create_time varchar(19) null comment '创建时间',
-	update_time varchar(19) null comment '更新时间',
-	deleted tinyint(1) null DEFAULT 0 comment '逻辑删除字段',
-	operator varchar(32) null comment '操作人'
+    name          varchar(32) null comment '名称',
+    name_en       varchar(32) null comment '英文名',
+    business_id   int(11)     null comment '所属业务id',
+    script        text        null comment '事实代码',
+    format_script text        null comment '处理后的事实代码',
+    script_type   varchar(32) null comment '事实代码类型',
+    result_type   varchar(10) null comment '返回值类型',
+    create_time   varchar(19) null comment '创建时间',
+    update_time   varchar(19) null comment '更新时间',
+    deleted       tinyint(1)  null DEFAULT 0 comment '逻辑删除字段',
+    operator      varchar(32) null comment '操作人'
 ) comment '事实';
 
 create table variable

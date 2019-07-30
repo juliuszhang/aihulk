@@ -13,7 +13,7 @@ import java.util.Map;
  * @description: SimpleScriptEngineTest
  * @date 2019-07-29 11:10
  */
-public class SimpleScriptEngineTest {
+public class BasicScriptEngineTest {
 
     @Test
     public void execute() {
@@ -25,8 +25,8 @@ public class SimpleScriptEngineTest {
         applyMap.put("apply", aMap);
         paramMap.put("data", applyMap);
 
-        SimpleScriptEngine simpleScriptEngine = new SimpleScriptEngine();
-        Object execute = simpleScriptEngine.execute(new ScriptEngine.ScriptInfo(1, script, paramMap));
+        BasicScriptEngine basicScriptEngine = new BasicScriptEngine();
+        Object execute = basicScriptEngine.execute(new ScriptEngine.ScriptInfo(1, script, paramMap));
         Assert.assertTrue(execute.equals("test success"));
     }
 }

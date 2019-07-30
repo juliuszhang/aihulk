@@ -19,4 +19,13 @@ public enum ScriptCodeType {
     @Getter
     private String name;
 
+    public static ScriptCodeType parse(String name) {
+        for (ScriptCodeType codeType : ScriptCodeType.values()) {
+            if (codeType.getName().equalsIgnoreCase(name)) {
+                return codeType;
+            }
+        }
+        return null;
+    }
+
 }

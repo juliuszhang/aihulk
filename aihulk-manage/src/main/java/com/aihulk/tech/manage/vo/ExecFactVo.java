@@ -16,9 +16,9 @@ public class ExecFactVo {
 
     private Integer factId;
 
-    private String code;
+    private String script;
 
-    private String codeType;
+    private String scriptType;
 
     private Map<String, Object> data;
 
