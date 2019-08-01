@@ -1,6 +1,7 @@
 package com.aihulk.tech.common.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -18,6 +19,15 @@ public class JsonUtil {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             return objectMapper.readValue(json, clazz);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static <R> R parseObject(String json, TypeReference<R> typeReference){
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.readValue(json, typeReference);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

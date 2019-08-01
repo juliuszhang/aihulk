@@ -3,3 +3,7 @@ mysql:
   url: jdbc:mysql://47.93.30.148:3306/aihulk?autoReconnect=true&characterEncoding=UTF8
   username: aihulk
   password: aihulk3.1415Ss
+
+server:
+  port: 8080
+  basePackage: com.aihulk.tech.decision.contoller

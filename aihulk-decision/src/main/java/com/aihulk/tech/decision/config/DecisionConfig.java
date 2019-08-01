@@ -21,4 +21,8 @@ public class DecisionConfig {
         return config.getMysql();
     }
 
+    public static DecisionConfigEntity.ServerConfig getServerConfig(){
+        return config.getServer();
+    }
+
 }

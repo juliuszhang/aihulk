@@ -91,7 +91,7 @@ public class MysqlResourceLoader implements ResourceLoader<Resource> {
             coreFact.setId(fact.getId());
             coreFact.setName(fact.getName());
             coreFact.setNameEn(fact.getNameEn());
-            coreFact.setCode(fact.getCode());
+            coreFact.setCode(fact.getScript());
             coreFacts.add(coreFact);
         }
 

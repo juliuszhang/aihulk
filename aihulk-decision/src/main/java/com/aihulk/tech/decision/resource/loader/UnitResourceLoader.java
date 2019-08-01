@@ -40,7 +40,7 @@ public class UnitResourceLoader implements ResourceLoader<Map<Integer, ExecuteUn
         SqlSession sqlSession = MybatisService.getInstance().getSqlSession();
         UnitMapper mapper = sqlSession.getMapper(UnitMapper.class);
         Unit queryParam = new Unit();
-        queryParam.setBizId(bizId);
+        queryParam.setBusinessId(bizId);
         QueryWrapper wrapper = new QueryWrapper(queryParam);
         List<Unit> units = mapper.selectList(wrapper);
         final List<Fact> allFacts = factResourceLoader.loadResource(bizId, version);

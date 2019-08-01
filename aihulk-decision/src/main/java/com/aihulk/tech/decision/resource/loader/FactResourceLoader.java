@@ -45,7 +45,7 @@ public class FactResourceLoader implements ResourceLoader<List<com.aihulk.tech.c
      */
     public com.aihulk.tech.core.resource.entity.Fact map(Fact fact) {
         com.aihulk.tech.core.resource.entity.Fact runtimeFact = new com.aihulk.tech.core.resource.entity.Fact();
-        runtimeFact.setCode(fact.getCode());
+        runtimeFact.setCode(fact.getScript());
         runtimeFact.setName(fact.getName());
         runtimeFact.setNameEn(fact.getNameEn());
         runtimeFact.setCreateTime(fact.getCreateTime());
