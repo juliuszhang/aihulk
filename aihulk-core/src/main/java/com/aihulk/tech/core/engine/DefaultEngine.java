@@ -12,6 +12,10 @@ import com.aihulk.tech.core.resource.decision.DecisionResponse;
 import com.aihulk.tech.core.resource.entity.*;
 import com.aihulk.tech.core.resource.loader.ResourceLoader;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
@@ -57,17 +61,34 @@ public class DefaultEngine implements Engine {
         DecisionChain decisionChain = getDecisionChain(request.getChainId());
         //3.iterate and eval rules
         Iterator<BasicUnit> iterator = decisionChain.iterator();
+        Map<String, Object> variables = response.getVariables();
         while (iterator.hasNext()) {
+            UnitExecuteResponse unitDecisionResponse;
             BasicUnit basicUnit = iterator.next();
             if (basicUnit.getUnitType() == UnitType.EXECUTE_UNIT) {
-                this.evalExecuteUnits(Arrays.asList((ExecuteUnit) basicUnit), response);
+                unitDecisionResponse = this.evalExecuteUnits(Arrays.asList((ExecuteUnit) basicUnit));
             } else if (basicUnit.getUnitType() == UnitType.EXECUTE_UNIT_GROUP) {
                 List<ExecuteUnit> executeUnits = ((ExecuteUnitGroup) basicUnit).getExecuteUnits();
-                this.evalExecuteUnits(executeUnits, response);
+                unitDecisionResponse = this.evalExecuteUnits(executeUnits);
             } else {
                 throw new UnsupportedOperationException("unknown basic unit type");
             }
-            //TODO chain范围内的变量merge
+            response.getExecExecuteUnits().addAll(unitDecisionResponse.getExecExecuteUnits());
+            response.getFireExecuteUnits().addAll(unitDecisionResponse.getFireExecuteUnits());
+            //变量合并逻辑
+            List<OutPut> outPuts = unitDecisionResponse.getOutPuts();
+            for (OutPut outPut : outPuts) {
+                String key = outPut.getKey();
+                Object value = outPut.getObj();
+                if (variables.containsKey(key)) {
+                    Object oldVal = variables.get(key);
+                    MergeStrategy chainMergeStrategy = outPut.getChainMergeStrategy();
+                    variables.put(key, chainMergeStrategy.merge(oldVal, value));
+                } else {
+                    variables.put(key, value);
+                }
+            }
+            response.setVariables(variables);
         }
 
         response.setStatus(0);
@@ -76,36 +97,50 @@ public class DefaultEngine implements Engine {
 
     }
 
-    private DecisionResponse evalExecuteUnits(List<ExecuteUnit> executeUnits, DecisionResponse response) {
+    @Getter
+    @Setter
+    private static class UnitExecuteResponse {
+
+        private List<ExecuteUnit> fireExecuteUnits = Lists.newArrayList();
+
+        private List<ExecuteUnit> execExecuteUnits = Lists.newArrayList();
+
+        private List<OutPut> outPuts = Lists.newArrayList();
+    }
+
+    private UnitExecuteResponse evalExecuteUnits(List<ExecuteUnit> executeUnits) {
+        UnitExecuteResponse response = new UnitExecuteResponse();
         List<ExecuteUnit> fireExecuteUnits = response.getFireExecuteUnits();
         List<ExecuteUnit> execRules = response.getExecExecuteUnits();
-        Map<String, Object> variables = response.getVariables();
+        List<OutPut> outPuts = response.getOutPuts();
+        Map<String, OutPut> outPutMap = Maps.newHashMap();
         for (ExecuteUnit executeUnit : executeUnits) {
             //run executeUnit express
             ExecuteUnit.ExecuteUnitResponse evalResult = executeUnit.exec();
-            if (evalResult.isFired()) {
+            execRules.add(executeUnit);
+            if (!evalResult.isFired())
+                continue;
+            else
                 fireExecuteUnits.add(executeUnit);
-                List<Action> actions = evalResult.getActions();
-                if (actions == null) actions = Collections.EMPTY_LIST;
-                for (Action action : actions) {
-                    if (action instanceof OutPut) {
-                        //输出一个变量
-                        OutPut outPut = (OutPut) action;
-                        String key = outPut.getKey();
-                        Object obj = outPut.getObj();
-                        if (variables.containsKey(key)) {
-                            //变量合并逻辑
-                            MergeStrategy mergeStrategy = outPut.getUnitMergeStrategy();
-                            Object mergeResult = mergeStrategy.merge(variables.get(key), obj);
-                            variables.put(key, mergeResult);
-                        } else {
-                            variables.put(key, obj);
-                        }
+            List<Action> actions = evalResult.getActions();
+            if (actions == null) continue;
+            for (Action action : actions) {
+                if (action instanceof OutPut) {
+                    //输出一个变量
+                    OutPut outPut = (OutPut) action;
+                    String key = outPut.getKey();
+                    if (outPutMap.containsKey(key)) {
+                        OutPut oldOutPut = outPutMap.get(key);
+                        //变量合并逻辑
+                        MergeStrategy mergeStrategy = outPut.getUnitMergeStrategy();
+                        outPutMap.put(key, (OutPut) mergeStrategy.merge(oldOutPut, outPut));
+                    } else {
+                        outPutMap.put(key, outPut);
                     }
                 }
             }
-            execRules.add(executeUnit);
         }
+        response.setOutPuts(new ArrayList<>(outPutMap.values()));
         return response;
     }
 
