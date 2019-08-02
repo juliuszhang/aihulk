@@ -1,5 +1,6 @@
 package com.aihulk.tech.decision.controller;
 
+import com.aihulk.tech.core.exception.RuleEngineException;
 import com.aihulk.tech.core.resource.decision.DecisionRequest;
 import com.aihulk.tech.core.resource.decision.DecisionResponse;
 import com.aihulk.tech.core.service.DecisionService;
@@ -30,7 +31,8 @@ public class DecisionController {
                                            @RequestBody Map<String, Object> apply) {
         checkArgument(bizId > 0, "bizId参数不合法");
         checkArgument(chainId > 0, "chainid参数不合法");
-        return Mono.just(decisionService.decision(new DecisionRequest(apply, chainId), bizId, null));
+        return Mono.just(decisionService.decision(new DecisionRequest(apply, chainId), bizId, null))
+                .onErrorResume(RuleEngineException.class, (e) -> Mono.just(new DecisionResponse(e.getCode().getCode(), e.getMessage())));
     }
 
 }

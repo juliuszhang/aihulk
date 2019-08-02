@@ -1,5 +1,7 @@
 package com.aihulk.tech.core.exception;
 
+import lombok.Getter;
+
 /**
  * @ClassName RuleEngineException
  * @Description 最基础的决策引擎异常
@@ -26,6 +28,7 @@ public class RuleEngineException extends RuntimeException {
 
     public static class Code {
 
+        @Getter
         private int code;
 
         public static final Code SUCCESS = new Code(0);

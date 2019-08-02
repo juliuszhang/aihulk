@@ -91,7 +91,7 @@ public class DefaultEngine implements Engine {
             response.setVariables(variables);
         }
 
-        response.setStatus(0);
+        response.setStatus(RuleEngineException.Code.SUCCESS.getCode());
         response.setMsg("决策成功");
         return response;
 
