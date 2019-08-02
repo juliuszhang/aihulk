@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    password: aihulk3.1415Ss
+    username: aihulk
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://47.93.30.148:3306/aihulk?autoReconnect=true&characterEncoding=UTF8

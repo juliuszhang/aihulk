@@ -7,7 +7,6 @@ import com.aihulk.tech.core.resource.entity.DecisionTable;
 import com.aihulk.tech.core.resource.entity.ExecuteUnit;
 import com.aihulk.tech.core.resource.entity.Fact;
 import com.aihulk.tech.core.resource.loader.ResourceLoader;
-import com.aihulk.tech.decision.component.MybatisService;
 import com.aihulk.tech.entity.entity.Logic;
 import com.aihulk.tech.entity.entity.Unit;
 import com.aihulk.tech.entity.mapper.FactMapper;
@@ -15,7 +14,8 @@ import com.aihulk.tech.entity.mapper.LogicMapper;
 import com.aihulk.tech.entity.mapper.UnitMapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Maps;
-import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
@@ -29,16 +29,26 @@ import java.util.stream.Collectors;
  * @description: UnitResourceLoader
  * @date 2019-06-2819:01
  */
+@Component
 public class UnitResourceLoader implements ResourceLoader<Map<Integer, ExecuteUnit>> {
 
-    private FactResourceLoader factResourceLoader = new FactResourceLoader();
+    @Autowired
+    private FactResourceLoader factResourceLoader;
 
-    private ActionResourceLoader actionResourceLoader = new ActionResourceLoader();
+    @Autowired
+    private ActionResourceLoader actionResourceLoader;
+
+    @Autowired
+    private UnitMapper mapper;
+
+    @Autowired
+    private LogicMapper logicMapper;
+
+    @Autowired
+    private FactMapper factMapper;
 
     @Override
     public Map<Integer, ExecuteUnit> loadResource(Integer bizId, String version) {
-        SqlSession sqlSession = MybatisService.getInstance().getSqlSession();
-        UnitMapper mapper = sqlSession.getMapper(UnitMapper.class);
         Unit queryParam = new Unit();
         queryParam.setBusinessId(bizId);
         QueryWrapper wrapper = new QueryWrapper(queryParam);
@@ -59,8 +69,6 @@ public class UnitResourceLoader implements ResourceLoader<Map<Integer, ExecuteUn
             DecisionBlock executeUnit = new DecisionBlock();
             executeUnit.setName(unit.getName());
             executeUnit.setNameEn(unit.getNameEn());
-            SqlSession sqlSession = MybatisService.getInstance().getSqlSession();
-            LogicMapper logicMapper = sqlSession.getMapper(LogicMapper.class);
             List<Logic> logics = logicMapper.selectList(new QueryWrapper<>());
             Logic logic = this.selectLogicById(logics, unit.getId());
             executeUnit.setExpress(ExpressHelper.parse(logic.getLogicExp()));
@@ -86,10 +94,8 @@ public class UnitResourceLoader implements ResourceLoader<Map<Integer, ExecuteUn
 
     private void queryAllFactRelations(List<Fact> facts, Map<Integer, List<Fact>> relations, List<Fact> allFacts) {
         if (facts.isEmpty()) return;
-        SqlSession sqlSession = MybatisService.getInstance().getSqlSession();
-        FactMapper mapper = sqlSession.getMapper(FactMapper.class);
         for (Fact fact : facts) {
-            List<Integer> refFactIds = mapper.selectRefFacts(fact.getId());
+            List<Integer> refFactIds = factMapper.selectRefFacts(fact.getId());
             List<Fact> refFacts = selectByIds(allFacts, refFactIds);
             relations.put(fact.getId(), refFacts);
             queryAllFactRelations(refFacts, relations, allFacts);

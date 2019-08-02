@@ -11,7 +11,7 @@ import org.yaml.snakeyaml.Yaml;
  */
 public class DecisionConfig {
 
-    private static final String DECISION_CONFIG_YAML_PATH = "/decision.yml";
+    private static final String DECISION_CONFIG_YAML_PATH = "/application.yml";
 
     private static final DecisionConfigEntity config = new Yaml().loadAs(
             DecisionConfig.class.getResourceAsStream(DECISION_CONFIG_YAML_PATH)

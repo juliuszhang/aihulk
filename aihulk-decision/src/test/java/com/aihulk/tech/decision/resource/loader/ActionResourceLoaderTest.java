@@ -3,14 +3,16 @@ package com.aihulk.tech.decision.resource.loader;
 import com.aihulk.tech.common.constant.MergeStrategy;
 import com.aihulk.tech.core.action.Action;
 import com.aihulk.tech.core.action.OutPut;
-import com.aihulk.tech.decision.component.MybatisService;
 import com.aihulk.tech.entity.entity.Variable;
 import com.aihulk.tech.entity.mapper.ActionMapper;
 import com.aihulk.tech.entity.mapper.VariableMapper;
 import com.google.common.collect.Maps;
-import org.apache.ibatis.annotations.Insert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Comparator;
 import java.util.List;
@@ -26,13 +28,18 @@ import static org.junit.Assert.assertTrue;
  * @description: ActionResourceLoaderTest
  * @date 2019-07-0516:07
  */
+@SpringBootTest
+@RunWith(SpringRunner.class)
 public class ActionResourceLoaderTest {
 
+    @Autowired
     private ActionResourceLoader actionResourceLoader = new ActionResourceLoader();
 
-    private ActionMapper actionMapper = MybatisService.getMapper(ActionMapper.class);
+    @Autowired
+    private ActionMapper actionMapper;
 
-    private VariableMapper variableMapper = MybatisService.getMapper(VariableMapper.class);
+    @Autowired
+    private VariableMapper variableMapper;
 
     private Integer var1Id;
 
@@ -88,8 +95,7 @@ public class ActionResourceLoaderTest {
     }
 
     private void insertActionVariableRelation() {
-        MybatisService.addMapper(ActionVaribaleRelationMapper.class);
-        ActionVaribaleRelationMapper mapper = MybatisService.getMapper(ActionVaribaleRelationMapper.class);
+
         Map<String, Object> varMap1 = Maps.newHashMap();
         varMap1.put("actionId", action1Id);
         varMap1.put("varId", var1Id);
@@ -100,14 +106,8 @@ public class ActionResourceLoaderTest {
         varMap2.put("varId", var2Id);
         varMap2.put("value", "aaa");
 
-        mapper.insert(varMap1);
-        mapper.insert(varMap2);
     }
 
-    private interface ActionVaribaleRelationMapper {
-        @Insert(value = "INSERT INTO action_variable_relation (action_id,variable_id,value,deleted) VALUES( #{actionId},#{varId},#{value},0);")
-        void insert(Map<String, Object> map);
-    }
 
     @Test
     public void loadResource() {

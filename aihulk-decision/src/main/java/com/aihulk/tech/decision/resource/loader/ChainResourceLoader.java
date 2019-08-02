@@ -6,13 +6,14 @@ import com.aihulk.tech.core.resource.entity.DecisionChain;
 import com.aihulk.tech.core.resource.entity.ExecuteUnit;
 import com.aihulk.tech.core.resource.entity.ExecuteUnitGroup;
 import com.aihulk.tech.core.resource.loader.ResourceLoader;
-import com.aihulk.tech.decision.component.MybatisService;
 import com.aihulk.tech.entity.entity.Chain;
 import com.aihulk.tech.entity.mapper.ChainMapper;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Maps;
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,23 +27,28 @@ import java.util.stream.Collectors;
  * @description: ChainResourceLoader
  * @date 2019-06-2818:41
  */
+@Component
 public class ChainResourceLoader implements ResourceLoader<List<DecisionChain>> {
 
     private static final int CHAIN_UNIT_RELATION_TYPE_UNIT = UnitType.EXECUTE_UNIT.getVal();
     private static final int CHAIN_UNIT_RELATION_TYPE_UNIT_GROUP = UnitType.EXECUTE_UNIT_GROUP.getVal();
 
-    private UnitResourceLoader unitResourceLoader = new UnitResourceLoader();
+    @Autowired
+    private UnitResourceLoader unitResourceLoader;
 
-    private UnitGroupResourceLoader unitGroupResourceLoader = new UnitGroupResourceLoader();
+    @Autowired
+    private UnitGroupResourceLoader unitGroupResourceLoader;
 
-    private FlowRuleResourceLoader flowRuleResourceLoader = new FlowRuleResourceLoader();
+    @Autowired
+    private FlowRuleResourceLoader flowRuleResourceLoader;
+
+    @Autowired
+    private ChainMapper chainMapper;
 
     @Override
     public List<DecisionChain> loadResource(Integer bizId, String version) {
         SqlSession sqlSession = null;
         try {
-            sqlSession = MybatisService.getInstance().getSqlSession();
-            ChainMapper chainMapper = sqlSession.getMapper(ChainMapper.class);
             Chain queryParam = new Chain();
             queryParam.setBusinessId(bizId);
             Wrapper wrapper = new QueryWrapper(queryParam);
@@ -82,8 +88,6 @@ public class ChainResourceLoader implements ResourceLoader<List<DecisionChain>> 
     }
 
     private Map<Integer, List<BasicUnit>> getChainUnitRelations(Integer type, Map<Integer, ? extends BasicUnit> allBasicUnits) {
-        SqlSession sqlSession = MybatisService.getInstance().getSqlSession();
-        ChainMapper chainMapper = sqlSession.getMapper(ChainMapper.class);
         List<Map<String, Object>> relations = chainMapper.selectUnitChainRelationsByType(type);
         Map<Integer, List<BasicUnit>> relationsMap = Maps.newHashMapWithExpectedSize(relations.size());
         for (Map<String, Object> relation : relations) {

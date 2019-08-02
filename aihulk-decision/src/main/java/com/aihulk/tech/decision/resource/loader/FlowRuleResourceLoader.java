@@ -7,12 +7,12 @@ import com.aihulk.tech.core.resource.entity.DecisionChain;
 import com.aihulk.tech.core.resource.entity.ExecuteUnit;
 import com.aihulk.tech.core.resource.entity.ExecuteUnitGroup;
 import com.aihulk.tech.core.resource.loader.ResourceLoader;
-import com.aihulk.tech.decision.component.MybatisService;
 import com.aihulk.tech.entity.entity.FlowRule;
 import com.aihulk.tech.entity.mapper.FlowRuleMapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Maps;
-import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +25,17 @@ import java.util.Map;
  * @description: FlowRuleResourceLoader
  * @date 2019-07-0115:26
  */
+@Component
 public class FlowRuleResourceLoader implements ResourceLoader<Map<Integer, List<DecisionChain.ConditionEdge>>> {
 
+    @Autowired
     private UnitResourceLoader unitResourceLoader = new UnitResourceLoader();
 
+    @Autowired
     private UnitGroupResourceLoader unitGroupResourceLoader = new UnitGroupResourceLoader();
+
+    @Autowired
+    private FlowRuleMapper mapper;
 
     /**
      * @param bizId
@@ -38,8 +44,6 @@ public class FlowRuleResourceLoader implements ResourceLoader<Map<Integer, List<
      */
     @Override
     public Map<Integer, List<DecisionChain.ConditionEdge>> loadResource(Integer bizId, String version) {
-        SqlSession sqlSession = MybatisService.getInstance().getSqlSession();
-        FlowRuleMapper mapper = sqlSession.getMapper(FlowRuleMapper.class);
         FlowRule queryParam = new FlowRule();
         queryParam.setBizId(bizId);
         QueryWrapper wrapper = new QueryWrapper(queryParam);

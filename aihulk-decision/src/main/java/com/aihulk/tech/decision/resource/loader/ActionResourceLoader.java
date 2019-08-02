@@ -4,11 +4,12 @@ import com.aihulk.tech.core.action.Action;
 import com.aihulk.tech.core.action.ConsoleOutput;
 import com.aihulk.tech.core.action.OutPut;
 import com.aihulk.tech.core.resource.loader.ResourceLoader;
-import com.aihulk.tech.decision.component.MybatisService;
 import com.aihulk.tech.entity.mapper.ActionMapper;
 import com.aihulk.tech.entity.mapper.VariableMapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Maps;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +24,14 @@ import java.util.stream.Collectors;
  * @description: ActionResourceLoader
  * @date 2019-07-0514:43
  */
+@Component
 public class ActionResourceLoader implements ResourceLoader<Map<Integer, List<Action>>> {
 
-    private ActionMapper actionMapper = MybatisService.getMapper(ActionMapper.class);
+    @Autowired
+    private ActionMapper actionMapper;
 
-    private VariableMapper variableMapper = MybatisService.getMapper(VariableMapper.class);
+    @Autowired
+    private VariableMapper variableMapper;
 
     @Override
     public Map<Integer, List<Action>> loadResource(Integer bizId, String version) {

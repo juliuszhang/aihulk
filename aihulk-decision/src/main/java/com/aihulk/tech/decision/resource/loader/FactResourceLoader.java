@@ -1,11 +1,11 @@
 package com.aihulk.tech.decision.resource.loader;
 
 import com.aihulk.tech.core.resource.loader.ResourceLoader;
-import com.aihulk.tech.decision.component.MybatisService;
 import com.aihulk.tech.entity.entity.Fact;
 import com.aihulk.tech.entity.mapper.FactMapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
@@ -18,12 +18,14 @@ import java.util.stream.Collectors;
  * @description: FactResourceLoader
  * @date 2019-07-0110:29
  */
+@Component
 public class FactResourceLoader implements ResourceLoader<List<com.aihulk.tech.core.resource.entity.Fact>> {
+
+    @Autowired
+    private FactMapper mapper;
 
     @Override
     public List<com.aihulk.tech.core.resource.entity.Fact> loadResource(Integer bizId, String version) {
-        SqlSession sqlSession = MybatisService.getInstance().getSqlSession();
-        FactMapper mapper = sqlSession.getMapper(FactMapper.class);
         Fact queryParam = new Fact();
         queryParam.setBusinessId(bizId);
         QueryWrapper<Fact> wrapper = new QueryWrapper<>(queryParam);

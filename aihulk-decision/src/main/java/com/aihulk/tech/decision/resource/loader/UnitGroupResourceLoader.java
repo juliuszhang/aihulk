@@ -3,12 +3,12 @@ package com.aihulk.tech.decision.resource.loader;
 import com.aihulk.tech.core.resource.entity.ExecuteUnit;
 import com.aihulk.tech.core.resource.entity.ExecuteUnitGroup;
 import com.aihulk.tech.core.resource.loader.ResourceLoader;
-import com.aihulk.tech.decision.component.MybatisService;
 import com.aihulk.tech.entity.entity.UnitGroup;
 import com.aihulk.tech.entity.mapper.UnitGroupMapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Maps;
-import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,14 +23,17 @@ import java.util.stream.Collectors;
  * @description: UnitGroupResourceLoader
  * @date 2019-07-0114:42
  */
+@Component
 public class UnitGroupResourceLoader implements ResourceLoader<Map<Integer, ExecuteUnitGroup>> {
 
-    private UnitResourceLoader unitResourceLoader = new UnitResourceLoader();
+    @Autowired
+    private UnitResourceLoader unitResourceLoader;
+
+    @Autowired
+    private UnitGroupMapper mapper;
 
     @Override
     public Map<Integer, ExecuteUnitGroup> loadResource(Integer bizId, String version) {
-        SqlSession sqlSession = MybatisService.getInstance().getSqlSession();
-        UnitGroupMapper mapper = sqlSession.getMapper(UnitGroupMapper.class);
         UnitGroup queryParam = new UnitGroup();
         queryParam.setBizId(bizId);
         QueryWrapper wrapper = new QueryWrapper(queryParam);
@@ -49,8 +52,6 @@ public class UnitGroupResourceLoader implements ResourceLoader<Map<Integer, Exec
     }
 
     private Map<Integer, List<ExecuteUnit>> getUnitUnitGroupRelations(Map<Integer, ExecuteUnit> executeUnitMap) {
-        SqlSession sqlSession = MybatisService.getInstance().getSqlSession();
-        UnitGroupMapper mapper = sqlSession.getMapper(UnitGroupMapper.class);
         List<Map<String, Object>> relations = mapper.selectUnitUnitGroupRelation();
         Map<Integer, List<ExecuteUnit>> relationsMap = Maps.newHashMap();
         for (Map<String, Object> relation : relations) {

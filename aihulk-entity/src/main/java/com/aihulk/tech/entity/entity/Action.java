@@ -34,7 +34,7 @@ public class Action extends BaseEntity {
     @TableField(value = "type")
     private Integer type;
 
-    @TableField(value = "unitId")
+    @TableField(value = "unit_id")
     private Integer unitId;
 
 }
