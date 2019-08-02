@@ -23,7 +23,7 @@ public class RoutingConfiguration {
 
     @Bean
     public RouterFunction<ServerResponse> monoRouterFunction(DecisionHandler decisionHandler) {
-        return route(POST("/decision/{chainId}").and(accept(APPLICATION_JSON)), decisionHandler::decision);
+        return route(POST("/decision/{bizId}/{chainId}").and(accept(APPLICATION_JSON)), decisionHandler::decision);
     }
 
 }
