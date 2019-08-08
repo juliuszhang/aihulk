@@ -16,10 +16,7 @@ import java.util.List;
  */
 public interface FactMapper extends BaseMapper<Fact> {
 
-    @Select(value = "SELECT feature.* FROM fact,unit_fact_relation WHERE fact.id = unit_fact_relation.fact_id AND unit_fact_relation.unit_id = #{unitId}")
+    @Select(value = "SELECT fact.* FROM fact,unit_fact_relation WHERE fact.id = unit_fact_relation.fact_id AND unit_fact_relation.unit_id = #{unitId}")
     List<Fact> selectByUnitId(@Param(value = "unitId") Integer unitId);
-
-    @Select(value = "SELECT feature.id FROM fact,fact_relation WHERE fact.id = fact_relation.ref_fact_id AND fact_relation.fact_id = #{factId}")
-    List<Integer> selectRefFacts(Integer factId);
 
 }

@@ -20,9 +20,9 @@ import lombok.EqualsAndHashCode;
 public class Fact extends BaseEntity {
 
     //support python and js
-    public static final String CODE_TYPE_JS = ScriptCodeType.JS.getName();
-    public static final String CODE_TYPE_PY = ScriptCodeType.PY.getName();
-    public static final String CODE_TYPE_BASIC = ScriptCodeType.BASIC.getName();
+    public static final String SCRIPT_TYPE_JS = ScriptCodeType.JS.getName();
+    public static final String SCRIPT_TYPE_PY = ScriptCodeType.PY.getName();
+    public static final String SCRIPT_TYPE_BASIC = ScriptCodeType.BASIC.getName();
 
     //result type enum
     public static final String RESULT_TYPE_NUMBER = DataType.NUMBER.getName();

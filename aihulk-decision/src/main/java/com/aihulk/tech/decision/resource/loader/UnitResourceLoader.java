@@ -9,14 +9,14 @@ import com.aihulk.tech.core.resource.entity.Fact;
 import com.aihulk.tech.core.resource.loader.ResourceLoader;
 import com.aihulk.tech.entity.entity.Logic;
 import com.aihulk.tech.entity.entity.Unit;
-import com.aihulk.tech.entity.mapper.FactMapper;
-import com.aihulk.tech.entity.mapper.LogicMapper;
-import com.aihulk.tech.entity.mapper.UnitMapper;
+import com.aihulk.tech.entity.entity.UnitFactRelation;
+import com.aihulk.tech.entity.mapper.*;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -47,6 +47,12 @@ public class UnitResourceLoader implements ResourceLoader<Map<Integer, ExecuteUn
     @Autowired
     private FactMapper factMapper;
 
+    @Autowired
+    private UnitFactRelationMapper unitFactRelationMapper;
+
+    @Autowired
+    private FactRelationMapper factRelationMapper;
+
     @Override
     public Map<Integer, ExecuteUnit> loadResource(Integer bizId, String version) {
         Unit queryParam = new Unit();
@@ -54,9 +60,23 @@ public class UnitResourceLoader implements ResourceLoader<Map<Integer, ExecuteUn
         QueryWrapper wrapper = new QueryWrapper(queryParam);
         List<Unit> units = mapper.selectList(wrapper);
         final List<Fact> allFacts = factResourceLoader.loadResource(bizId, version);
+        Map<Integer, Fact> factMap = allFacts.stream().collect(Collectors.toMap(Fact::getId, Function.identity()));
+        Map<Integer, List<Fact>> unitFactMap = loadUnitFactRelation(factMap);
         Map<Integer, List<Action>> actionMap = actionResourceLoader.loadResource(bizId, version);
-        List<ExecuteUnit> executeUnits = units.stream().map(unit -> this.mapExecuteUnit(unit, allFacts, actionMap)).collect(Collectors.toList());
+        List<ExecuteUnit> executeUnits = units.stream().map(unit -> this.mapExecuteUnit(unit, unitFactMap, allFacts, actionMap)).collect(Collectors.toList());
         return executeUnits.stream().collect(Collectors.toMap(ExecuteUnit::getId, Function.identity()));
+    }
+
+    private Map<Integer, List<Fact>> loadUnitFactRelation(Map<Integer, Fact> factMap) {
+        Map<Integer, List<Fact>> resultMap = Maps.newHashMap();
+        List<UnitFactRelation> unitFactRelations = unitFactRelationMapper.selectList(new QueryWrapper<>());
+        for (UnitFactRelation unitFactRelation : unitFactRelations) {
+            Integer factId = unitFactRelation.getFactId();
+            Integer unitId = unitFactRelation.getUnitId();
+            resultMap.putIfAbsent(unitId, new ArrayList<>());
+            resultMap.get(unitId).add(factMap.get(factId));
+        }
+        return resultMap;
     }
 
     @Override
@@ -64,7 +84,7 @@ public class UnitResourceLoader implements ResourceLoader<Map<Integer, ExecuteUn
         return null;
     }
 
-    private ExecuteUnit mapExecuteUnit(Unit unit, List<Fact> facts, Map<Integer, List<Action>> actionMap) {
+    private ExecuteUnit mapExecuteUnit(Unit unit, Map<Integer, List<Fact>> unitFactMap, List<Fact> allFact, Map<Integer, List<Action>> actionMap) {
         if (Unit.TYPE_DECISION_BLOCK == unit.getType()) {
             DecisionBlock executeUnit = new DecisionBlock();
             executeUnit.setName(unit.getName());
@@ -72,12 +92,13 @@ public class UnitResourceLoader implements ResourceLoader<Map<Integer, ExecuteUn
             List<Logic> logics = logicMapper.selectList(new QueryWrapper<>());
             Logic logic = this.selectLogicById(logics, unit.getId());
             executeUnit.setExpress(ExpressHelper.parse(logic.getLogicExp()));
-            List<Fact> runtimeFacts = this.selectByUnitId(facts, unit.getId());
+            List<Fact> runtimeFacts = unitFactMap.get(unit.getId());
             Map<Integer, List<Fact>> relations = Maps.newHashMap();
-            this.queryAllFactRelations(runtimeFacts, relations, facts);
+            this.queryAllFactRelations(runtimeFacts, relations, allFact);
             executeUnit.setFactsWithSort(runtimeFacts, relations);
             List<Action> actions = actionMap.get(unit.getId());
             executeUnit.setActions(actions);
+            executeUnit.setId(unit.getId());
             return executeUnit;
         } else if (Unit.TYPE_DECISION_TABLE == unit.getType()) {
             DecisionTable decisionTable = new DecisionTable();
@@ -95,16 +116,13 @@ public class UnitResourceLoader implements ResourceLoader<Map<Integer, ExecuteUn
     private void queryAllFactRelations(List<Fact> facts, Map<Integer, List<Fact>> relations, List<Fact> allFacts) {
         if (facts.isEmpty()) return;
         for (Fact fact : facts) {
-            List<Integer> refFactIds = factMapper.selectRefFacts(fact.getId());
+            List<com.aihulk.tech.entity.entity.FactRelation> factRelations = factRelationMapper.selectList(new QueryWrapper<com.aihulk.tech.entity.entity.FactRelation>()
+                    .lambda().eq(com.aihulk.tech.entity.entity.FactRelation::getFactId, fact.getId()));
+            List<Integer> refFactIds = factRelations.stream().map(com.aihulk.tech.entity.entity.FactRelation::getRefFactId).collect(Collectors.toList());
             List<Fact> refFacts = selectByIds(allFacts, refFactIds);
             relations.put(fact.getId(), refFacts);
             queryAllFactRelations(refFacts, relations, allFacts);
         }
-    }
-
-
-    private List<Fact> selectByUnitId(List<Fact> facts, Integer unitId) {
-        return facts.stream().filter(fact -> fact.getUnitId().equals(unitId)).collect(Collectors.toList());
     }
 
     private List<Fact> selectByIds(List<Fact> facts, List<Integer> ids) {

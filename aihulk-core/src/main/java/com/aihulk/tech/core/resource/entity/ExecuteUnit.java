@@ -34,7 +34,7 @@ public abstract class ExecuteUnit<R extends ExecuteUnit.ExecuteUnitResponse> ext
         this.factRelation = factRelation;
     }
 
-    public List<Fact> sortFacts(List<Fact> facts) {
+    private List<Fact> sortFacts(List<Fact> facts) {
         DirectedAcyclicGraph<Fact, DefaultEdge> dag = new DirectedAcyclicGraph<>(DefaultEdge.class);
         buildDagRecursive(facts, dag);
         List<Fact> resultFacts = Lists.newArrayListWithExpectedSize(facts.size());
@@ -45,7 +45,7 @@ public abstract class ExecuteUnit<R extends ExecuteUnit.ExecuteUnitResponse> ext
         return resultFacts;
     }
 
-    public void buildDagRecursive(List<Fact> facts, DirectedAcyclicGraph<Fact, DefaultEdge> dag) {
+    private void buildDagRecursive(List<Fact> facts, DirectedAcyclicGraph<Fact, DefaultEdge> dag) {
         if (facts == null || facts.isEmpty()) return;
         for (Fact fact : facts) {
             dag.addVertex(fact);

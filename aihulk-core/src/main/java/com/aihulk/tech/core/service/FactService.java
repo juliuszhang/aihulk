@@ -41,7 +41,7 @@ public class FactService {
         }
     }
 
-    private static final String REF_FACT_REGEX = "\\$ref_fact_\\d{1,}";
+    private static final String REF_FACT_REGEX = "\\$ref_fact_\\d+";
 
     private ScriptEngine.ScriptInfo buildScriptInfo(Fact fact, Map<String, Object> data) {
         String code = fact.getCode();

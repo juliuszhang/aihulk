@@ -23,8 +23,6 @@ public class Fact extends BaseResource {
 
     public static final String FACT_SIGN = "$fact_";
 
-    private Integer unitId;
-
     private String code;
 
     private ScriptCodeType codeType;

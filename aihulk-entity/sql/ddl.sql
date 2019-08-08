@@ -89,6 +89,7 @@ create table logic
 (
     id          int auto_increment
         primary key comment '主键',
+    business_id int(11)     null comment '所属biz',
     name        varchar(32) null comment '名称',
     name_en     varchar(32) null comment '英文名',
     relation_id int(11)     null comment '关联id',
@@ -105,7 +106,7 @@ create table flow_rule
     id          int auto_increment
         primary key comment '主键',
     chain_id    int(11)     null comment '所属决策链id',
-    biz_id      int(11)     null comment '所属biz',
+    business_id int(11)     null comment '所属biz',
     name        varchar(32) null comment '名称',
     name_en     varchar(32) null comment '英文名',
     src_type    int(11)     null comment 'src 类型（执行单元、执行单元组）',

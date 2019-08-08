@@ -1,5 +1,7 @@
 package com.aihulk.tech.decision.resource.loader;
 
+import com.aihulk.tech.common.constant.DataType;
+import com.aihulk.tech.common.constant.ScriptCodeType;
 import com.aihulk.tech.core.resource.loader.ResourceLoader;
 import com.aihulk.tech.entity.entity.Fact;
 import com.aihulk.tech.entity.mapper.FactMapper;
@@ -47,11 +49,14 @@ public class FactResourceLoader implements ResourceLoader<List<com.aihulk.tech.c
      */
     public com.aihulk.tech.core.resource.entity.Fact map(Fact fact) {
         com.aihulk.tech.core.resource.entity.Fact runtimeFact = new com.aihulk.tech.core.resource.entity.Fact();
-        runtimeFact.setCode(fact.getScript());
+        runtimeFact.setCode(fact.getFormatScript());
         runtimeFact.setName(fact.getName());
         runtimeFact.setNameEn(fact.getNameEn());
+        runtimeFact.setCodeType(ScriptCodeType.parse(fact.getScriptType()));
+        runtimeFact.setResultType(DataType.parse(fact.getResultType()));
         runtimeFact.setCreateTime(fact.getCreateTime());
         runtimeFact.setUpdateTime(fact.getUpdateTime());
+        runtimeFact.setId(fact.getId());
         return runtimeFact;
     }
 }
