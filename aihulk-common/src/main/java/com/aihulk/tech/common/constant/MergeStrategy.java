@@ -37,6 +37,15 @@ public enum MergeStrategy {
         }
     };
 
+    public static MergeStrategy parse(Integer val) {
+        for (MergeStrategy mergeStrategy : MergeStrategy.values()) {
+            if (mergeStrategy.getVal().equals(val)) {
+                return mergeStrategy;
+            }
+        }
+        return null;
+    }
+
     public abstract Object merge(Object obj1, Object obj2);
 
 

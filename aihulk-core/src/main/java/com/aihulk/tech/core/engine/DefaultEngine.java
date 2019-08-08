@@ -1,5 +1,6 @@
 package com.aihulk.tech.core.engine;
 
+import com.aihulk.tech.common.constant.DataType;
 import com.aihulk.tech.common.constant.MergeStrategy;
 import com.aihulk.tech.common.constant.UnitType;
 import com.aihulk.tech.core.action.Action;
@@ -79,7 +80,10 @@ public class DefaultEngine implements Engine {
             List<OutPut> outPuts = unitDecisionResponse.getOutPuts();
             for (OutPut outPut : outPuts) {
                 String key = outPut.getKey();
-                Object value = outPut.getObj();
+                String objExp = outPut.getObjExp();
+                //根据变量类型做转型
+                DataType dataType = outPut.getDataType();
+                Object value = dataType.cast(objExp);
                 if (variables.containsKey(key)) {
                     Object oldVal = variables.get(key);
                     MergeStrategy chainMergeStrategy = outPut.getChainMergeStrategy();

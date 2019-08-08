@@ -1,9 +1,11 @@
 package com.aihulk.tech.decision.resource.loader;
 
+import com.aihulk.tech.common.constant.DataType;
 import com.aihulk.tech.core.action.Action;
 import com.aihulk.tech.core.action.ConsoleOutput;
 import com.aihulk.tech.core.action.OutPut;
 import com.aihulk.tech.core.resource.loader.ResourceLoader;
+import com.aihulk.tech.entity.entity.Variable;
 import com.aihulk.tech.entity.mapper.ActionMapper;
 import com.aihulk.tech.entity.mapper.VariableMapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -47,11 +49,14 @@ public class ActionResourceLoader implements ResourceLoader<Map<Integer, List<Ac
             resultMap.putIfAbsent(dbAction.getUnitId(), new ArrayList<>());
             //如果是输出变量
             if (com.aihulk.tech.entity.entity.Action.ACTION_TYPE_OUTPUT.equals(dbAction.getType())) {
-                Map<String, Object> variable = variableMap.get(dbAction.getId());
-                String nameEn = (String) variable.get("nameEn");
-                Object value = variable.get("value");
-                Integer mergeStrategy = (Integer) variable.get("mergeStrategy");
-                Action action = new OutPut(nameEn, value, mergeStrategy);
+                Map<String, Object> varMap = variableMap.get(dbAction.getId());
+                Integer mergeStrategy = (Integer) varMap.get("mergeStrategy");
+                String nameEn = (String) varMap.get("nameEn");
+                String value = (String) varMap.get("value");
+                DataType type = DataType.parse((String) varMap.get("type"));
+                Action action = new OutPut(nameEn, value, type,
+                        Variable.getUnitStrategy(mergeStrategy),
+                        Variable.getChainStrategy(mergeStrategy));
                 action.setId(dbAction.getId());
                 resultMap.get(dbAction.getUnitId()).add(action);
             } else if (com.aihulk.tech.entity.entity.Action.ACTION_TYPE_CONSOLE_OUTPUT.equals(dbAction.getType())) {

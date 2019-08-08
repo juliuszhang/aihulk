@@ -20,7 +20,10 @@ public class ActionVariableRelation extends BaseEntity {
     @TableField(value = "action_id")
     private Integer actionId;
 
-    @TableField(value = "varibale_id")
-    private Integer varibaleId;
+    @TableField(value = "variable_id")
+    private Integer variableId;
+
+    @TableField(value = "value")
+    private String value;
 
 }
