@@ -2,10 +2,6 @@ package com.aihulk.tech.entity.mapper;
 
 import com.aihulk.tech.entity.entity.Chain;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Select;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author zhangyibo
@@ -16,7 +12,5 @@ import java.util.Map;
  */
 public interface ChainMapper extends BaseMapper<Chain> {
 
-    @Select(value = "SELECT * FROM chain_unit_relation WHERE `type` = #{type}")
-    List<Map<String, Object>> selectUnitChainRelationsByType(Integer type);
 
 }

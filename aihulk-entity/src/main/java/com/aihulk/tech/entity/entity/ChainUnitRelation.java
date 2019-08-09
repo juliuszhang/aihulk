@@ -1,5 +1,6 @@
 package com.aihulk.tech.entity.entity;
 
+import com.aihulk.tech.common.constant.UnitType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -17,10 +18,16 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class ChainUnitRelation extends BaseEntity {
 
+    public static final Integer TYPE_EXECUTE_UNIT = UnitType.EXECUTE_UNIT.getVal();
+    public static final Integer TYPE_EXECUTE_UNIT_GROUP = UnitType.EXECUTE_UNIT_GROUP.getVal();
+
     @TableField(value = "chain_id")
     private Integer chainId;
 
     @TableField(value = "unit_id")
     private Integer unitId;
+
+    @TableField(value = "`type`")
+    private Integer type;
 
 }

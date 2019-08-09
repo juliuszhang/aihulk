@@ -19,7 +19,7 @@ public enum LogicStructure {
     //决策树
     DECISION_TREE(3),
     //流程规则
-    RULE_FLOW(4);
+    FLOW_RULE(4);
 
     @Getter
     private Integer val;

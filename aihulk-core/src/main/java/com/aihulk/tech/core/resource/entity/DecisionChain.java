@@ -1,5 +1,6 @@
 package com.aihulk.tech.core.resource.entity;
 
+import com.aihulk.tech.common.constant.UnitType;
 import com.aihulk.tech.core.exception.RuleEngineException;
 import com.aihulk.tech.core.logic.Express;
 import com.google.common.collect.Lists;
@@ -41,7 +42,7 @@ public class DecisionChain extends BaseResource {
     @Getter
     @Setter
     @EqualsAndHashCode
-    private class Node {
+    public class Node {
 
         //保存一个入度以便查找到第一个执行的节点（也就是入度为0的节点）
         private int inDegree;
@@ -119,8 +120,26 @@ public class DecisionChain extends BaseResource {
 
         private Node findNode(BasicUnit basicUnit) {
             for (Node node : nodes) {
-                if (node.getBasicUnit().equals(basicUnit)) {
+                //TODO equals结果不对
+                /*if (node.getBasicUnit().equals(basicUnit)) {
                     return node;
+                }*/
+                BasicUnit nodeBasicUnit = node.getBasicUnit();
+                if (basicUnit.getUnitType() != nodeBasicUnit.getUnitType()) {
+                    continue;
+                }
+                if (basicUnit.getUnitType() == UnitType.EXECUTE_UNIT_GROUP) {
+                    ExecuteUnitGroup group = (ExecuteUnitGroup) basicUnit;
+                    ExecuteUnitGroup nodeGroup = (ExecuteUnitGroup) nodeBasicUnit;
+                    if (group.getId().equals(nodeGroup.getId())) {
+                        return node;
+                    }
+                } else if (basicUnit.getUnitType() == UnitType.EXECUTE_UNIT) {
+                    ExecuteUnit unit = (ExecuteUnit) basicUnit;
+                    ExecuteUnit nodeUnit = (ExecuteUnit) nodeBasicUnit;
+                    if (unit.getId().equals(nodeUnit.getId())) {
+                        return node;
+                    }
                 }
             }
             return null;

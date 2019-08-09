@@ -93,9 +93,11 @@ public class UnitResourceLoader implements ResourceLoader<Map<Integer, ExecuteUn
             Logic logic = this.selectLogicById(logics, unit.getId());
             executeUnit.setExpress(ExpressHelper.parse(logic.getLogicExp()));
             List<Fact> runtimeFacts = unitFactMap.get(unit.getId());
-            Map<Integer, List<Fact>> relations = Maps.newHashMap();
-            this.queryAllFactRelations(runtimeFacts, relations, allFact);
-            executeUnit.setFactsWithSort(runtimeFacts, relations);
+            if (runtimeFacts != null) {
+                Map<Integer, List<Fact>> relations = Maps.newHashMap();
+                this.queryAllFactRelations(runtimeFacts, relations, allFact);
+                executeUnit.setFactsWithSort(runtimeFacts, relations);
+            }
             List<Action> actions = actionMap.get(unit.getId());
             executeUnit.setActions(actions);
             executeUnit.setId(unit.getId());

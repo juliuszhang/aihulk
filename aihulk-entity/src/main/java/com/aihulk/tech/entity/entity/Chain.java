@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
  * @description: Chain
  * @date 2019-06-0314:11
  */
-@TableName(value = "decision_chain")
+@TableName(value = "chain")
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class Chain extends BaseEntity {

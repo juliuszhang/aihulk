@@ -21,7 +21,7 @@ public class Logic extends BaseEntity {
     public static final Integer STRUCTURE_DECISION_FLOW = LogicStructure.DECISION_FLOW.getVal();
     public static final Integer STRUCTURE_DECISION_TABLE = LogicStructure.DECISION_TABLE.getVal();
     public static final Integer STRUCTURE_DECISION_TREE = LogicStructure.DECISION_TREE.getVal();
-    public static final Integer STRUCTURE_FLOW_RULE = LogicStructure.DECISION_FLOW.getVal();
+    public static final Integer STRUCTURE_FLOW_RULE = LogicStructure.FLOW_RULE.getVal();
 
     @TableField(value = "business_id")
     private Integer businessId;

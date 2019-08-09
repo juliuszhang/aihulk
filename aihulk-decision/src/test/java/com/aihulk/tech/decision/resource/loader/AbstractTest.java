@@ -50,6 +50,28 @@ public class AbstractTest {
     @Autowired
     private UnitUnitGroupRelationMapper unitUnitGroupRelationMapper;
 
+    @Autowired
+    private FlowRuleMapper flowRuleMapper;
+
+    @Autowired
+    private ChainMapper chainMapper;
+
+    @Autowired
+    private ChainUnitRelationMapper chainUnitRelationMapper;
+
+    //chain
+    Chain chain = new Chain();
+
+    //chain unit relation
+    ChainUnitRelation chainUnitRelation = new ChainUnitRelation();
+    ChainUnitRelation chainUnitRelation2 = new ChainUnitRelation();
+
+    //flow rule
+    FlowRule flowRule = new FlowRule();
+
+    //logic of flow rule
+    Logic logicOfFlowRule = new Logic();
+
     //action
     com.aihulk.tech.entity.entity.Action action1 = new com.aihulk.tech.entity.entity.Action();
     com.aihulk.tech.entity.entity.Action action2 = new com.aihulk.tech.entity.entity.Action();
@@ -60,6 +82,7 @@ public class AbstractTest {
 
     //unit
     Unit unit = new Unit();
+    Unit unit2 = new Unit();
 
     //unit group
     UnitGroup unitGroup = new UnitGroup();
@@ -80,6 +103,7 @@ public class AbstractTest {
 
     //logic
     Logic logic = new Logic();
+    Logic logic2 = new Logic();
 
     protected Integer bizId = 1;
 
@@ -95,6 +119,41 @@ public class AbstractTest {
         insertAction();
         insertVarible();
         insertActionVariableRelation();
+        insertChain();
+        insertChainUnitRelation();
+        insertFlowRule();
+        insertLogicOfFlowRule();
+    }
+
+    private void insertChain() {
+        chain.setName("test chain");
+        chain.setNameEn("test chain");
+        chain.setBusinessId(bizId);
+        chainMapper.insert(chain);
+    }
+
+    private void insertChainUnitRelation() {
+        chainUnitRelation.setChainId(chain.getId());
+        chainUnitRelation.setUnitId(unitGroup.getId());
+        chainUnitRelation.setType(ChainUnitRelation.TYPE_EXECUTE_UNIT_GROUP);
+        chainUnitRelationMapper.insert(chainUnitRelation);
+
+        chainUnitRelation2.setChainId(chain.getId());
+        chainUnitRelation2.setUnitId(unit2.getId());
+        chainUnitRelation2.setType(ChainUnitRelation.TYPE_EXECUTE_UNIT);
+        chainUnitRelationMapper.insert(chainUnitRelation2);
+    }
+
+    private void insertFlowRule() {
+        flowRule.setChainId(chain.getId());
+        flowRule.setBizId(bizId);
+        flowRule.setSrcId(unitGroup.getId());
+        flowRule.setDestId(unit2.getId());
+        flowRule.setDestType(FlowRule.UNIT_TYPE_EXECUTE_UNIT);
+        flowRule.setSrcType(FlowRule.UNIT_TYPE_EXECUTE_GROUP);
+        flowRule.setName("test flow rule");
+        flowRule.setNameEn("test flow rule");
+        flowRuleMapper.insert(flowRule);
     }
 
     private void insertUnitUnitGroupRelation() {
@@ -124,14 +183,38 @@ public class AbstractTest {
         logic.setStructure(Logic.STRUCTURE_DECISION_FLOW);
         logic.setLogicExp("{\"src\":2,\"op\":\"GT\",\"dest\":1}");
         logicMapper.insert(logic);
+
+        logic2.setName("test logic 2");
+        logic2.setNameEn("test logic 2");
+        logic2.setBusinessId(bizId);
+        logic2.setRelationId(unit2.getId());
+        logic2.setStructure(Logic.STRUCTURE_DECISION_FLOW);
+        logic2.setLogicExp("{\"src\":3,\"op\":\"EQ\",\"dest\":3}");
+        logicMapper.insert(logic2);
+    }
+
+    private void insertLogicOfFlowRule() {
+        logicOfFlowRule.setName("logic of flow rule");
+        logicOfFlowRule.setNameEn("logic of flow rule");
+        logicOfFlowRule.setBusinessId(bizId);
+        logicOfFlowRule.setRelationId(flowRule.getId());
+        logicOfFlowRule.setStructure(Logic.STRUCTURE_FLOW_RULE);
+        logicOfFlowRule.setLogicExp("{\"src\":1,\"op\":\"LT\",\"dest\":3}");
+        logicMapper.insert(logicOfFlowRule);
     }
 
     private void insertUnit() {
         unit.setName("test unit");
         unit.setNameEn("test unit");
         unit.setType(Unit.TYPE_DECISION_BLOCK);
-        unit.setBusinessId(1);
+        unit.setBusinessId(bizId);
         unitMapper.insert(unit);
+
+        unit2.setName("first test unit");
+        unit2.setNameEn("first test unit");
+        unit2.setType(Unit.TYPE_DECISION_BLOCK);
+        unit2.setBusinessId(bizId);
+        unitMapper.insert(unit2);
     }
 
     private void insertFact() {
