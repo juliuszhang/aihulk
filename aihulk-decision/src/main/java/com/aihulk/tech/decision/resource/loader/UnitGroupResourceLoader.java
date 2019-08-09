@@ -4,7 +4,9 @@ import com.aihulk.tech.core.resource.entity.ExecuteUnit;
 import com.aihulk.tech.core.resource.entity.ExecuteUnitGroup;
 import com.aihulk.tech.core.resource.loader.ResourceLoader;
 import com.aihulk.tech.entity.entity.UnitGroup;
+import com.aihulk.tech.entity.entity.UnitUnitGroupRelation;
 import com.aihulk.tech.entity.mapper.UnitGroupMapper;
+import com.aihulk.tech.entity.mapper.UnitUnitGroupRelationMapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +34,13 @@ public class UnitGroupResourceLoader implements ResourceLoader<Map<Integer, Exec
     @Autowired
     private UnitGroupMapper mapper;
 
+    @Autowired
+    private UnitUnitGroupRelationMapper unitUnitGroupRelationMapper;
+
     @Override
     public Map<Integer, ExecuteUnitGroup> loadResource(Integer bizId, String version) {
         UnitGroup queryParam = new UnitGroup();
-        queryParam.setBizId(bizId);
+        queryParam.setBusinessId(bizId);
         QueryWrapper wrapper = new QueryWrapper(queryParam);
 
         List<UnitGroup> unitGroups = mapper.selectList(wrapper);
@@ -52,11 +57,11 @@ public class UnitGroupResourceLoader implements ResourceLoader<Map<Integer, Exec
     }
 
     private Map<Integer, List<ExecuteUnit>> getUnitUnitGroupRelations(Map<Integer, ExecuteUnit> executeUnitMap) {
-        List<Map<String, Object>> relations = mapper.selectUnitUnitGroupRelation();
+        List<UnitUnitGroupRelation> relations = unitUnitGroupRelationMapper.selectList(new QueryWrapper<>());
         Map<Integer, List<ExecuteUnit>> relationsMap = Maps.newHashMap();
-        for (Map<String, Object> relation : relations) {
-            Integer unitGroupId = (Integer) relation.get("unitGroupId");
-            Integer unitId = (Integer) relation.get("unitId");
+        for (UnitUnitGroupRelation relation : relations) {
+            Integer unitGroupId = relation.getUnitGroupId();
+            Integer unitId = relation.getUnitId();
             relationsMap.putIfAbsent(unitGroupId, new ArrayList<>());
             relationsMap.get(unitGroupId).add(executeUnitMap.get(unitId));
         }

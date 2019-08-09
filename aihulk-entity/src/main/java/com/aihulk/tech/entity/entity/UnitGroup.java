@@ -17,8 +17,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class UnitGroup extends BaseEntity {
 
-    @TableField(value = "biz_id")
-    private Integer bizId;
+    @TableField(value = "business_id")
+    private Integer businessId;
 
     @TableField(value = "name")
     private String name;

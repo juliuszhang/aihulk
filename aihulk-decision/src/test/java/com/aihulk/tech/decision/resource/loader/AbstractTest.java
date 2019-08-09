@@ -3,7 +3,10 @@ package com.aihulk.tech.decision.resource.loader;
 import com.aihulk.tech.entity.entity.*;
 import com.aihulk.tech.entity.mapper.*;
 import org.junit.Before;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * @author zhangyibo
@@ -12,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @description: TODO
  * @date 2019-08-08 17:25
  */
+@SpringBootTest
+@RunWith(SpringRunner.class)
 public class AbstractTest {
 
 
@@ -39,6 +44,12 @@ public class AbstractTest {
     @Autowired
     private FactRelationMapper factRelationMapper;
 
+    @Autowired
+    private UnitGroupMapper unitGroupMapper;
+
+    @Autowired
+    private UnitUnitGroupRelationMapper unitUnitGroupRelationMapper;
+
     //action
     com.aihulk.tech.entity.entity.Action action1 = new com.aihulk.tech.entity.entity.Action();
     com.aihulk.tech.entity.entity.Action action2 = new com.aihulk.tech.entity.entity.Action();
@@ -49,6 +60,12 @@ public class AbstractTest {
 
     //unit
     Unit unit = new Unit();
+
+    //unit group
+    UnitGroup unitGroup = new UnitGroup();
+
+    //unit unit group relation
+    UnitUnitGroupRelation unitUnitGroupRelation = new UnitUnitGroupRelation();
 
     //unit fact relation
     UnitFactRelation unitFactRelation1 = new UnitFactRelation();
@@ -70,12 +87,27 @@ public class AbstractTest {
     public void setUp() throws Exception {
         insertFact();
         insertFactRelation();
+        insertUnitGroup();
         insertUnit();
+        insertUnitUnitGroupRelation();
         insertLogic();
         insertUnitFactRelation();
         insertAction();
         insertVarible();
         insertActionVariableRelation();
+    }
+
+    private void insertUnitUnitGroupRelation() {
+        unitUnitGroupRelation.setUnitGroupId(unitGroup.getId());
+        unitUnitGroupRelation.setUnitId(unit.getId());
+        unitUnitGroupRelationMapper.insert(unitUnitGroupRelation);
+    }
+
+    private void insertUnitGroup() {
+        unitGroup.setName("test unit group");
+        unitGroup.setNameEn("test unit group");
+        unitGroup.setBusinessId(bizId);
+        unitGroupMapper.insert(unitGroup);
     }
 
     private void insertFactRelation() {

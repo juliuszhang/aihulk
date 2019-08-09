@@ -4,10 +4,7 @@ import com.aihulk.tech.common.constant.MergeStrategy;
 import com.aihulk.tech.core.action.Action;
 import com.aihulk.tech.core.action.OutPut;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Comparator;
 import java.util.List;
@@ -23,8 +20,7 @@ import static org.junit.Assert.assertTrue;
  * @description: ActionResourceLoaderTest
  * @date 2019-07-0516:07
  */
-@SpringBootTest
-@RunWith(SpringRunner.class)
+
 public class ActionResourceLoaderTest extends AbstractTest {
 
     @Autowired

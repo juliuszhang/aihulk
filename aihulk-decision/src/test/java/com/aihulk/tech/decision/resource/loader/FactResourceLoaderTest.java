@@ -4,10 +4,7 @@ import com.aihulk.tech.common.constant.DataType;
 import com.aihulk.tech.common.constant.ScriptCodeType;
 import com.aihulk.tech.core.resource.entity.Fact;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
@@ -21,8 +18,6 @@ import static org.junit.Assert.assertTrue;
  * @description: FactResourceLoaderTest
  * @date 2019-08-08 17:21
  */
-@SpringBootTest
-@RunWith(SpringRunner.class)
 public class FactResourceLoaderTest extends AbstractTest {
 
     @Autowired
