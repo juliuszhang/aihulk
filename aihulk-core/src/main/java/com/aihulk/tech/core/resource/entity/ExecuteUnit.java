@@ -29,9 +29,9 @@ public abstract class ExecuteUnit<R extends ExecuteUnit.ExecuteUnitResponse> ext
     protected Map<Integer, List<Fact>> factRelation = Maps.newHashMap();
 
     public void setFactsWithSort(List<Fact> facts, Map<Integer, List<Fact>> factRelation) {
+        this.factRelation = factRelation;
         List<Fact> sortedFacts = sortFacts(facts);
         this.facts = sortedFacts;
-        this.factRelation = factRelation;
     }
 
     private List<Fact> sortFacts(List<Fact> facts) {

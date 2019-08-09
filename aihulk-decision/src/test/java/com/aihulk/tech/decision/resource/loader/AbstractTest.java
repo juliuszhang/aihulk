@@ -36,6 +36,9 @@ public class AbstractTest {
     @Autowired
     private LogicMapper logicMapper;
 
+    @Autowired
+    private FactRelationMapper factRelationMapper;
+
     //action
     com.aihulk.tech.entity.entity.Action action1 = new com.aihulk.tech.entity.entity.Action();
     com.aihulk.tech.entity.entity.Action action2 = new com.aihulk.tech.entity.entity.Action();
@@ -65,8 +68,8 @@ public class AbstractTest {
 
     @Before
     public void setUp() throws Exception {
-        insertFactRelation();
         insertFact();
+        insertFactRelation();
         insertUnit();
         insertLogic();
         insertUnitFactRelation();
@@ -76,8 +79,9 @@ public class AbstractTest {
     }
 
     private void insertFactRelation() {
-        factRelation1.setFactId(2);
-        factRelation1.setRefFactId(1);
+        factRelation1.setFactId(fact2.getId());
+        factRelation1.setRefFactId(fact1.getId());
+        factRelationMapper.insert(factRelation1);
     }
 
     private void insertLogic() {

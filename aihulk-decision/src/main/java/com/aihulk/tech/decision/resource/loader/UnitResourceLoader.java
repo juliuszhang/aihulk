@@ -10,7 +10,10 @@ import com.aihulk.tech.core.resource.loader.ResourceLoader;
 import com.aihulk.tech.entity.entity.Logic;
 import com.aihulk.tech.entity.entity.Unit;
 import com.aihulk.tech.entity.entity.UnitFactRelation;
-import com.aihulk.tech.entity.mapper.*;
+import com.aihulk.tech.entity.mapper.FactRelationMapper;
+import com.aihulk.tech.entity.mapper.LogicMapper;
+import com.aihulk.tech.entity.mapper.UnitFactRelationMapper;
+import com.aihulk.tech.entity.mapper.UnitMapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +46,6 @@ public class UnitResourceLoader implements ResourceLoader<Map<Integer, ExecuteUn
 
     @Autowired
     private LogicMapper logicMapper;
-
-    @Autowired
-    private FactMapper factMapper;
 
     @Autowired
     private UnitFactRelationMapper unitFactRelationMapper;
