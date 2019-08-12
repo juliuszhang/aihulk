@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class UnitGroupService extends BaseService<UnitGroup, UnitGroupMapper> {
 
     public void insertUnitGroupUnitRelation(Integer unitId, Integer unitGroupId) {
-        baseMapper.insertUnitGroupUnitRelation(unitId, unitGroupId);
+//        baseMapper.insertUnitGroupUnitRelation(unitId, unitGroupId);
     }
 
 }
