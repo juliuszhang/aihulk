@@ -29,8 +29,7 @@ public class ActionResourceLoaderTest extends AbstractTest {
     @Test
     public void loadResource() {
         Map<Integer, List<Action>> actionMap = actionResourceLoader.loadResource(1, "");
-        List<Action> actions = actionMap.entrySet().stream().flatMap(entry -> entry.getValue().stream()).collect(Collectors.toList());
-        actions.sort(Comparator.comparing(Action::getId));
+        List<Action> actions = actionMap.entrySet().stream().flatMap(entry -> entry.getValue().stream()).sorted(Comparator.comparing(Action::getId)).collect(Collectors.toList());
         Action action1 = actions.get(actions.size() - 2);
         Action action2 = actions.get(actions.size() - 1);
 

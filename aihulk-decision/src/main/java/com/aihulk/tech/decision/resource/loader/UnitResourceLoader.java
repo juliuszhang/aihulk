@@ -85,7 +85,7 @@ public class UnitResourceLoader implements ResourceLoader<Map<Integer, ExecuteUn
     }
 
     private ExecuteUnit mapExecuteUnit(Unit unit, Map<Integer, List<Fact>> unitFactMap, List<Fact> allFact, Map<Integer, List<Action>> actionMap) {
-        if (Unit.TYPE_DECISION_BLOCK == unit.getType()) {
+        if (Unit.TYPE_DECISION_BLOCK.equals(unit.getType())) {
             DecisionBlock executeUnit = new DecisionBlock();
             executeUnit.setName(unit.getName());
             executeUnit.setNameEn(unit.getNameEn());
@@ -102,7 +102,7 @@ public class UnitResourceLoader implements ResourceLoader<Map<Integer, ExecuteUn
             executeUnit.setActions(actions);
             executeUnit.setId(unit.getId());
             return executeUnit;
-        } else if (Unit.TYPE_DECISION_TABLE == unit.getType()) {
+        } else if (Unit.TYPE_DECISION_TABLE.equals(unit.getType())) {
             DecisionTable decisionTable = new DecisionTable();
             decisionTable.setRows(null);
             decisionTable.setCols(null);
@@ -132,7 +132,7 @@ public class UnitResourceLoader implements ResourceLoader<Map<Integer, ExecuteUn
     }
 
     public Logic selectLogicById(List<Logic> logics, Integer id) {
-        List<Logic> logicList = logics.stream().filter(logic -> logic.getRelationId() == id).collect(Collectors.toList());
+        List<Logic> logicList = logics.stream().filter(logic -> logic.getRelationId().equals(id)).collect(Collectors.toList());
         if (!logicList.isEmpty()) return logicList.get(0);
         else return null;
     }

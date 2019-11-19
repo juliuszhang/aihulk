@@ -4,6 +4,7 @@ import com.aihulk.tech.core.action.Action;
 import com.aihulk.tech.core.logic.Express;
 import com.aihulk.tech.core.service.FactService;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ import java.util.List;
  * @date 2019-07-0211:46
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class DecisionBlock extends ExecuteUnit<ExecuteUnit.ExecuteUnitResponse> {
 
     private Express express;

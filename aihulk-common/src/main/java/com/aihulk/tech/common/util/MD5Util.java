@@ -25,9 +25,7 @@ public class MD5Util {
         try {
             bytes = source.getBytes(DEFAULT_ENCODING);
             messageDigest = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        } catch (UnsupportedEncodingException e) {
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
         byte[] targ = messageDigest.digest(bytes);

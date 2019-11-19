@@ -2,7 +2,6 @@ package com.aihulk.tech.decision.config;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.yaml.snakeyaml.Yaml;
 
 /**
  * @ClassName DecisionConfigEntity

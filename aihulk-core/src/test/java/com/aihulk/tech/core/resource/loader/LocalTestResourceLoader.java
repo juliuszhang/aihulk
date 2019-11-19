@@ -11,6 +11,7 @@ import com.aihulk.tech.core.resource.entity.*;
 import com.google.common.collect.Maps;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -69,7 +70,7 @@ public class LocalTestResourceLoader implements ResourceLoader {
         refFact.setName("引用特征");
         refFact.setCode("function $fact_002(data){ return data.apply.age} \n $fact_002(data);");
         Map<Integer, List<Fact>> relation = Maps.newHashMap();
-        relation.put(1, Arrays.asList(refFact));
+        relation.put(1, Collections.singletonList(refFact));
         executeUnit.setFactsWithSort(Arrays.asList(ageFact, refFact), relation);
         //simpleExpress
         SimpleExpress simpleExpress = new SimpleExpress();
@@ -85,7 +86,7 @@ public class LocalTestResourceLoader implements ResourceLoader {
         simpleExpress.setOp(Operation.AND);
         executeUnit.setExpress(simpleExpress);
         OutPut action = new OutPut("a", "23891", DataType.NUMBER, MergeStrategy.NOTOVERWRITE, MergeStrategy.ALL);
-        executeUnit.setActions(Arrays.asList(action));
+        executeUnit.setActions(Collections.singletonList(action));
 
         //决策表
         DecisionTable decisionTable = new DecisionTable();
@@ -138,7 +139,7 @@ public class LocalTestResourceLoader implements ResourceLoader {
         flowSimpleExpress.setOp(Operation.IS_TRUE);
         conditionEdge.setExpress(flowSimpleExpress);
         chain.add(conditionEdge);
-        resource.setDecisionChains(Arrays.asList(chain));
+        resource.setDecisionChains(Collections.singletonList(chain));
         return resource;
     }
 

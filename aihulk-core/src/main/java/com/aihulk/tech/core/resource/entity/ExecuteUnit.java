@@ -30,8 +30,7 @@ public abstract class ExecuteUnit<R extends ExecuteUnit.ExecuteUnitResponse> ext
 
     public void setFactsWithSort(List<Fact> facts, Map<Integer, List<Fact>> factRelation) {
         this.factRelation = factRelation;
-        List<Fact> sortedFacts = sortFacts(facts);
-        this.facts = sortedFacts;
+        this.facts = sortFacts(facts);
     }
 
     private List<Fact> sortFacts(List<Fact> facts) {

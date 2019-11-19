@@ -6,6 +6,7 @@ import com.aihulk.tech.core.service.FactService;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import java.util.Map;
  * @date 2019-07-0117:32
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class DecisionTable extends ExecuteUnit<ExecuteUnit.ExecuteUnitResponse> {
 
     private Map<String, Cell> cellMap;
@@ -38,12 +40,12 @@ public class DecisionTable extends ExecuteUnit<ExecuteUnit.ExecuteUnitResponse> 
             boolean rowHit = true;
             for (Col col : cols) {
                 Cell cell = getCell(row.getNum(), col.getNum());
-                if (Col.TYPE_CONDITION == col.getType()) {
+                if (Col.TYPE_CONDITION.equals(col.getType())) {
                     if (!cell.express.eval()) {
                         rowHit = false;
                         break;
                     }
-                } else if (Col.TYPE_RESULT == col.getType()) {
+                } else if (Col.TYPE_RESULT.equals(col.getType())) {
                     //如果前面的条件单元列都命中了
                     if (rowHit) {
                         firedActions.add(cell.getValue());
@@ -60,7 +62,7 @@ public class DecisionTable extends ExecuteUnit<ExecuteUnit.ExecuteUnitResponse> 
     }
 
     public Cell getCell(int row, int col) {
-        for (int i = row; row >= 0; i--) {
+        for (int i = row; i >= 0; i--) {
             Cell cell = cellMap.get(i + "," + col);
             if (cell != null) return cell;
         }

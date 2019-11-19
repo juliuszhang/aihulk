@@ -13,7 +13,7 @@ import java.util.Map;
 public class DecisionContext {
 
     private static final ThreadLocal<Map<Integer, Object>> FACT_MAP
-            = ThreadLocal.withInitial(() -> new HashMap<>());
+            = ThreadLocal.withInitial(HashMap::new);
 
     /*进见数据以及数据源数据*/
     private static final ThreadLocal<Map<String, Object>> DATA = new ThreadLocal<>();

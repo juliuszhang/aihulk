@@ -6,6 +6,7 @@ import com.aihulk.tech.core.logic.Express;
 import com.aihulk.tech.core.service.FactService;
 import com.google.common.collect.Lists;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class DecisionTree extends ExecuteUnit<ExecuteUnit.ExecuteUnitResponse> {
 
     private TreeNode root;

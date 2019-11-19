@@ -44,9 +44,7 @@ public class MailService {
     }
 
     public void sendMailASync(String to, String subject, String text) {
-        THREAD_POOL.execute(() -> {
-            sendMail(to, subject, text);
-        });
+        THREAD_POOL.execute(() -> sendMail(to, subject, text));
     }
 
 }

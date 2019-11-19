@@ -28,13 +28,11 @@ public class ExpressHelper {
         if (map.containsKey(AND_LOGIC_KEY)) {
             List<Map<String, Object>> logicsMap = (List<Map<String, Object>>) map.get(AND_LOGIC_KEY);
             List<Express> expresses = logicsMap.stream().map(ExpressHelper::parse).collect(Collectors.toList());
-            AndExpress andExpress = new AndExpress(expresses);
-            return andExpress;
+            return new AndExpress(expresses);
         } else if (map.containsKey(OR_LOGIC_KEY)) {
             List<Map<String, Object>> logicsMap = (List<Map<String, Object>>) map.get(OR_LOGIC_KEY);
             List<Express> expresses = logicsMap.stream().map(ExpressHelper::parse).collect(Collectors.toList());
-            OrExpress orExpress = new OrExpress(expresses);
-            return orExpress;
+            return new OrExpress(expresses);
         } else {
             SimpleExpress simpleExpress = new SimpleExpress();
             Object src = map.get(SimpleExpress.EXPRESS_KEYWORD_SRC);

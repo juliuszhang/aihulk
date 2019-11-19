@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -50,12 +51,12 @@ public class ExecuteUnitTest {
         facts.add(fact7);
 
         Map<Integer, List<Fact>> relation = Maps.newHashMap();
-        relation.put(1, Arrays.asList(fact5));
-        relation.put(5, Arrays.asList(fact3));
-        relation.put(3, Arrays.asList(fact8));
-        relation.put(2, Arrays.asList(fact7));
+        relation.put(1, Collections.singletonList(fact5));
+        relation.put(5, Collections.singletonList(fact3));
+        relation.put(3, Collections.singletonList(fact8));
+        relation.put(2, Collections.singletonList(fact7));
         relation.put(7, Arrays.asList(fact4, fact5));
-        relation.put(4, Arrays.asList(fact6));
+        relation.put(4, Collections.singletonList(fact6));
 
 
 //      1->5->3->8

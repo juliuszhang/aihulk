@@ -19,9 +19,6 @@ public class OrExpress implements Express {
 
     @Override
     public boolean eval() {
-        for (Express express : expresses) {
-            if (express.eval()) return true;
-        }
-        return false;
+        return expresses.stream().anyMatch(Express::eval);
     }
 }

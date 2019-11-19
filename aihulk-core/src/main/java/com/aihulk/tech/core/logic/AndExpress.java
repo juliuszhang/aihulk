@@ -19,9 +19,6 @@ public class AndExpress implements Express {
 
     @Override
     public boolean eval() {
-        for (Express express : expresses) {
-            if (!express.eval()) return false;
-        }
-        return true;
+        return expresses.stream().allMatch(Express::eval);
     }
 }

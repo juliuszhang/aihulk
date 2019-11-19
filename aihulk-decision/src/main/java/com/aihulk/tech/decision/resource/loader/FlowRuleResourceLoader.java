@@ -79,17 +79,17 @@ public class FlowRuleResourceLoader implements ResourceLoader<Map<Integer, List<
             Integer destId = flowRule.getDestId();
             BasicUnit src;
             BasicUnit dest;
-            if (flowRule.getSrcType() == UnitType.EXECUTE_UNIT.getVal()) {
+            if (flowRule.getSrcType().equals(UnitType.EXECUTE_UNIT.getVal())) {
                 src = unitMap.get(srcId);
-            } else if (flowRule.getSrcType() == UnitType.EXECUTE_UNIT_GROUP.getVal()) {
+            } else if (flowRule.getSrcType().equals(UnitType.EXECUTE_UNIT_GROUP.getVal())) {
                 src = unitGroupMap.get(srcId);
             } else {
                 throw new EngineInitException("未知的执行单元类型srcType = " + flowRule.getSrcType());
             }
 
-            if (flowRule.getDestType() == UnitType.EXECUTE_UNIT.getVal()) {
+            if (flowRule.getDestType().equals(UnitType.EXECUTE_UNIT.getVal())) {
                 dest = unitMap.get(destId);
-            } else if (flowRule.getDestType() == UnitType.EXECUTE_UNIT_GROUP.getVal()) {
+            } else if (flowRule.getDestType().equals(UnitType.EXECUTE_UNIT_GROUP.getVal())) {
                 dest = unitGroupMap.get(destId);
             } else {
                 throw new EngineInitException("未知的执行单元类型destType = " + flowRule.getDestType());

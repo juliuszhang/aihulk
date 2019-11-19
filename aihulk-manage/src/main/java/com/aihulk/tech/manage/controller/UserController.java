@@ -135,17 +135,16 @@ public class UserController {
                 throw new ManageException(BaseResponseVo.ManageBusinessErrorCode.USER_EXIST, "email = " + email + "的用户已存在");
             }
             user.setEmailChecked(User.EMAIL_UNCHECKED);
-            StringBuilder builder = new StringBuilder(enableEmailUrl);
-            builder.append("?username=").append(user.getUsername());
-            builder.append("&token=").append(token);
-            mailService.sendMailASync(email, "邮箱激活", builder.toString());
+            String builder = enableEmailUrl + "?username=" + user.getUsername() +
+                    "&token=" + token;
+            mailService.sendMailASync(email, "邮箱激活", builder);
         } else {
             if (mobileExist(mobile)) {
                 log.warn("mobile exist,mobile = {}", mobile);
                 throw new ManageException(BaseResponseVo.ManageBusinessErrorCode.USER_EXIST, "mobile = " + mobile + "的用户已存在");
             }
             String redisCheckCode = redisTemplate.opsForValue().get(REDIS_CHECK_CODE_KEY_PREFIX + mobile);
-            if (redisCheckCode == null || !checkCode.equals(redisCheckCode)) {
+            if (!checkCode.equals(redisCheckCode)) {
                 log.warn("checkCode error,redisCheckCode = {},input checkCode = {},mobile = {}", redisCheckCode, checkCode, mobile);
                 throw new ManageException(BaseResponseVo.ManageBusinessErrorCode.CHECK_CODE_ERROR, "短信验证码错误");
             }

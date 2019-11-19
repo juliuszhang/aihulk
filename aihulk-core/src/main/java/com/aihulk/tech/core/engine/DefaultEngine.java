@@ -74,7 +74,7 @@ public class DefaultEngine implements Engine {
             UnitExecuteResponse unitDecisionResponse;
             BasicUnit basicUnit = iterator.next();
             if (basicUnit.getUnitType() == UnitType.EXECUTE_UNIT) {
-                unitDecisionResponse = this.evalExecuteUnits(Arrays.asList((ExecuteUnit) basicUnit));
+                unitDecisionResponse = this.evalExecuteUnits(Collections.singletonList((ExecuteUnit) basicUnit));
             } else if (basicUnit.getUnitType() == UnitType.EXECUTE_UNIT_GROUP) {
                 List<ExecuteUnit> executeUnits = ((ExecuteUnitGroup) basicUnit).getExecuteUnits();
                 unitDecisionResponse = this.evalExecuteUnits(executeUnits);
