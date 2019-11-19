@@ -2,8 +2,8 @@ package com.aihulk.tech.decision.resource.loader;
 
 import com.aihulk.tech.common.constant.DataType;
 import com.aihulk.tech.core.action.Action;
-import com.aihulk.tech.core.action.ConsoleOutput;
 import com.aihulk.tech.core.action.OutPut;
+import com.aihulk.tech.core.action.StreamOutput;
 import com.aihulk.tech.core.resource.loader.ResourceLoader;
 import com.aihulk.tech.entity.entity.Variable;
 import com.aihulk.tech.entity.mapper.ActionMapper;
@@ -61,7 +61,7 @@ public class ActionResourceLoader implements ResourceLoader<Map<Integer, List<Ac
                 resultMap.get(dbAction.getUnitId()).add(action);
             } else if (com.aihulk.tech.entity.entity.Action.ACTION_TYPE_CONSOLE_OUTPUT.equals(dbAction.getType())) {
                 //TODO
-                Action action = new ConsoleOutput();
+                Action action = new StreamOutput();
             }
         }
         return resultMap;

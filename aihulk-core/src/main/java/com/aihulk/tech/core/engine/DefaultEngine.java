@@ -4,7 +4,9 @@ import com.aihulk.tech.common.constant.DataType;
 import com.aihulk.tech.common.constant.MergeStrategy;
 import com.aihulk.tech.common.constant.UnitType;
 import com.aihulk.tech.core.action.Action;
+import com.aihulk.tech.core.action.InvokeMethod;
 import com.aihulk.tech.core.action.OutPut;
+import com.aihulk.tech.core.action.StreamOutput;
 import com.aihulk.tech.core.config.RuleEngineConfig;
 import com.aihulk.tech.core.exception.EngineInitException;
 import com.aihulk.tech.core.exception.RuleEngineException;
@@ -19,6 +21,11 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
@@ -116,7 +123,6 @@ public class DefaultEngine implements Engine {
         UnitExecuteResponse response = new UnitExecuteResponse();
         List<ExecuteUnit> fireExecuteUnits = response.getFireExecuteUnits();
         List<ExecuteUnit> execRules = response.getExecExecuteUnits();
-        List<OutPut> outPuts = response.getOutPuts();
         Map<String, OutPut> outPutMap = Maps.newHashMap();
         for (ExecuteUnit executeUnit : executeUnits) {
             //run executeUnit express
@@ -140,6 +146,27 @@ public class DefaultEngine implements Engine {
                         outPutMap.put(key, (OutPut) mergeStrategy.merge(oldOutPut, outPut));
                     } else {
                         outPutMap.put(key, outPut);
+                    }
+                } else if (action instanceof InvokeMethod) {
+                    InvokeMethod invokeMethod = (InvokeMethod) action;
+                    Method method = invokeMethod.getMethod();
+                    Object[] args = invokeMethod.getArgs();
+                    Class<?> clazz = invokeMethod.getClazz();
+                    try {
+                        Object o = clazz.newInstance();
+                        method.invoke(o, args);
+                    } catch (InvocationTargetException | InstantiationException | IllegalAccessException e) {
+                        log.error("method invoke exception,className = {},methodName = {},args = {},e = {}",
+                                clazz.getName(), method.getName(), Arrays.toString(args), e.getCause());
+                    }
+                } else if (action instanceof StreamOutput) {
+                    StreamOutput output = (StreamOutput) action;
+                    Object value = output.getOutPutValue();
+                    try (OutputStream os = output.getOs()) {
+                        os.write(value.toString().getBytes(StandardCharsets.UTF_8));
+                        os.flush();
+                    } catch (IOException e) {
+                        log.error("stream output exception.", e);
                     }
                 }
             }

@@ -42,11 +42,7 @@ public class EngineStore {
         EngineKey engineKey = new EngineKey(bizId, version);
         if (!ENGINE_STORE.containsKey(engineKey)) {
             synchronized (EngineStore.class) {
-                if (!ENGINE_STORE.containsKey(version)) {
-                    //construct instance
-                    Engine engine = constructEngine(bizId, version);
-                    ENGINE_STORE.put(engineKey, engine);
-                }
+                ENGINE_STORE.putIfAbsent(engineKey, constructEngine(bizId, version));
             }
         }
         return ENGINE_STORE.get(engineKey);
