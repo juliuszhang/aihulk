@@ -9,10 +9,10 @@
 ### 比如说现在有一个决策单元是这样配置的：如果 年龄<30 且 资产>100w 我们就触发一个动作，假设这个场景是金融贷款的场景，那么我们就会作出批贷或者走下一步审核的操作
 ### 决策单元支持多种执行方式，目前支持决策块，决策表，评分卡，决策树
 ### (4)决策链：决策链主要用于控制多个决策单元的流程，在决策链中，我们甚至可以控制决策单元之间的跳转，例如我们有三个决策单元A、B、C，假设在执行A过后我们需要根据A执行后的结果再去判定执行B还是C，这个都交由决策链统一控制。简单来说，决策链可以对决策单元做流程控制
-### 3.如果对决策引擎需要商业支持，可通过如下方式联系我们：
+### 3.如果对决策引擎需要支持，可通过如下方式联系我们：
 ### email:aihulk@gmail.com
-### mobile:15226508375
 ### 4.贡献者
 #### yibozhang:https://github.com/juliuszhang
 #### haolin:https://github.com/ththinking
-#### dongdongguo:gordonghust
+#### dongdongguo:https://github.com/gordonghust
+#### yunpingyan:https://github.com/Jacquelineyyp
