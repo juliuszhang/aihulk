@@ -1,7 +1,7 @@
 package com.aihulk.tech.core.service;
 
 import com.aihulk.tech.core.component.ScriptEngine;
-import com.aihulk.tech.core.config.RuleEngineConfig;
+import com.aihulk.tech.core.config.RuleEngineConfigHolder;
 import com.aihulk.tech.core.context.DecisionContext;
 import com.aihulk.tech.core.exception.EngineInitException;
 import com.aihulk.tech.core.resource.entity.Fact;
@@ -25,7 +25,7 @@ public class FactService {
 
     static {
         try {
-            scriptEngine = RuleEngineConfig.getScriptEngine().newInstance();
+            scriptEngine = RuleEngineConfigHolder.config().getScriptEngine().newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
             throw new EngineInitException("scriptEngine 初始化失败");
         }

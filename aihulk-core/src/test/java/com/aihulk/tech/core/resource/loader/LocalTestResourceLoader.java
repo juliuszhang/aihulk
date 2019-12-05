@@ -20,7 +20,7 @@ import java.util.Map;
  * @Date: 2019/5/2 14:40
  * @Description:
  */
-public class LocalTestResourceLoader implements ResourceLoader {
+public class LocalTestResourceLoader implements ResourceLoader<Resource> {
     @Override
     public Resource loadResource(Integer bizId, String version) {
         Resource resource = new Resource();

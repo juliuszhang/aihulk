@@ -7,7 +7,7 @@ import com.aihulk.tech.core.action.Action;
 import com.aihulk.tech.core.action.InvokeMethod;
 import com.aihulk.tech.core.action.OutPut;
 import com.aihulk.tech.core.action.StreamOutput;
-import com.aihulk.tech.core.config.RuleEngineConfig;
+import com.aihulk.tech.core.config.RuleEngineConfigHolder;
 import com.aihulk.tech.core.exception.EngineInitException;
 import com.aihulk.tech.core.exception.RuleEngineException;
 import com.aihulk.tech.core.resource.decision.DecisionRequest;
@@ -46,7 +46,7 @@ public class DefaultEngine implements Engine {
 
     static {
         try {
-            resourceLoader = RuleEngineConfig.getResourceLoader().newInstance();
+            resourceLoader = RuleEngineConfigHolder.config().getResourceLoader().newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
             throw new EngineInitException("resourceLoader 初始化失败");
         }

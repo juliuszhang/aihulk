@@ -1,6 +1,6 @@
 package com.aihulk.tech.core.engine;
 
-import com.aihulk.tech.core.config.RuleEngineConfig;
+import com.aihulk.tech.core.config.RuleEngineConfigHolder;
 import com.aihulk.tech.core.exception.EngineInitException;
 import com.google.common.collect.Maps;
 import lombok.Data;
@@ -49,7 +49,7 @@ public class EngineStore {
     }
 
     private static Engine constructEngine(Integer bizId, String version) {
-        Class<Engine> engineClass = RuleEngineConfig.getEngineClass();
+        Class<? extends Engine> engineClass = RuleEngineConfigHolder.config().getEngineClass();
         Engine engine;
         try {
             engine = engineClass.newInstance();

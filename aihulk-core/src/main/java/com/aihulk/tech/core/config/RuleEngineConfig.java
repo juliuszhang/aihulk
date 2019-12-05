@@ -1,11 +1,12 @@
 package com.aihulk.tech.core.config;
 
 
+import com.aihulk.tech.core.component.JsScriptEngine;
 import com.aihulk.tech.core.component.ScriptEngine;
+import com.aihulk.tech.core.engine.DefaultEngine;
 import com.aihulk.tech.core.engine.Engine;
 import com.aihulk.tech.core.exception.EngineInitException;
 import com.aihulk.tech.core.resource.loader.ResourceLoader;
-import org.yaml.snakeyaml.Yaml;
 
 /**
  * @ClassName RuleEngineConfig
@@ -16,40 +17,54 @@ import org.yaml.snakeyaml.Yaml;
  */
 public class RuleEngineConfig {
 
-    private static final String RULE_ENGINE_YAML_PATH = "/rule_engine.yml";
+    private Class<? extends Engine> engineClass = DefaultEngine.class;
 
-    private static final RuleEngineConfigEntity CONFIG = new Yaml().loadAs(RuleEngineConfig.class.getResourceAsStream(RULE_ENGINE_YAML_PATH), RuleEngineConfigEntity.class);
+    private Class<? extends ResourceLoader<?>> resourceLoader = null;
 
-    public static Class<Engine> getEngineClass() {
-        String engineType = CONFIG.getEngineType();
-        try {
-            return (Class<Engine>) Class.forName(engineType);
-        } catch (ClassNotFoundException e) {
-            throw new EngineInitException("找不到指定的engine ,engine type=" + engineType);
+    private Class<? extends ScriptEngine> scriptEngine = JsScriptEngine.class;
+
+    public Class<? extends Engine> getEngineClass() {
+        if (engineClass == null)
+            throw new EngineInitException("engineClass不能为空");
+        return engineClass;
+    }
+
+    public Class<? extends ResourceLoader<?>> getResourceLoader() {
+        if (resourceLoader == null)
+            throw new EngineInitException("resourceLoader不能为空");
+        return resourceLoader;
+    }
+
+    public Class<? extends ScriptEngine> getScriptEngine() {
+        if (scriptEngine == null)
+            throw new EngineInitException("scriptEngine不能为空");
+        return scriptEngine;
+    }
+
+    public static RuleEngineConfigBuilder builder() {
+        return new RuleEngineConfig().new RuleEngineConfigBuilder();
+    }
+
+    class RuleEngineConfigBuilder {
+
+        public RuleEngineConfigBuilder engine(Class<? extends Engine> engineClass) {
+            RuleEngineConfig.this.engineClass = engineClass;
+            return this;
+        }
+
+        public RuleEngineConfigBuilder scriptEngine(Class<? extends ScriptEngine> scriptEngineClass) {
+            RuleEngineConfig.this.scriptEngine = scriptEngineClass;
+            return this;
+        }
+
+        public RuleEngineConfigBuilder resourceLoader(Class<? extends ResourceLoader<?>> resourceLoaderClass) {
+            RuleEngineConfig.this.resourceLoader = resourceLoaderClass;
+            return this;
+        }
+
+        public RuleEngineConfig build() {
+            return RuleEngineConfig.this;
         }
     }
-
-    public static Class<ResourceLoader> getResourceLoader() {
-        String resourceLoaderClass = CONFIG.getResourceLoader();
-        try {
-            return (Class<ResourceLoader>) Class.forName(resourceLoaderClass);
-        } catch (ClassNotFoundException e) {
-            throw new EngineInitException("找不到指定的resourceLoader ,resourceLoader = " + resourceLoaderClass);
-        }
-    }
-
-    public static Class<ScriptEngine> getScriptEngine() {
-        String scriptEngineClass = CONFIG.getScriptEngine();
-        try {
-            return (Class<ScriptEngine>) Class.forName(scriptEngineClass);
-        } catch (ClassNotFoundException e) {
-            throw new EngineInitException("找不到指定的scriptEngine ,scriptEngine = " + scriptEngineClass);
-        }
-    }
-
-    public static String getResourceFilePath() {
-        return CONFIG.getResourceFilePath();
-    }
-
 
 }
