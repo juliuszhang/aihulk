@@ -1,9 +1,12 @@
 package com.aihulk.tech.core.service;
 
-import com.aihulk.tech.core.config.DecisionConfigInitializer;
+import com.aihulk.tech.core.component.JsScriptEngine;
+import com.aihulk.tech.core.config.RuleEngineConfig;
 import com.aihulk.tech.core.config.RuleEngineConfigHolder;
+import com.aihulk.tech.core.engine.DefaultEngine;
 import com.aihulk.tech.core.resource.decision.DecisionRequest;
 import com.aihulk.tech.core.resource.decision.DecisionResponse;
+import com.aihulk.tech.core.resource.loader.LocalTestResourceLoader;
 import com.google.common.collect.Maps;
 import org.junit.Test;
 
@@ -19,7 +22,10 @@ public class DecisionServiceTest {
 
     @Test
     public void decision() {
-        RuleEngineConfigHolder.setInitializer(new DecisionConfigInitializer());
+        RuleEngineConfigHolder.setInitializer(() ->
+                RuleEngineConfig.builder().engine(DefaultEngine.class)
+                        .resourceLoader(LocalTestResourceLoader.class)
+                        .scriptEngine(JsScriptEngine.class).build());
         DecisionService decisionService = new DecisionService();
         Map<String, Object> applyData = new HashMap<>();
         Map<String, Object> applyMap = Maps.newHashMapWithExpectedSize(1);

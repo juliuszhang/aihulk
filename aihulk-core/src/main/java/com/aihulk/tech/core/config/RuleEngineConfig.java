@@ -45,7 +45,7 @@ public class RuleEngineConfig {
         return new RuleEngineConfig().new RuleEngineConfigBuilder();
     }
 
-    class RuleEngineConfigBuilder {
+    public class RuleEngineConfigBuilder {
 
         public RuleEngineConfigBuilder engine(Class<? extends Engine> engineClass) {
             RuleEngineConfig.this.engineClass = engineClass;

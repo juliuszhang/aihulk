@@ -27,4 +27,10 @@ public class RuleEngineConfigHolder {
         }
         return config;
     }
+
+    public interface RuleEngineConfigInitializer {
+
+        RuleEngineConfig init();
+
+    }
 }
