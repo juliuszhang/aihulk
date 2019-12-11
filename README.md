@@ -11,8 +11,3 @@
 ### (4)决策链：决策链主要用于控制多个决策单元的流程，在决策链中，我们甚至可以控制决策单元之间的跳转，例如我们有三个决策单元A、B、C，假设在执行A过后我们需要根据A执行后的结果再去判定执行B还是C，这个都交由决策链统一控制。简单来说，决策链可以对决策单元做流程控制
 ### 3.如果对决策引擎需要支持，可通过如下方式联系我们：
 ### email:aihulk@gmail.com
-### 4.贡献者
-#### yibozhang:https://github.com/juliuszhang
-#### haolin:https://github.com/ththinking
-#### dongdongguo:https://github.com/gordonghust
-#### yunpingyan:https://github.com/Jacquelineyyp
