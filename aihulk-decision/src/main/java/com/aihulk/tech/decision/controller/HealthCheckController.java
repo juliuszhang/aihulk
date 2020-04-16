@@ -7,9 +7,6 @@ import reactor.core.publisher.Mono;
 
 /**
  * @author zhangyibo
- * @version 1.0
- * @ClassName:HeathCheckController
- * @Description: HeathCheckController
  * @date 2019/8/2
  */
 @RestController
@@ -17,7 +14,7 @@ import reactor.core.publisher.Mono;
 public class HealthCheckController {
 
     @GetMapping(value = "")
-    public Mono<Void> helthCheck() {
+    public Mono<Void> healthCheck() {
         return Mono.empty();
     }
 

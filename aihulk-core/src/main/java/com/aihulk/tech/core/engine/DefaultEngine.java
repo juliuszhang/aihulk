@@ -29,11 +29,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
- * @ClassName DefaultEngine
- * @Description 默认的执行引擎
- * @Author yibozhang
- * @Date 2019/5/1 12:44
- * @Version 1.0
+ * @author yibozhang
+ * @date 2019/5/1 12:44
  */
 @Slf4j
 public class DefaultEngine implements Engine {
@@ -137,42 +134,53 @@ public class DefaultEngine implements Engine {
             for (Action action : actions) {
                 if (action instanceof OutPut) {
                     //输出一个变量
-                    OutPut outPut = (OutPut) action;
-                    String key = outPut.getKey();
-                    if (outPutMap.containsKey(key)) {
-                        OutPut oldOutPut = outPutMap.get(key);
-                        //变量合并逻辑
-                        MergeStrategy mergeStrategy = outPut.getUnitMergeStrategy();
-                        outPutMap.put(key, (OutPut) mergeStrategy.merge(oldOutPut, outPut));
-                    } else {
-                        outPutMap.put(key, outPut);
-                    }
+                    handleOutput(outPutMap, (OutPut) action);
                 } else if (action instanceof InvokeMethod) {
-                    InvokeMethod invokeMethod = (InvokeMethod) action;
-                    Method method = invokeMethod.getMethod();
-                    Object[] args = invokeMethod.getArgs();
-                    Class<?> clazz = invokeMethod.getClazz();
-                    try {
-                        Object o = clazz.newInstance();
-                        method.invoke(o, args);
-                    } catch (InvocationTargetException | InstantiationException | IllegalAccessException e) {
-                        log.error("method invoke exception,className = {},methodName = {},args = {},e = {}",
-                                clazz.getName(), method.getName(), Arrays.toString(args), e.getCause());
-                    }
+                    //调用一个本地方法
+                    handleMethodInvoke((InvokeMethod) action);
                 } else if (action instanceof StreamOutput) {
-                    StreamOutput output = (StreamOutput) action;
-                    Object value = output.getOutPutValue();
-                    try (OutputStream os = output.getOs()) {
-                        os.write(value.toString().getBytes(StandardCharsets.UTF_8));
-                        os.flush();
-                    } catch (IOException e) {
-                        log.error("stream output exception.", e);
-                    }
+                    //向一个流中输出
+                    handleStreamOutput((StreamOutput) action);
                 }
             }
         }
         response.setOutPuts(new ArrayList<>(outPutMap.values()));
         return response;
+    }
+
+    private void handleStreamOutput(StreamOutput output) {
+        Object value = output.getOutPutValue();
+        try (OutputStream os = output.getOs()) {
+            os.write(value.toString().getBytes(StandardCharsets.UTF_8));
+            os.flush();
+        } catch (IOException e) {
+            log.error("stream output exception.", e);
+        }
+    }
+
+    private void handleMethodInvoke(InvokeMethod invokeMethod) {
+        Method method = invokeMethod.getMethod();
+        Object[] args = invokeMethod.getArgs();
+        Class<?> clazz = invokeMethod.getClazz();
+        try {
+            Object o = clazz.newInstance();
+            method.invoke(o, args);
+        } catch (InvocationTargetException | InstantiationException | IllegalAccessException e) {
+            log.error("method invoke exception,className = {},methodName = {},args = {},e = {}",
+                    clazz.getName(), method.getName(), Arrays.toString(args), e.getCause());
+        }
+    }
+
+    private void handleOutput(Map<String, OutPut> outPutMap, OutPut outPut) {
+        String key = outPut.getKey();
+        if (outPutMap.containsKey(key)) {
+            OutPut oldOutPut = outPutMap.get(key);
+            //变量合并逻辑
+            MergeStrategy mergeStrategy = outPut.getUnitMergeStrategy();
+            outPutMap.put(key, (OutPut) mergeStrategy.merge(oldOutPut, outPut));
+        } else {
+            outPutMap.put(key, outPut);
+        }
     }
 
     private DecisionChain getDecisionChain(Integer chainId) {

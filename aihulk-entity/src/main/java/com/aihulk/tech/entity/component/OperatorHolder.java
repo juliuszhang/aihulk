@@ -2,9 +2,6 @@ package com.aihulk.tech.entity.component;
 
 /**
  * @author zhangyibo
- * @title: OperatorHolder
- * @projectName aihulk
- * @description: OperatorHolder
  * @date 2019-06-2810:40
  */
 public class OperatorHolder {
@@ -15,7 +12,7 @@ public class OperatorHolder {
         return OPERATOR_TL.get();
     }
 
-    public static void setOpertor(String operator) {
+    public static void setOperator(String operator) {
         OPERATOR_TL.set(operator);
     }
 }

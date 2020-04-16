@@ -10,12 +10,11 @@ import reactor.core.publisher.Mono;
 import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author zhangyibo
  * @version 1.0
- * @ClassName:DecisionController
- * @Description:DecisionController
  * @date 2019/8/1
  */
 @RestController
@@ -29,7 +28,8 @@ public class DecisionController {
                                            @PathVariable(value = "chainId") Integer chainId,
                                            @RequestBody Map<String, Object> apply) {
         checkArgument(bizId > 0, "bizId参数不合法");
-        checkArgument(chainId > 0, "chainid参数不合法");
+        checkArgument(chainId > 0, "chainId参数不合法");
+        checkNotNull(apply,"apply参数不能为空");
         return Mono.just(decisionService.decision(new DecisionRequest(apply, chainId), bizId, null))
                 .onErrorResume(RuleEngineException.class, (e) -> Mono.just(new DecisionResponse(e.getCode().getCode(), e.getMessage())));
     }

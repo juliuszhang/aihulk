@@ -7,29 +7,31 @@ import org.apache.ibatis.reflection.MetaObject;
 
 /**
  * @author zhangyibo
- * @title: SysFieldAutoSetHandler
- * @projectName aihulk
- * @description: 自动设置创建时间更新时间和操作人等系统字段
  * @date 2019-06-2810:37
  */
 public class SysFieldAutoSetHandler implements MetaObjectHandler {
 
+
+    private static final String SYS_FIELD_CREATE_TIME = "createTime";
+    private static final String SYS_FIELD_UPDATE_TIME = "updateTime";
+    private static final String SYS_FIELD_OPERATOR = "operator";
+
     @Override
     public void insertFill(MetaObject metaObject) {
-        this.setFieldValByName("createTime", DateUtil.getCurDateTime(), metaObject);
-        this.setFieldValByName("updateTime", DateUtil.getCurDateTime(), metaObject);
+        this.setFieldValByName(SYS_FIELD_CREATE_TIME, DateUtil.getCurDateTime(), metaObject);
+        this.setFieldValByName(SYS_FIELD_UPDATE_TIME, DateUtil.getCurDateTime(), metaObject);
         this.setOperator(metaObject);
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        this.setFieldValByName("updateTime", DateUtil.getCurDateTime(), metaObject);
+        this.setFieldValByName(SYS_FIELD_UPDATE_TIME, DateUtil.getCurDateTime(), metaObject);
         this.setOperator(metaObject);
     }
 
     private void setOperator(MetaObject metaObject) {
         if (!Strings.isNullOrEmpty(OperatorHolder.getOperator())) {
-            this.setFieldValByName("operator", OperatorHolder.getOperator(), metaObject);
+            this.setFieldValByName(SYS_FIELD_OPERATOR, OperatorHolder.getOperator(), metaObject);
         }
     }
 }
